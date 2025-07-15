@@ -1,11 +1,11 @@
 # Contributing to David’s development
 
-David is an open-source project, and we welcome contributions from the community. Please read the [contributing guidelines](https://github.com/davidcp/davidcp/blob/main/CONTRIBUTING.md) for additional information.
+David is an open-source project, and we welcome contributions from the community. Please read the [contributing guidelines](https://github.com/david0154/davidcp/blob/main/CONTRIBUTING.md) for additional information.
 
 David is designed to be installed on a web server. To develop David on your local machine, a virtual machine is recommend.
 
 ::: warning
-Development builds are unstable. If you encounter a bug please [report it via GitHub](https://github.com/davidcp/davidcp/issues/new/choose) or [submit a Pull Request](https://github.com/davidcp/davidcp/pulls).
+Development builds are unstable. If you encounter a bug please [report it via GitHub](https://github.com/david0154/davidcp/issues/new/choose) or [submit a Pull Request](https://github.com/davidcp/davidcp/pulls).
 :::
 
 ## Creating a virtual machine for development
@@ -16,10 +16,10 @@ These instructions use [Multipass](https://multipass.run/) to create an Ubuntu V
 
 1. [Install Multipass](https://multipass.run/install) for your OS
 
-1. [Fork David](https://github.com/davidcp/davidcp/fork) and clone the repository to your local machine
+1. [Fork David](https://github.com/david0154/davidcp/fork) and clone the repository to your local machine
 
    ```bash
-   git clone https://github.com/YourUsername/davidcp.git ~/projects
+   git clone https://github.com/david0154/davidcp.git ~/projects
    ```
 
 1. Create an Ubuntu VM with at least 2GB of memory and 15GB of disk space
@@ -116,7 +116,7 @@ Below are some instructions for making a change to David's UI, running the build
 
 1. Reload the page in your browser to see the change
 
-Please refer to the [contributing guidelines](https://github.com/davidcp/davidcp/blob/main/CONTRIBUTING.md#development-guidelines) for more details on submitting code changes for review.
+Please refer to the [contributing guidelines](https://github.com/david0154/davidcp/blob/main/CONTRIBUTING.md#development-guidelines) for more details on submitting code changes for review.
 
 ::: info
 A backup is created each time the David build script is run. If you run this often it can fill up your VM's disk space.
@@ -131,7 +131,7 @@ We currently use [Bats](https://github.com/bats-core/bats-core) to run our autom
 
 ```bash
 # Clone David repo with testing submodules
-git clone --recurse-submodules https://github.com/davidcp/davidcp
+git clone --recurse-submodules https://github.com/david0154/davidcp
 # Or, using an existing local repo with an up-to-date main branch
 git submodule update --init --recursive
 
