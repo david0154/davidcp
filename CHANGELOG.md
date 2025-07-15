@@ -58,7 +58,7 @@ All notable changes to this project will be documented in this file.
 
 - To improve security, we now allow users to rename the default `admin` user.
 - David now runs under a new `david-web` user.
-- In initial versions of davidcp, we used Jailkit to enabled Jailed SSH. It had major disadvantages, so we have decided it to replace it with [bubblewrap](https://github.com/containers/bubblewrap). Users running Jailed SSH in the past are advised to run the migration script! It can be found in `/usr/local/david/install/upgrade/manual/migrate_jailkit_to_bubblewrap.sh`. See [#4698](https://github.com/davidcp/davidcp/pull/4698)
+- In initial versions of davidcp, we used Jailkit to enabled Jailed SSH. It had major disadvantages, so we have decided it to replace it with [bubblewrap](https://github.com/containers/bubblewrap). Users running Jailed SSH in the past are advised to run the migration script! It can be found in `/usr/local/david/install/upgrade/manual/migrate_jailkit_to_bubblewrap.sh`. See [#4698](https://github.com/david0154/davidcp/pull/4698)
 - We are aware that cgroups are currently not working as they should be. They work fine if you login with SSH as the user, but they don't work for PHP-FPM yet.
 - Dropped support for Debian 10 due to EOL.
 
@@ -177,7 +177,7 @@ All notable changes to this project will be documented in this file.
 ### Bug fixes
 
 - Include missed changes
-- Include <https://github.com/davidcp/davidcp/blob/main/install/upgrade/manual/secure_php.sh>
+- Include <https://github.com/david0154/davidcp/blob/main/install/upgrade/manual/secure_php.sh>
 
 ## [1.8.9] - Service release
 
@@ -1220,7 +1220,7 @@ After that run apt update && apt upgrade
 - Fixed an issue where passwords may not be correctly set on Debian 11 (#2270)
 - Fixed an issue with command path v-change-firewall-rule (#2249)
 - Fixed an issue in `v-backup-user` where you may encounter an error "invalid parameters for check_result" (#2284)
-- Fixed an issue which impacted the performance of Nextcloud/Owncloud ([forum post](https://forum.davidcp.com/t/tip-create-a-nginx-template-for-nextcloud-to-let-synchronize-files-bigger-than-10mb/5123))
+
 - Fixed an issue where the access port for davidcp was not properly set on install (#2288 / #2291)
 - Fixed an issue where admins could not log in as a suspended user in the panel (#2286 / #2289)
 - Fixed an issue where the "Delete" button in the Edit User interface did not work as expected (#2282 / #2289)
@@ -1562,7 +1562,7 @@ apt update && apt upgrade
 
 - **NOTE:** Ubuntu 16.04 (Xenial) is no longer supported as it has reached EOL (end-of-life) status.
 - **NOTE:** Apache in "standalone" mode is no longer actively supported and has been removed from installer options. Nginx (Proxy) + Apache2 will remain supported.
-- **NOTE:** Custom "quick installer apps" will not work anymore due to changes in how we handle quick installer apps. Minimal changes to the Quick installer apps are required! Please check <https://github.com/davidcp/david-quick-install> for how to migrate!
+- **NOTE:** Custom "quick installer apps" will not work anymore due to changes in how we handle quick installer apps. Minimal changes to the Quick installer apps are required! Please check <https://github.com/david0154/david-quick-install> for how to migrate!
 - **NOTE:** Manual upgrade scripts are available to update Roundcube, Rainloop and PHPmyadmin to the last version they can be found in /usr/local/david/install/upgrade/manual/
 
 ### Features
@@ -2097,8 +2097,5 @@ apt update && apt upgrade
 
 -
 
-[1.0.4]: https://github.com/davidcp/davidcp/releases/tag/1.0.4
-[1.0.3]: https://github.com/davidcp/davidcp/releases/tag/1.0.3
-[1.0.1]: https://github.com/davidcp/davidcp/releases/tag/1.0.1
-[1.0.0-190618]: https://github.com/davidcp/davidcp/releases/tag/1.0.0-190618
-[0.9.8-28]: https://github.com/davidcp/davidcp/releases/tag/0.9.8-28
+[1.0.4]: https://github.com/david0154/davidcp/releases/tag/1.0
+
