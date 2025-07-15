@@ -11,9 +11,9 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/conf/david.conf
-source $HESTIA/conf/david.conf
+source $DAVID/conf/david.conf
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -34,31 +34,31 @@ fi
 #----------------------------------------------------------#
 
 # Remove apache2 from config
-sed -i "/^WEB_PORT/d" $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
-sed -i "/^WEB_SSL/d" $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
-sed -i "/^WEB_SSL_PORT/d" $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
-sed -i "/^WEB_RGROUPS/d" $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
-sed -i "/^WEB_SYSTEM/d" $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
+sed -i "/^WEB_PORT/d" $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
+sed -i "/^WEB_SSL/d" $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
+sed -i "/^WEB_SSL_PORT/d" $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
+sed -i "/^WEB_RGROUPS/d" $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
+sed -i "/^WEB_SYSTEM/d" $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
 
 # Remove nginx (proxy) from config
-sed -i "/^PROXY_PORT/d" $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
-sed -i "/^PROXY_SSL_PORT/d" $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
-sed -i "/^PROXY_SYSTEM/d" $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
+sed -i "/^PROXY_PORT/d" $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
+sed -i "/^PROXY_SSL_PORT/d" $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
+sed -i "/^PROXY_SYSTEM/d" $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
 
 # Add Nginx settings to config
-echo "WEB_PORT='80'" >> $HESTIA/conf/david.conf
-echo "WEB_SSL='openssl'" >> $HESTIA/conf/david.conf
-echo "WEB_SSL_PORT='443'" >> $HESTIA/conf/david.conf
-echo "WEB_SYSTEM='nginx'" >> $HESTIA/conf/david.conf
+echo "WEB_PORT='80'" >> $DAVID/conf/david.conf
+echo "WEB_SSL='openssl'" >> $DAVID/conf/david.conf
+echo "WEB_SSL_PORT='443'" >> $DAVID/conf/david.conf
+echo "WEB_SYSTEM='nginx'" >> $DAVID/conf/david.conf
 
 # Add Nginx settings to config
-echo "WEB_PORT='80'" >> $HESTIA/conf/defaults/david.conf
-echo "WEB_SSL='openssl'" >> $HESTIA/conf/defaults/david.conf
-echo "WEB_SSL_PORT='443'" >> $HESTIA/conf/defaults/david.conf
-echo "WEB_SYSTEM='nginx'" >> $HESTIA/conf/defaults/david.conf
+echo "WEB_PORT='80'" >> $DAVID/conf/defaults/david.conf
+echo "WEB_SSL='openssl'" >> $DAVID/conf/defaults/david.conf
+echo "WEB_SSL_PORT='443'" >> $DAVID/conf/defaults/david.conf
+echo "WEB_SYSTEM='nginx'" >> $DAVID/conf/defaults/david.conf
 
-rm $HESTIA/conf/defaults/david.conf
-cp $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
+rm $DAVID/conf/defaults/david.conf
+cp $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
 
 # Rebuild web config
 

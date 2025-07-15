@@ -26,7 +26,7 @@ if [ -n "$DB_PMA_ALIAS" ]; then
 		rm /etc/apache2/conf.d/phpmyadmin.conf
 		touch /etc/apache2/conf.d/phpmyadmin.inc
 	fi
-	$HESTIA/bin/v-change-sys-db-alias 'pma' "$DB_PMA_ALIAS"
+	$DAVID/bin/v-change-sys-db-alias 'pma' "$DB_PMA_ALIAS"
 fi
 
 if [ -n "$DB_PGA_ALIAS" ]; then
@@ -34,7 +34,7 @@ if [ -n "$DB_PGA_ALIAS" ]; then
 		rm /etc/apache2/conf.d/phppgadmin.conf
 		touch /etc/apache2/conf.d/phppgadmin.inc
 	fi
-	$HESTIA/bin/v-change-sys-db-alias 'pga' "$DB_PGA_ALIAS"
+	$DAVID/bin/v-change-sys-db-alias 'pga' "$DB_PGA_ALIAS"
 
 fi
 
@@ -56,7 +56,7 @@ if [ -n "$MAIL_SYSTEM" ]; then
 
 	# Clean up legacy ip variable
 	for ip in $($BIN/v-list-sys-ips plain | cut -f1); do
-		sed '/^HELO/d' $HESTIA/data/ips/$ip > /dev/null
+		sed '/^HELO/d' $DAVID/data/ips/$ip > /dev/null
 	done
 fi
 

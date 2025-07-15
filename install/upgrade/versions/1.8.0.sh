@@ -157,7 +157,7 @@ if [ "$WEB_SYSTEM" = "nginx" ] || [ "$PROXY_SYSTEM" = "nginx" ]; then
 			add_upgrade_message "Manual Action Required [IMPORTANT]\n\nTo enable the \"Enhanced and Optimized TLS\" feature, we must update the NGINX configuration file (/etc/nginx/nginx.conf).\n\nBut for unknown reason or you edited it, may not be fully apply all the changes in this upgrade.\n\nPlease follow the default configuration file to sync it:\n$HESTIA_INSTALL_DIR/nginx/nginx.conf\n\nBacked up configuration file:\n$HESTIA_BACKUP/conf/nginx/nginx.conf\n\nLearn more:\nhttps://github.com/davidcp/davidcp/pull/3555\n\n"
 			"$BIN"/v-add-user-notification admin "IMPORTANT: Manual Action Required" '<p>To enable the "Enhanced and Optimized TLS" feature, we must update the NGINX configuration file at <code>/etc/nginx/nginx.conf</code>.</p><p>But for unknown reason or you edited it, may not be fully apply all the changes in this upgrade.</p><p>Please follow the default configuration file to sync it:<br><code>'"$HESTIA_INSTALL_DIR"'/nginx/nginx.conf</code></p><p>Backed up configuration file:<br><code>'"$HESTIA_BACKUP"'/conf/nginx/nginx.conf</code></p><p>Visit PR <a href="https://github.com/davidcp/davidcp/pull/3555" target="_blank">#3555</a> on GitHub to learn more.</p>'
 
-			sed -i "s/""$(grep -m 1 "IMPORTANT: Manual Action Required" "$HESTIA"/data/users/admin/notifications.conf | awk '{print $1}')""/NID='1'/" "$HESTIA"/data/users/admin/notifications.conf
+			sed -i "s/""$(grep -m 1 "IMPORTANT: Manual Action Required" "$DAVID"/data/users/admin/notifications.conf | awk '{print $1}')""/NID='1'/" "$DAVID"/data/users/admin/notifications.conf
 
 			cp -f /etc/nginx/nginx.conf /etc/nginx/nginx.conf-staging
 
@@ -189,10 +189,10 @@ if [ "$WEB_SYSTEM" = "nginx" ] || [ "$PROXY_SYSTEM" = "nginx" ]; then
 		add_upgrade_message "About TLS 1.3 0-RTT anti-replay for NGINX\n\nIf you use custom templates, please update them (*.stpl) to apply this protection.\n\nFollow the usage or other default templates:\n/etc/nginx/conf.d/0rtt-anti-replay.conf\n\nLearn more:\nhttps://github.com/davidcp/davidcp/pull/3692"
 		"$BIN"/v-add-user-notification admin "About TLS 1.3 0-RTT anti-replay for NGINX" '<p>If you use custom templates, please update them (*.stpl) to apply this protection.</p><p>Follow the usage or other default templates:<br><code>/etc/nginx/conf.d/0rtt-anti-replay.conf</code></p><p>Visit PR <a href="https://github.com/davidcp/davidcp/pull/3692" target="_blank">#3692</a> on GitHub to learn more.</p>'
 
-		if grep -qw "IMPORTANT: Manual Action Required" "$HESTIA"/data/users/admin/notifications.conf 2> /dev/null; then
-			sed -i "s/""$(grep -m 1 "About TLS 1.3 0-RTT anti-replay for NGINX" "$HESTIA"/data/users/admin/notifications.conf | awk '{print $1}')""/NID='2'/" "$HESTIA"/data/users/admin/notifications.conf
+		if grep -qw "IMPORTANT: Manual Action Required" "$DAVID"/data/users/admin/notifications.conf 2> /dev/null; then
+			sed -i "s/""$(grep -m 1 "About TLS 1.3 0-RTT anti-replay for NGINX" "$DAVID"/data/users/admin/notifications.conf | awk '{print $1}')""/NID='2'/" "$DAVID"/data/users/admin/notifications.conf
 		else
-			sed -i "s/""$(grep -m 1 "About TLS 1.3 0-RTT anti-replay for NGINX" "$HESTIA"/data/users/admin/notifications.conf | awk '{print $1}')""/NID='1'/" "$HESTIA"/data/users/admin/notifications.conf
+			sed -i "s/""$(grep -m 1 "About TLS 1.3 0-RTT anti-replay for NGINX" "$DAVID"/data/users/admin/notifications.conf | awk '{print $1}')""/NID='1'/" "$DAVID"/data/users/admin/notifications.conf
 		fi
 
 		cp -f "$HESTIA_INSTALL_DIR"/nginx/0rtt-anti-replay.conf /etc/nginx/conf.d
@@ -227,7 +227,7 @@ unset commit nameserver nginx_conf_commit nginx_conf_compare nginx_conf_local os
 
 # Update IPs configuration file
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 
 if [ "$WEB_SYSTEM" = "nginx" ]; then
 	while IFS= read -r IP; do
@@ -235,7 +235,7 @@ if [ "$WEB_SYSTEM" = "nginx" ]; then
 		cp -f "$HESTIA_INSTALL_DIR"/nginx/unassigned.inc "$ip_conf"
 		sed -i "s/directIP/$IP/g" "$ip_conf"
 		process_http2_directive "$ip_conf"
-	done < <(ls "$HESTIA"/data/ips/ 2> /dev/null)
+	done < <(ls "$DAVID"/data/ips/ 2> /dev/null)
 elif [ "$PROXY_SYSTEM" = "nginx" ]; then
 	while IFS= read -r IP; do
 		cat "$WEBTPL"/nginx/proxy_ip.tpl \
@@ -245,7 +245,7 @@ elif [ "$PROXY_SYSTEM" = "nginx" ]; then
 				-e "s/%proxy_ssl_port%/$PROXY_SSL_PORT/g" \
 				> "/etc/nginx/conf.d/$IP.conf"
 		process_http2_directive "/etc/nginx/conf.d/$IP.conf"
-	done < <(ls "$HESTIA"/data/ips/ 2> /dev/null)
+	done < <(ls "$DAVID"/data/ips/ 2> /dev/null)
 fi
 
 if [ "$MAIL_SYSTEM" = "exim4" ]; then
@@ -258,15 +258,15 @@ if [ "$MAIL_SYSTEM" = "exim4" ]; then
 			chmod 640 /etc/exim4/srs.conf
 			chown root:Debian-exim /etc/exim4/srs.conf
 			cp /etc/exim4/exim4.conf.template /etc/exim4/exim4.conf.template.staging
-			patch /etc/exim4/exim4.conf.template.staging $HESTIA/install/upgrade/patch/3661-exim-srs-support.patch 2>&1
+			patch /etc/exim4/exim4.conf.template.staging $DAVID/install/upgrade/patch/3661-exim-srs-support.patch 2>&1
 			exim -C /etc/exim4/exim4.conf.template.staging 2>&1
 			if [ "$?" -ne 0 ]; then
 				add_upgrade_message "Unable to successfully aply the SRS update patch for Exim.\n If you use SMTP relay with the SRS feature use the exim config found in /usr/local/david/install/deb/exim/exim4.conf.4.95.template"
 				"$BIN"/v-add-user-notification admin "Unable to apply patch to Exim config" 'Unable to successfully apply the SRS update patch for Exim.<br /> If you use SMTP relay with the SRS feature use the exim config found in /usr/local/david/install/deb/exim/exim4.conf.4.95.template'
-				if grep -qw "IMPORTANT: Manual Action Required" "$HESTIA"/data/users/admin/notifications.conf 2> /dev/null; then
-					sed -i "s/""$(grep -m 1 "Unable to apply patch to Exim config" "$HESTIA"/data/users/admin/notifications.conf | awk '{print $1}')""/NID='3'/" "$HESTIA"/data/users/admin/notifications.conf
+				if grep -qw "IMPORTANT: Manual Action Required" "$DAVID"/data/users/admin/notifications.conf 2> /dev/null; then
+					sed -i "s/""$(grep -m 1 "Unable to apply patch to Exim config" "$DAVID"/data/users/admin/notifications.conf | awk '{print $1}')""/NID='3'/" "$DAVID"/data/users/admin/notifications.conf
 				else
-					sed -i "s/""$(grep -m 1 "Unable to apply patch to Exim config" "$HESTIA"/data/users/admin/notifications.conf | awk '{print $1}')""/NID='2'/" "$HESTIA"/data/users/admin/notifications.conf
+					sed -i "s/""$(grep -m 1 "Unable to apply patch to Exim config" "$DAVID"/data/users/admin/notifications.conf | awk '{print $1}')""/NID='2'/" "$DAVID"/data/users/admin/notifications.conf
 				fi
 				echo "[ ! ] Unable to apply SRS update patch for SMTP relay"
 			else

@@ -17,11 +17,11 @@ user="$2"
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/ip.sh
-source $HESTIA/func/ip.sh
+source $DAVID/func/ip.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #

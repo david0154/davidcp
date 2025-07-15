@@ -13,11 +13,11 @@
 # - It doesn't update DKIM
 
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 if [ $# -lt 1 ]; then
 	echo "usage: bash $0 cpanel-backup.tar.gz"
@@ -88,7 +88,7 @@ main_domain1=$(grep main_domain userdata/main | cut -d " " -f2)
 new_user=$(grep "^user:" userdata/${main_domain1} | cut -d " " -f2)
 echo "Get User: $new_user"
 check_sysuser=$(cut -f 1 -d : /etc/passwd | grep "^$new_user$")
-if [ -n "$check_sysuser" ] || [ -e "$HESTIA/data/users/$new_user" ]; then
+if [ -n "$check_sysuser" ] || [ -e "$DAVID/data/users/$new_user" ]; then
 	check_result "$E_EXISTS" "user $new_user exists"
 	echo "User allready exists"
 	exit 2
@@ -394,7 +394,7 @@ if [ "$mx" = 'yes' ]; then
 	cd $main_dir/dnszones
 	for domain in $($BIN/v-list-mail-domains $new_user plain | awk '{ print  $1 }'); do
 		echo "Replace MX record for $domain"
-		mx_id=$(grep MX $HESTIA/data/users/${new_user}/dns/${domain}.conf | tr "'" " " | cut -d " " -f 2)
+		mx_id=$(grep MX $DAVID/data/users/${new_user}/dns/${domain}.conf | tr "'" " " | cut -d " " -f 2)
 		$BIN/v-delete-dns-record $new_user $domain $mx_id
 		grep MX ${domain}.db | awk '{for(sk=NF;sk>=1;sk--) printf "%s ", $sk;print ""}' | while read value pri ns rest; do
 			if [ "$ns" = "MX" ]; then

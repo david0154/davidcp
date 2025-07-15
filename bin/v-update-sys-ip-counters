@@ -17,11 +17,11 @@ ip="$1"
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/ip.sh
-source $HESTIA/func/ip.sh
+source $DAVID/func/ip.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -42,7 +42,7 @@ check_david_demo_mode
 
 # Creating user_list
 if [ -z "$ip" ]; then
-	ip_list="$(ls $HESTIA/data/ips/)"
+	ip_list="$(ls $DAVID/data/ips/)"
 else
 	ip_list="$ip"
 fi
@@ -51,7 +51,7 @@ fi
 for ip in $ip_list; do
 
 	# Calculate usage
-	ip_usage="$(grep -H "$ip" $HESTIA/data/users/*/web.conf)"
+	ip_usage="$(grep -H "$ip" $DAVID/data/users/*/web.conf)"
 	web_domains="$(echo "$ip_usage" | sed '/^$/d' | wc -l)"
 	sys_users="$(echo "$ip_usage" | cut -f7 -d/ | sort -u | tr '\n' ',' | sed "s/,$//g")"
 

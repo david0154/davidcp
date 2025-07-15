@@ -4,7 +4,7 @@
 #
 # example: v-delete-access-key mykey
 #
-# This function removes a key from in $HESTIA/data/access-keys/
+# This function removes a key from in $DAVID/data/access-keys/
 
 #----------------------------------------------------------#
 #                Variables & Functions                     #
@@ -14,9 +14,9 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                Variables & Functions                     #
@@ -35,13 +35,13 @@ check_david_demo_mode
 #                       Action                             #
 #----------------------------------------------------------#
 
-if [ ! -d "$HESTIA/data/access-keys/" ]; then
+if [ ! -d "$DAVID/data/access-keys/" ]; then
 	exit "$E_NOTEXIST"
 fi
 
-if [[ -e "${HESTIA}/data/access-keys/${access_key_id}" ]]; then
-	source_conf "${HESTIA}/data/access-keys/${access_key_id}"
-	rm "${HESTIA}/data/access-keys/${access_key_id}"
+if [[ -e "${DAVID}/data/access-keys/${access_key_id}" ]]; then
+	source_conf "${DAVID}/data/access-keys/${access_key_id}"
+	rm "${DAVID}/data/access-keys/${access_key_id}"
 else
 	exit "$E_NOTEXIST"
 fi

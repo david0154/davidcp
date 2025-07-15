@@ -18,8 +18,8 @@ restart=$2
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
-source_conf "$HESTIA/conf/david.conf"
+source $DAVID/func/main.sh
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #

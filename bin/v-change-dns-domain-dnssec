@@ -18,15 +18,15 @@ status=$3
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/rebuild.sh
-source $HESTIA/func/rebuild.sh
+source $DAVID/func/rebuild.sh
 # shellcheck source=/usr/local/david/func/syshealth.sh
-source $HESTIA/func/syshealth.sh
+source $DAVID/func/syshealth.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Additional argument formatting
 format_domain
@@ -64,8 +64,8 @@ fi
 #                       Action                             #
 #----------------------------------------------------------#
 
-if [ -f "$HESTIA/data/queue/dns-cluster.pipe" ]; then
-	bash $HESTIA/data/queue/dns-cluster.pipe
+if [ -f "$DAVID/data/queue/dns-cluster.pipe" ]; then
+	bash $DAVID/data/queue/dns-cluster.pipe
 fi
 
 syshealth_repair_dns_config
@@ -89,10 +89,10 @@ fi
 # Updating dns-cluster queue
 if [ "$DNS_CLUSTER" = "yes" ]; then
 	# Check for first sync
-	dlock=$(grep "domain $user $domain" $HESTIA/data/queue/dns-cluster.pipe)
+	dlock=$(grep "domain $user $domain" $DAVID/data/queue/dns-cluster.pipe)
 	if [ -z "$dlock" ]; then
 		cmd="$BIN/v-add-remote-dns-domain $user $domain yes"
-		echo "$cmd" >> $HESTIA/data/queue/dns-cluster.pipe
+		echo "$cmd" >> $DAVID/data/queue/dns-cluster.pipe
 	fi
 fi
 

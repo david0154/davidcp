@@ -34,7 +34,7 @@ maxretry = 5
 [david-iptables]
 enabled  = true
 filter   = david
-action   = david[name=HESTIA]
+action   = david[name=DAVID]
 logpath  = /var/log/david/auth.log
 maxretry = 5
 

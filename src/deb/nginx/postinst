@@ -20,7 +20,7 @@ fi
 update-rc.d david defaults > /dev/null
 invoke-rc.d david start || true
 
-# Adapt Port Listing in HESTIA NGINX Backend
+# Adapt Port Listing in DAVID NGINX Backend
 source /usr/local/david/func/syshealth.sh # Load syshealth functions
 
 # Check if the function syshealth_adapt_david_nginx_listen_ports exists
@@ -34,8 +34,8 @@ syshealth_adapt_nginx_resolver
 #                Initialize functions/variables               #
 ###############################################################
 
-if [ -z "$HESTIA" ]; then
-	export HESTIA='/usr/local/david'
+if [ -z "$DAVID" ]; then
+	export DAVID='/usr/local/david'
 	PATH=$PATH:/usr/local/david/bin
 	export PATH
 fi

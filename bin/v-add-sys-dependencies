@@ -12,17 +12,17 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 # upgrade config file
-source "$HESTIA/install/upgrade/upgrade.conf"
+source "$DAVID/install/upgrade/upgrade.conf"
 
 MODE=$1
 user="$ROOT_USER"
 
-PM_INSTALL_DIR="$HESTIA/web/inc"
-QUICK_INSTALL_DIR="$HESTIA/web/src"
+PM_INSTALL_DIR="$DAVID/web/inc"
+QUICK_INSTALL_DIR="$DAVID/web/src"
 COMPOSER_BIN="$HOMEDIR/$user/.composer/composer"
 
 #----------------------------------------------------------#
@@ -35,9 +35,9 @@ if [ "x$(id -u)" != 'x0' ]; then
 	exit 10
 fi
 
-# Ensure that $HESTIA (/usr/local/david/) and other variables are valid.
-if [ -z "$HESTIA" ]; then
-	HESTIA="/usr/local/david"
+# Ensure that $DAVID (/usr/local/david/) and other variables are valid.
+if [ -z "$DAVID" ]; then
+	DAVID="/usr/local/david"
 fi
 
 if [ -z "$HOMEDIR" ] || [ -z "$HESTIA_INSTALL_DIR" ]; then

@@ -280,16 +280,16 @@ if ($_SESSION["BACKUP_INCREMENTAL"] == "yes") {
 exec(HESTIA_CMD . "v-list-sys-david-ssl json", $output, $return_var);
 $ssl_str = json_decode(implode("", $output), true);
 unset($output);
-$v_ssl_crt = $ssl_str["HESTIA"]["CRT"];
-$v_ssl_key = $ssl_str["HESTIA"]["KEY"];
-$v_ssl_ca = $ssl_str["HESTIA"]["CA"];
-$v_ssl_subject = $ssl_str["HESTIA"]["SUBJECT"];
-$v_ssl_aliases = $ssl_str["HESTIA"]["ALIASES"];
-$v_ssl_not_before = $ssl_str["HESTIA"]["NOT_BEFORE"];
-$v_ssl_not_after = $ssl_str["HESTIA"]["NOT_AFTER"];
-$v_ssl_signature = $ssl_str["HESTIA"]["SIGNATURE"];
-$v_ssl_pub_key = $ssl_str["HESTIA"]["PUB_KEY"];
-$v_ssl_issuer = $ssl_str["HESTIA"]["ISSUER"];
+$v_ssl_crt = $ssl_str["DAVID"]["CRT"];
+$v_ssl_key = $ssl_str["DAVID"]["KEY"];
+$v_ssl_ca = $ssl_str["DAVID"]["CA"];
+$v_ssl_subject = $ssl_str["DAVID"]["SUBJECT"];
+$v_ssl_aliases = $ssl_str["DAVID"]["ALIASES"];
+$v_ssl_not_before = $ssl_str["DAVID"]["NOT_BEFORE"];
+$v_ssl_not_after = $ssl_str["DAVID"]["NOT_AFTER"];
+$v_ssl_signature = $ssl_str["DAVID"]["SIGNATURE"];
+$v_ssl_pub_key = $ssl_str["DAVID"]["PUB_KEY"];
+$v_ssl_issuer = $ssl_str["DAVID"]["ISSUER"];
 
 // Check POST request
 if (!empty($_POST["save"])) {
@@ -1873,16 +1873,16 @@ if (!empty($_POST["save"])) {
 			exec(HESTIA_CMD . "v-list-sys-david-ssl json", $output, $return_var);
 			$ssl_str = json_decode(implode("", $output), true);
 			unset($output);
-			$v_ssl_crt = $ssl_str["HESTIA"]["CRT"];
-			$v_ssl_key = $ssl_str["HESTIA"]["KEY"];
-			$v_ssl_ca = $ssl_str["HESTIA"]["CA"];
-			$v_ssl_subject = $ssl_str["HESTIA"]["SUBJECT"];
-			$v_ssl_aliases = $ssl_str["HESTIA"]["ALIASES"];
-			$v_ssl_not_before = $ssl_str["HESTIA"]["NOT_BEFORE"];
-			$v_ssl_not_after = $ssl_str["HESTIA"]["NOT_AFTER"];
-			$v_ssl_signature = $ssl_str["HESTIA"]["SIGNATURE"];
-			$v_ssl_pub_key = $ssl_str["HESTIA"]["PUB_KEY"];
-			$v_ssl_issuer = $ssl_str["HESTIA"]["ISSUER"];
+			$v_ssl_crt = $ssl_str["DAVID"]["CRT"];
+			$v_ssl_key = $ssl_str["DAVID"]["KEY"];
+			$v_ssl_ca = $ssl_str["DAVID"]["CA"];
+			$v_ssl_subject = $ssl_str["DAVID"]["SUBJECT"];
+			$v_ssl_aliases = $ssl_str["DAVID"]["ALIASES"];
+			$v_ssl_not_before = $ssl_str["DAVID"]["NOT_BEFORE"];
+			$v_ssl_not_after = $ssl_str["DAVID"]["NOT_AFTER"];
+			$v_ssl_signature = $ssl_str["DAVID"]["SIGNATURE"];
+			$v_ssl_pub_key = $ssl_str["DAVID"]["PUB_KEY"];
+			$v_ssl_issuer = $ssl_str["DAVID"]["ISSUER"];
 
 			// Cleanup certificate tempfiles
 			if (file_exists($tmpdir . "/certificate.crt")) {

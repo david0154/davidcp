@@ -6,10 +6,10 @@
 #----------------------------------------------------------#
 
 # Includes
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # get current phpmyadmin version
-source $HESTIA/install/upgrade/upgrade.conf
-source $HESTIA/conf/david.conf
+source $DAVID/install/upgrade/upgrade.conf
+source $DAVID/conf/david.conf
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -93,7 +93,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	rm -f phpMyAdmin-$pma_v-all-languages.tar.gz
 
 	if [ -z "$DB_PMA_ALIAS" ]; then
-		echo "DB_PMA_ALIAS='phpmyadmin'" >> $HESTIA/conf/david.conf
+		echo "DB_PMA_ALIAS='phpmyadmin'" >> $DAVID/conf/david.conf
 	fi
 	$BIN/v-change-sys-db-alias 'pma' "phpmyadmin"
 

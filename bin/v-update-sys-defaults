@@ -17,11 +17,11 @@ system=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/syshealth.sh
-source $HESTIA/func/syshealth.sh
+source $DAVID/func/syshealth.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                        Action                            #

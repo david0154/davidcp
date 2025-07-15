@@ -18,9 +18,9 @@ update_users=$2
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 is_language_valid() {
 	# English is always allowed
@@ -30,7 +30,7 @@ is_language_valid() {
 			log_event "$E_INVALID" "$ARGUMENTS"
 			exit $E_INVALID
 		fi
-		if [ ! -d "$HESTIA/web/locale/$1" ]; then
+		if [ ! -d "$DAVID/web/locale/$1" ]; then
 			echo "Error: language $1 doesn't exist"
 			log_event "$E_NOTEXIST" "$ARGUMENTS"
 			exit $E_NOTEXIST
@@ -54,10 +54,10 @@ check_david_demo_mode
 #----------------------------------------------------------#
 
 # Change language
-if [ -z "$(grep LANGUAGE $HESTIA/conf/david.conf)" ]; then
-	echo "LANGUAGE='$language'" >> $HESTIA/conf/david.conf
+if [ -z "$(grep LANGUAGE $DAVID/conf/david.conf)" ]; then
+	echo "LANGUAGE='$language'" >> $DAVID/conf/david.conf
 else
-	sed -i "s/LANGUAGE=.*/LANGUAGE='$language'/g" $HESTIA/conf/david.conf
+	sed -i "s/LANGUAGE=.*/LANGUAGE='$language'/g" $DAVID/conf/david.conf
 fi
 
 # Update language for all existing users if specified

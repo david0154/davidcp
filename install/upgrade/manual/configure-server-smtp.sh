@@ -16,9 +16,9 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/conf/david.conf
-source $HESTIA/conf/david.conf
+source $DAVID/conf/david.conf
 
 function setupFiles {
 	echo "Use SMTP account for server communication (Y/n): "

@@ -7,7 +7,7 @@
 #----------------------------------------------------------#
 
 # Includes
-source $HESTIA/conf/david.conf
+source $DAVID/conf/david.conf
 
 # Check if apache2 is in use
 if [ "$WEB_SYSTEM" != "apache2" ]; then

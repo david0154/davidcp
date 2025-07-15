@@ -23,11 +23,11 @@ compression=$4
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/db.sh
-source $HESTIA/func/db.sh
+source $DAVID/func/db.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 check_args '2' "$#" 'USER DATABASE [OUTPUT] [COMPRESSION]'
 is_format_valid 'user' 'database'
@@ -46,7 +46,7 @@ check_david_demo_mode
 timestamp=$(date +'%G-%m-%d_%H-%M-%S')
 
 # Check db existence
-db_data=$(grep "DB='$database'" $HESTIA/data/users/$user/db.conf)
+db_data=$(grep "DB='$database'" $DAVID/data/users/$user/db.conf)
 if [ -z "$db_data" ]; then
 	echo "Error: database $database doesn't exist"
 	log_event "$E_NOTEXIST" "$ARGUMENTS"

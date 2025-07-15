@@ -18,9 +18,9 @@ skip=$2
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                       Action                             #
@@ -29,7 +29,7 @@ source_conf "$HESTIA/conf/david.conf"
 is_format_valid 'restart'
 
 # Check if /install/upgrade/manual/install_awstats_geoip.sh has been applied
-awstats_patch=$(cat $HESTIA/data/templates/web/awstats/awstats.tpl | grep "LoadPlugin=\"geoip GEOIP_STANDARD /usr/share/GeoIP/GeoIP.dat\"")
+awstats_patch=$(cat $DAVID/data/templates/web/awstats/awstats.tpl | grep "LoadPlugin=\"geoip GEOIP_STANDARD /usr/share/GeoIP/GeoIP.dat\"")
 
 # Skeleton, Unassinged and Suspended
 if [ "$POLICY_SYNC_SKELETON" != "no" ]; then
@@ -61,7 +61,7 @@ done
 
 if [ -n "$awstats_patch" ]; then
 	# restore LoadPlugin variable
-	echo "LoadPlugin=\"geoip GEOIP_STANDARD /usr/share/GeoIP/GeoIP.dat\"" >> $HESTIA/data/templates/web/awstats/awstats.tpl
+	echo "LoadPlugin=\"geoip GEOIP_STANDARD /usr/share/GeoIP/GeoIP.dat\"" >> $DAVID/data/templates/web/awstats/awstats.tpl
 fi
 
 # Rebuilding web domains

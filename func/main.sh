@@ -21,11 +21,11 @@ source_conf() {
 
 if [ -z "$user" ]; then
 	if [ -z "$ROOT_USER" ]; then
-		if [ -z "$HESTIA" ]; then
+		if [ -z "$DAVID" ]; then
 			# shellcheck source=/etc/davidcp/david.conf
 			source /etc/davidcp/david.conf
 		fi
-		source_conf "$HESTIA/conf/david.conf" # load config file
+		source_conf "$DAVID/conf/david.conf" # load config file
 	fi
 	user="$ROOT_USER"
 fi
@@ -37,20 +37,20 @@ BACKUP_GZIP=9
 BACKUP_DISK_LIMIT=95
 BACKUP_LA_LIMIT=$(grep -c '^processor' /proc/cpuinfo)
 RRD_STEP=300
-BIN=$HESTIA/bin
-HESTIA_INSTALL_DIR="$HESTIA/install/deb"
-HESTIA_COMMON_DIR="$HESTIA/install/common"
+BIN=$DAVID/bin
+HESTIA_INSTALL_DIR="$DAVID/install/deb"
+HESTIA_COMMON_DIR="$DAVID/install/common"
 HESTIA_BACKUP="/root/dvp_backups/$(date +%d%m%Y%H%M)"
-HESTIA_PHP="$HESTIA/php/bin/php"
-USER_DATA=$HESTIA/data/users/$user
-WEBTPL=$HESTIA/data/templates/web
-MAILTPL=$HESTIA/data/templates/mail
-DNSTPL=$HESTIA/data/templates/dns
-RRD=$HESTIA/web/rrd
-SENDMAIL="$HESTIA/web/inc/mail-wrapper.php"
+HESTIA_PHP="$DAVID/php/bin/php"
+USER_DATA=$DAVID/data/users/$user
+WEBTPL=$DAVID/data/templates/web
+MAILTPL=$DAVID/data/templates/mail
+DNSTPL=$DAVID/data/templates/dns
+RRD=$DAVID/web/rrd
+SENDMAIL="$DAVID/web/inc/mail-wrapper.php"
 HESTIA_GIT_REPO="https://raw.githubusercontent.com/davidcp/davidcp"
-HESTIA_THEMES="$HESTIA/web/css/themes"
-HESTIA_THEMES_CUSTOM="$HESTIA/web/css/themes/custom"
+HESTIA_THEMES="$DAVID/web/css/themes"
+HESTIA_THEMES_CUSTOM="$DAVID/web/css/themes/custom"
 SCRIPT="$(basename $0)"
 CHECK_RESULT_CALLBACK=""
 
@@ -121,9 +121,9 @@ log_event() {
 		LOG_TIME="$date $time $(basename $0)"
 	fi
 	if [ "$1" -eq 0 ]; then
-		echo "$LOG_TIME $2" >> $HESTIA/log/system.log
+		echo "$LOG_TIME $2" >> $DAVID/log/system.log
 	else
-		echo "$LOG_TIME $2 [Error $1]" >> $HESTIA/log/error.log
+		echo "$LOG_TIME $2 [Error $1]" >> $DAVID/log/error.log
 	fi
 }
 
@@ -144,12 +144,12 @@ log_history() {
 
 	# Log system events to system log file
 	if [ "$log_user" = "system" ]; then
-		log=$HESTIA/log/activity.log
+		log=$DAVID/log/activity.log
 	else
 		if ! $BIN/v-list-user "$log_user" > /dev/null; then
 			return $E_NOTEXIST
 		fi
-		log=$HESTIA/data/users/$log_user/history.log
+		log=$DAVID/data/users/$log_user/history.log
 	fi
 	touch $log
 
@@ -257,11 +257,11 @@ generate_password() {
 # Package existence check
 is_package_valid() {
 	if [ -z $1 ]; then
-		if [ ! -e "$HESTIA/data/packages/$package.pkg" ]; then
+		if [ ! -e "$DAVID/data/packages/$package.pkg" ]; then
 			check_result "$E_NOTEXIST" "package $package doesn't exist"
 		fi
 	else
-		if [ ! -e "$HESTIA/data/packages/$1.pkg" ]; then
+		if [ ! -e "$DAVID/data/packages/$1.pkg" ]; then
 			check_result "$E_NOTEXIST" "package $1 doesn't exist"
 		fi
 	fi
@@ -269,7 +269,7 @@ is_package_valid() {
 }
 
 is_package_new() {
-	if [ -e "$HESTIA/data/packages/$1.pkg" ]; then
+	if [ -e "$DAVID/data/packages/$1.pkg" ]; then
 		echo "Error: package $1 already exists."
 		log_event "$E_EXISTS" "$ARGUMENTS"
 		exit "$E_EXISTS"
@@ -300,8 +300,8 @@ is_incremental_backup_enabled() {
 
 # Check user backup settings
 is_backup_scheduled() {
-	if [ -e "$HESTIA/data/queue/backup.pipe" ]; then
-		check_q=$(grep " $user " $HESTIA/data/queue/backup.pipe | grep $1)
+	if [ -e "$DAVID/data/queue/backup.pipe" ]; then
+		check_q=$(grep " $user " $DAVID/data/queue/backup.pipe | grep $1)
 		if [ -n "$check_q" ]; then
 			check_result "$E_EXISTS" "$1 is already scheduled"
 		fi
@@ -325,18 +325,18 @@ is_object_new() {
 # Check if object is valid
 is_object_valid() {
 	if [ $2 = 'USER' ]; then
-		tstpath="$(readlink -f "$HESTIA/data/users/$3")"
-		if [ "$(dirname "$tstpath")" != "$(readlink -f "$HESTIA/data/users")" ] || [ ! -d "$HESTIA/data/users/$3" ]; then
+		tstpath="$(readlink -f "$DAVID/data/users/$3")"
+		if [ "$(dirname "$tstpath")" != "$(readlink -f "$DAVID/data/users")" ] || [ ! -d "$DAVID/data/users/$3" ]; then
 			check_result "$E_NOTEXIST" "$1 $3 doesn't exist"
 		fi
 	elif [ $2 = 'KEY' ]; then
 		local key="$(basename "$3")"
 
-		if [[ -z "$key" || ${#key} -lt 16 ]] || [[ ! -f "$HESTIA/data/access-keys/${key}" && ! -f "$HESTIA/data/access-keys/$key" ]]; then
+		if [[ -z "$key" || ${#key} -lt 16 ]] || [[ ! -f "$DAVID/data/access-keys/${key}" && ! -f "$DAVID/data/access-keys/$key" ]]; then
 			check_result "$E_NOTEXIST" "$1 $3 doesn't exist"
 		fi
 	else
-		object=$(grep "$2='$3'" $HESTIA/data/users/$user/$1.conf)
+		object=$(grep "$2='$3'" $DAVID/data/users/$user/$1.conf)
 		if [ -z "$object" ]; then
 			arg1=$(basename $1)
 			arg2=$(echo $2 | tr '[:upper:]' '[:lower:]')
@@ -530,10 +530,10 @@ get_user_value() {
 # Update user value in user.conf
 update_user_value() {
 	key="${2//$/}"
-	lnr=$(grep -n "^$key='" $HESTIA/data/users/$1/user.conf | cut -f 1 -d ':')
+	lnr=$(grep -n "^$key='" $DAVID/data/users/$1/user.conf | cut -f 1 -d ':')
 	if [ -n "$lnr" ]; then
-		sed -i "$lnr d" $HESTIA/data/users/$1/user.conf
-		sed -i "$lnr i\\$key='${3}'" $HESTIA/data/users/$1/user.conf
+		sed -i "$lnr d" $DAVID/data/users/$1/user.conf
+		sed -i "$lnr i\\$key='${3}'" $DAVID/data/users/$1/user.conf
 	fi
 }
 
@@ -541,7 +541,7 @@ update_user_value() {
 increase_user_value() {
 	key="${2//$/}"
 	factor="${3-1}"
-	conf="$HESTIA/data/users/$1/user.conf"
+	conf="$DAVID/data/users/$1/user.conf"
 	old=$(grep "$key=" $conf | cut -f 2 -d \')
 	if [ -z "$old" ]; then
 		old=0
@@ -554,7 +554,7 @@ increase_user_value() {
 decrease_user_value() {
 	key="${2//$/}"
 	factor="${3-1}"
-	conf="$HESTIA/data/users/$1/user.conf"
+	conf="$DAVID/data/users/$1/user.conf"
 	old=$(grep "$key=" $conf | cut -f 2 -d \')
 	if [ -z "$old" ]; then
 		old=0
@@ -1326,7 +1326,7 @@ check_access_key_secret() {
 	local secret_access_key=$2
 	local -n key_user=$3
 
-	if [[ -z "$access_key_id" || ! -f "$HESTIA/data/access-keys/${access_key_id}" ]]; then
+	if [[ -z "$access_key_id" || ! -f "$DAVID/data/access-keys/${access_key_id}" ]]; then
 		check_result "$E_PASSWORD" "Access key $access_key_id doesn't exist"
 	fi
 
@@ -1336,7 +1336,7 @@ check_access_key_secret() {
 		check_result "$E_PASSWORD" "Invalid secret key for key $access_key_id"
 	else
 		SECRET_ACCESS_KEY=""
-		source_conf "$HESTIA/data/access-keys/${access_key_id}"
+		source_conf "$DAVID/data/access-keys/${access_key_id}"
 
 		if [[ -z "$SECRET_ACCESS_KEY" || "$SECRET_ACCESS_KEY" != "$secret_access_key" ]]; then
 			check_result "$E_PASSWORD" "Invalid secret key for key $access_key_id"
@@ -1351,7 +1351,7 @@ check_access_key_user() {
 	local access_key_id="$(basename "$1")"
 	local user=$2
 
-	if [[ -z "$access_key_id" || ! -f "$HESTIA/data/access-keys/${access_key_id}" ]]; then
+	if [[ -z "$access_key_id" || ! -f "$DAVID/data/access-keys/${access_key_id}" ]]; then
 		check_result "$E_FORBIDEN" "Access key $access_key_id doesn't exist"
 	fi
 
@@ -1359,7 +1359,7 @@ check_access_key_user() {
 		check_result "$E_FORBIDEN" "User not provided"
 	else
 		USER=""
-		source_conf "$HESTIA/data/access-keys/${access_key_id}"
+		source_conf "$DAVID/data/access-keys/${access_key_id}"
 
 		if [[ -z "$USER" || "$USER" != "$user" ]]; then
 			check_result "$E_FORBIDEN" "key $access_key_id does not belong to the user $user"
@@ -1377,7 +1377,7 @@ check_access_key_cmd() {
 		new_timestamp
 		echo "[$date:$time] $1 $2" >> /var/log/david/api.log
 	fi
-	if [[ -z "$access_key_id" || ! -f "$HESTIA/data/access-keys/${access_key_id}" ]]; then
+	if [[ -z "$access_key_id" || ! -f "$DAVID/data/access-keys/${access_key_id}" ]]; then
 		check_result "$E_FORBIDEN" "Access key $access_key_id doesn't exist"
 	fi
 
@@ -1385,7 +1385,7 @@ check_access_key_cmd() {
 		check_result "$E_FORBIDEN" "Command not provided"
 	elif [[ "$cmd" = 'v-make-tmp-file' ]]; then
 		USER="" PERMISSIONS=""
-		source_conf "${HESTIA}/data/access-keys/${access_key_id}"
+		source_conf "${DAVID}/data/access-keys/${access_key_id}"
 		local allowed_commands
 		if [[ -n "$PERMISSIONS" ]]; then
 			allowed_commands="$(get_apis_commands "$PERMISSIONS")"
@@ -1400,7 +1400,7 @@ check_access_key_cmd() {
 		check_result "$E_FORBIDEN" "Command $cmd not found"
 	else
 		USER="" PERMISSIONS=""
-		source_conf "${HESTIA}/data/access-keys/${access_key_id}"
+		source_conf "${DAVID}/data/access-keys/${access_key_id}"
 
 		local allowed_commands
 		if [[ -n "$PERMISSIONS" ]]; then
@@ -1628,11 +1628,11 @@ is_username_format_valid() {
 }
 
 change_sys_value() {
-	check_ckey=$(grep "^$1='" "$HESTIA/conf/david.conf")
+	check_ckey=$(grep "^$1='" "$DAVID/conf/david.conf")
 	if [ -z "$check_ckey" ]; then
-		echo "$1='$2'" >> "$HESTIA/conf/david.conf"
+		echo "$1='$2'" >> "$DAVID/conf/david.conf"
 	else
-		sed -i "s|^$1=.*|$1='$2'|g" "$HESTIA/conf/david.conf"
+		sed -i "s|^$1=.*|$1='$2'|g" "$DAVID/conf/david.conf"
 	fi
 }
 
@@ -1650,11 +1650,11 @@ is_key_permissions_format_valid() {
 			permission="$(basename "$permission" | sed -E "s/^\s*|\s*$//g")"
 
 			#            if [[ -z "$(echo "$permission" | grep -E "^v-")" ]]; then
-			if [[ ! -e "$HESTIA/data/api/$permission" ]]; then
+			if [[ ! -e "$DAVID/data/api/$permission" ]]; then
 				check_result "$E_NOTEXIST" "API $permission doesn't exist"
 			fi
 
-			source_conf "$HESTIA/data/api/$permission"
+			source_conf "$DAVID/data/api/$permission"
 			if [ "$ROLE" = "admin" ] && [ "$user" != "$ROOT_USER" ]; then
 				check_result "$E_INVALID" "Only the admin can run this API"
 			fi
@@ -1698,8 +1698,8 @@ get_apis_commands() {
 			#            if [[ -n "$(echo "$permission" | grep -E "^v-")" ]]; then
 			#                commands_to_add="$permission"
 			#            el
-			if [[ -e "$HESTIA/data/api/$permission" ]]; then
-				source_conf "$HESTIA/data/api/$permission"
+			if [[ -e "$DAVID/data/api/$permission" ]]; then
+				source_conf "$DAVID/data/api/$permission"
 				commands_to_add="$COMMANDS"
 			fi
 

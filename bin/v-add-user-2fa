@@ -17,9 +17,9 @@ user=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -46,7 +46,7 @@ if [ -n "$TWOFA" ]; then
 fi
 
 # Get secret and qr code from 2fa library
-data=$($HESTIA_PHP $HESTIA/web/inc/2fa/secret.php)
+data=$($HESTIA_PHP $DAVID/web/inc/2fa/secret.php)
 
 # Split to secret and qrcode using delimiter
 IFS='-' read -r -a array <<< "$data"

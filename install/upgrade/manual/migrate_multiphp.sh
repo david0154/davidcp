@@ -6,9 +6,9 @@
 
 # Includes
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/conf/david.conf
-source $HESTIA/conf/david.conf
+source $DAVID/conf/david.conf
 
 #
 # Migrate legacy multiphp to full php-fpm backend
@@ -21,7 +21,7 @@ source $HESTIA/conf/david.conf
 # nginx+apache+multiphp,
 # apache+multiphp:
 #   Change David WEB_BACKEND from null to php-fpm
-#   Create backend templates ex: PHP-7_3, PHP-5_6 (in $HESTIA/data/templates/web/php-fpm/)
+#   Create backend templates ex: PHP-7_3, PHP-5_6 (in $DAVID/data/templates/web/php-fpm/)
 #   v-update-web-templates
 #   Loop through all web domains
 #   If official multiphp tpl is used ex: PHP-72, then change backend tpl and set app web template to default
@@ -44,8 +44,8 @@ echo "Found $num_php_versions php versions"
 if [ "$num_php_versions" -gt 1 ] && [ -z "$WEB_BACKEND" ]; then
 	# Legacy multiphp
 
-	sed -i "/^WEB_BACKEND=/d" $HESTIA/conf/david.conf
-	echo "WEB_BACKEND='php-fpm'" >> $HESTIA/conf/david.conf
+	sed -i "/^WEB_BACKEND=/d" $DAVID/conf/david.conf
+	echo "WEB_BACKEND='php-fpm'" >> $DAVID/conf/david.conf
 
 	for php_ver in $(v-list-sys-php); do
 		[ ! -d "/etc/php/$php_ver/fpm/pool.d/" ] && continue
@@ -59,7 +59,7 @@ if [ "$num_php_versions" -gt 1 ] && [ -z "$WEB_BACKEND" ]; then
 	# Migrate domains
 	for user in $($BIN/v-list-sys-users plain); do
 		# Define user data and get suspended status
-		USER_DATA=$HESTIA/data/users/$user
+		USER_DATA=$DAVID/data/users/$user
 		SUSPENDED=$(get_user_value '$SUSPENDED')
 
 		# Check if user is suspended

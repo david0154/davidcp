@@ -20,9 +20,9 @@ queue=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -44,14 +44,14 @@ fi
 
 # Defining pipe functions
 case $queue in
-	restart) bash $HESTIA/data/queue/$queue.pipe > /dev/null 2>&1 ;;
-	webstats) bash $HESTIA/data/queue/$queue.pipe > /dev/null 2>&1 ;;
-	backup) bash $HESTIA/data/queue/$queue.pipe > /dev/null 2>&1 ;;
-	disk) bash $HESTIA/data/queue/$queue.pipe > /dev/null 2>&1 ;;
-	daily) bash $HESTIA/data/queue/$queue.pipe > /dev/null 2>&1 ;;
-	traffic) bash $HESTIA/data/queue/$queue.pipe > /dev/null 2>&1 ;;
-	dns-cluster) bash $HESTIA/data/queue/$queue.pipe > /dev/null 2>&1 ;;
-	letsencrypt) bash $HESTIA/data/queue/$queue.pipe > /dev/null 2>&1 ;;
+	restart) bash $DAVID/data/queue/$queue.pipe > /dev/null 2>&1 ;;
+	webstats) bash $DAVID/data/queue/$queue.pipe > /dev/null 2>&1 ;;
+	backup) bash $DAVID/data/queue/$queue.pipe > /dev/null 2>&1 ;;
+	disk) bash $DAVID/data/queue/$queue.pipe > /dev/null 2>&1 ;;
+	daily) bash $DAVID/data/queue/$queue.pipe > /dev/null 2>&1 ;;
+	traffic) bash $DAVID/data/queue/$queue.pipe > /dev/null 2>&1 ;;
+	dns-cluster) bash $DAVID/data/queue/$queue.pipe > /dev/null 2>&1 ;;
+	letsencrypt) bash $DAVID/data/queue/$queue.pipe > /dev/null 2>&1 ;;
 	*) check_args '1' '0' 'QUEUE' ;;
 esac
 

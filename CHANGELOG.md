@@ -603,7 +603,7 @@ All notable changes to this project will be documented in this file.
 - Improve upgrade behaviour for Roundcube and Filegator (#3237 #3236)
 - Allow <ClientName@domain.com> for login via Dovecot/Email (#3024)
 - Return a proper error code when unable to connect via API (#3235 #3169)
-- Synchronise $BIN and $HESTIA/BIN (#2185 @Steveorevo)
+- Synchronise $BIN and $DAVID/BIN (#2185 @Steveorevo)
 - Block usage of unlimited backups (#3181)
 - Update paths /var/run/ to /run (#3159)
 - Update PHP versions on various Quick Install apps (#3167 #3149 @dadangnh)
@@ -1437,7 +1437,7 @@ After that run apt update && apt upgrade
 - Resolve issue with create new user during install in some cases #2000
 - Fixed an issue with Quick Install apps named Test123 (@PsychotherapistSam)
 - Fix an issue with dovecot 2.3 ssl config (#1432)
-- Load $HESTIA path during upgrade script (#1698)
+- Load $DAVID path during upgrade script (#1698)
 - Remove TLS 1.1 from Proftpd config (#950)
 - Don't remove postfix when Exim is not installed (#1995)
 - Fix a bug in no-php Nginx FPM template (##2007)
@@ -1738,7 +1738,7 @@ apt update && apt upgrade
 
 - Users can now choose to point a domain to a different document root location (similar to domain parking).
 - The software update process will now perform a system health check before proceeding with installation.
-- Administrators now have control over software update notifications through the following settings in `$HESTIA/conf/david.conf` and through the Control Panel web interface:
+- Administrators now have control over software update notifications through the following settings in `$DAVID/conf/david.conf` and through the Control Panel web interface:
   - `UPGRADE_SEND_EMAIL` = Sends an email notification to primary admin account's email address
   - `UPGRADE_SEND_EMAIL_LOG` = Sends installation log output to the primary admin account's email address
 - The upgrade process will now save installation logs to the `/root/dvp_backups` directory by default for post-install troubleshooting.
@@ -1747,7 +1747,7 @@ apt update && apt upgrade
 - We've introduced a more robust translation system which will allow us to provide higher quality translations in future releases.
   - **Note:** Some country codes have been updated, as a result your language setting may default back to English after upgrading.
 - For new installations, MariaDB 10.5 is now the default version.
-  - For existing installations, we've provided a manual post-install upgrade script. Please run `$HESTIA/install/upgrade/manual/upgrade_mariadb.sh` to migrate to MariaDB 10.5).
+  - For existing installations, we've provided a manual post-install upgrade script. Please run `$DAVID/install/upgrade/manual/upgrade_mariadb.sh` to migrate to MariaDB 10.5).
 - The user interface theme has been set to "Dark" by default. This can be changed from **Server Settings > Configure > Basic Options > Appearance**.
   - **Note:** The name of the default theme has not been adjusted, and the change to the "dark" theme only applies to new installations at this time. This behavior may be changed in a future release.
 
@@ -1869,7 +1869,7 @@ apt update && apt upgrade
 - Enabled Roundcube plugins newmail_notifier and zipdownload by default.
 - Added HELO support for multiple domains and IPs.
 - Added the ability to manage SSH keys from CLI and web interface.
-- Added a manual migration script for apache2 mpm_event for existing installations/upgrades (`$HESTIA/install/upgrade/manual/migrate_mpm_event.sh`).
+- Added a manual migration script for apache2 mpm_event for existing installations/upgrades (`$DAVID/install/upgrade/manual/migrate_mpm_event.sh`).
 - Added BATS system for testing the functionality of Bash scripts (WIP).
 - Added **v-change-sys-db-alias** to change phpMyAdmin and phpPgAdmin access points (`v-change-sys-db-alias pma/pga myCustomURL`).
 

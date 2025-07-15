@@ -20,17 +20,17 @@ notify=${3-no}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # shellcheck source=/usr/local/david/func/ip.sh
-source $HESTIA/func/ip.sh
+source $DAVID/func/ip.sh
 # shellcheck source=/usr/local/david/func/rebuild.sh
-source $HESTIA/func/rebuild.sh
+source $DAVID/func/rebuild.sh
 # shellcheck source=/usr/local/david/func/syshealth.sh
-source $HESTIA/func/syshealth.sh
+source $DAVID/func/syshealth.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -41,7 +41,7 @@ check_args '2' "$#" "$args_usage"
 is_format_valid 'user'
 is_object_valid 'user' 'USER' "$user"
 
-source_conf $HESTIA/conf/restic.conf
+source_conf $DAVID/conf/restic.conf
 
 #----------------------------------------------------------#
 #                       Action                             #
@@ -72,7 +72,7 @@ $BIN/v-update-user-counters $user
 $BIN/v-update-user-counters admin
 $BIN/v-update-sys-ip-counters
 
-sed -i "/v-restore-cron-job-restic '$user' '$snapshot'/d" $HESTIA/data/queue/backup.pipe
+sed -i "/v-restore-cron-job-restic '$user' '$snapshot'/d" $DAVID/data/queue/backup.pipe
 
 # Logging
 $BIN/v-log-action "system" "Info" "Backup" "Cron jobs successfully restored (User: $user, Snapshot: $snapshot)."

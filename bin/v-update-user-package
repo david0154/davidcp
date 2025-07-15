@@ -17,9 +17,9 @@ package=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -34,7 +34,7 @@ is_package_valid
 #----------------------------------------------------------#
 for user in $("$BIN/v-list-users" list); do
 	# Fix Bug User Data contain path to the root user
-	USER_DATA="$HESTIA/data/users/$user"
+	USER_DATA="$DAVID/data/users/$user"
 	check_package=$(grep "PACKAGE='$package'" $USER_DATA/user.conf)
 	if [ -n "$check_package" ]; then
 		"$BIN/v-change-user-package" "$user" "$package" 'yes'

@@ -6,10 +6,10 @@
 #----------------------------------------------------------#
 
 # Includes
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # get current Roundcube version
-source $HESTIA/install/upgrade/upgrade.conf
-source $HESTIA/conf/david.conf
+source $DAVID/install/upgrade/upgrade.conf
+source $DAVID/conf/david.conf
 
 #----------------------------------------------------------#
 #                    Verifications                         #

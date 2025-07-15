@@ -17,9 +17,9 @@ period=${1-daily}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                       Action                             #
@@ -56,7 +56,7 @@ if [ ! -d "$RRD/db" ]; then
 fi
 
 # Parsing db hosts
-conf="$HESTIA/conf/pgsql.conf"
+conf="$DAVID/conf/pgsql.conf"
 hosts=$(grep HOST $conf | awk '{print $1}' | cut -f 2 -d \')
 check_row=$(echo "$hosts" | wc -l)
 if [ 0 -eq "$check_row" ]; then

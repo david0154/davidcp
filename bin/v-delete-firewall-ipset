@@ -16,9 +16,9 @@ ip_name=${1}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -37,7 +37,7 @@ ip_version="$(get_object_value "$ipset_dvpobject" 'LISTNAME' "$ip_name" '$IP_VER
 check_david_demo_mode
 
 IPSET_BIN="$(command -v ipset)"
-IPSET_PATH="$HESTIA/data/firewall/ipset"
+IPSET_PATH="$DAVID/data/firewall/ipset"
 IPSET_FILE="${ip_name}.${ip_version}"
 
 # Install ipset package if missing

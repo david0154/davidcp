@@ -18,11 +18,11 @@ format=${2-shell}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/conf/david.conf
-source $HESTIA/conf/david.conf
+source $DAVID/conf/david.conf
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Perform verification if read-only mode is enabled
 check_david_demo_mode
@@ -96,13 +96,13 @@ IFS=$'\n'
 for user in $("$BIN/v-list-users" list); do
 	# Search query
 	search=$(grep "$object" \
-		$HESTIA/data/users/$user/web.conf \
-		$HESTIA/data/users/$user/dns.conf \
-		$HESTIA/data/users/$user/dns/*.conf \
-		$HESTIA/data/users/$user/mail.conf \
-		$HESTIA/data/users/$user/mail/*.conf \
-		$HESTIA/data/users/$user/db.conf \
-		$HESTIA/data/users/$user/cron.conf 2> /dev/null)
+		$DAVID/data/users/$user/web.conf \
+		$DAVID/data/users/$user/dns.conf \
+		$DAVID/data/users/$user/dns/*.conf \
+		$DAVID/data/users/$user/mail.conf \
+		$DAVID/data/users/$user/mail/*.conf \
+		$DAVID/data/users/$user/db.conf \
+		$DAVID/data/users/$user/cron.conf 2> /dev/null)
 
 	for row in $search; do
 		# Initialise variable

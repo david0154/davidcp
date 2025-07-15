@@ -17,11 +17,11 @@ FORCE=$2
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
-FM_INSTALL_DIR="$HESTIA/web/fm"
+FM_INSTALL_DIR="$DAVID/web/fm"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -33,9 +33,9 @@ if [ "x$(id -u)" != 'x0' ]; then
 	exit 10
 fi
 
-# Ensure that $HESTIA (/usr/local/david/) and other variables are valid.
-if [ -z "$HESTIA" ]; then
-	HESTIA="/usr/local/david"
+# Ensure that $DAVID (/usr/local/david/) and other variables are valid.
+if [ -z "$DAVID" ]; then
+	DAVID="/usr/local/david"
 fi
 
 if [ -z "$HOMEDIR" ] || [ -z "$HESTIA_INSTALL_DIR" ]; then

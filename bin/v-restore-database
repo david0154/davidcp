@@ -21,9 +21,9 @@ notify=$4
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Perform verification if read-only mode is enabled
 check_david_demo_mode

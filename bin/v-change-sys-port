@@ -12,15 +12,15 @@
 
 # Argument definition
 PORT=$1
-NGINX_CONFIG="$HESTIA/nginx/conf/nginx.conf"
+NGINX_CONFIG="$DAVID/nginx/conf/nginx.conf"
 
 # Includes
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source "$HESTIA/func/main.sh"
+source "$DAVID/func/main.sh"
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Functions
 is_port_valid() {
@@ -74,12 +74,12 @@ else
 		sed -i "/\"david_port\":/c\\\"david_host\": $PORT" /etc/snappymail/data/_data_/_default_/configs/plugin-change-password.json
 	fi
 
-	if [ -f "$HESTIA/data/firewall/rules.conf" ]; then
-		sed -i "/COMMENT='HESTIA'/c\RULE='2' ACTION='ACCEPT' PROTOCOL='TCP' PORT='$PORT' IP='0.0.0.0/0' COMMENT='HESTIA' SUSPENDED='no' TIME='07:40:16' DATE='2014-05-25'" "$HESTIA/data/firewall/rules.conf"
+	if [ -f "$DAVID/data/firewall/rules.conf" ]; then
+		sed -i "/COMMENT='DAVID'/c\RULE='2' ACTION='ACCEPT' PROTOCOL='TCP' PORT='$PORT' IP='0.0.0.0/0' COMMENT='DAVID' SUSPENDED='no' TIME='07:40:16' DATE='2014-05-25'" "$DAVID/data/firewall/rules.conf"
 	fi
 
-	if [ -f "$HESTIA/data/firewall/chains.conf" ]; then
-		sed -i "/CHAIN='HESTIA'/c\CHAIN='HESTIA' PORT='$PORT' PROTOCOL='TCP'" "$HESTIA/data/firewall/chains.conf"
+	if [ -f "$DAVID/data/firewall/chains.conf" ]; then
+		sed -i "/CHAIN='DAVID'/c\CHAIN='DAVID' PORT='$PORT' PROTOCOL='TCP'" "$DAVID/data/firewall/chains.conf"
 	fi
 
 	# Restart services

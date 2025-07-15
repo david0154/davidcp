@@ -17,9 +17,9 @@ user=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -40,8 +40,8 @@ check_david_demo_mode
 #----------------------------------------------------------#
 
 # Adding backup task to  the queue
-log=$HESTIA/log/backup.log
-echo "$BIN/v-backup-user $user yes >> $log 2>&1" >> $HESTIA/data/queue/backup.pipe
+log=$DAVID/log/backup.log
+echo "$BIN/v-backup-user $user yes >> $log 2>&1" >> $DAVID/data/queue/backup.pipe
 
 #----------------------------------------------------------#
 #                       David                             #

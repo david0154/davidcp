@@ -10,9 +10,9 @@
 
 # Includes
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/conf/david.conf
-source $HESTIA/conf/david.conf
+source $DAVID/conf/david.conf
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -32,7 +32,7 @@ $BIN/v-add-sys-ssh-jail
 
 ## Migrate user jails to bubblewrap jails
 for user in $("$BIN/v-list-users" list); do
-	check_jail_enabled=$(grep "SHELL_JAIL_ENABLED='yes'" $HESTIA/data/users/$user/user.conf)
+	check_jail_enabled=$(grep "SHELL_JAIL_ENABLED='yes'" $DAVID/data/users/$user/user.conf)
 
 	# If jail enabled remove the jailkit jail first then bubblewrap the jail
 	if [ -n "$check_jail_enabled" ]; then
@@ -56,19 +56,19 @@ for user in $("$BIN/v-list-users" list); do
 		$BIN/v-change-user-shell $user jailbash
 
 		# Remove config line from user.conf
-		sed -i "/SHELL_JAIL_ENABLED='yes'/d" $HESTIA/data/users/$user/user.conf
+		sed -i "/SHELL_JAIL_ENABLED='yes'/d" $DAVID/data/users/$user/user.conf
 	fi
 
 	# Remove config line from user.conf
-	sed -i "/SHELL_JAIL_ENABLED='no'/d" $HESTIA/data/users/$user/user.conf
+	sed -i "/SHELL_JAIL_ENABLED='no'/d" $DAVID/data/users/$user/user.conf
 done
 
-packages=$(ls --sort=time $HESTIA/data/packages | grep .pkg)
+packages=$(ls --sort=time $DAVID/data/packages | grep .pkg)
 
 for package in $packages; do
 	# Remove config line from package.conf
-	sed -i "/SHELL_JAIL_ENABLED='yes'/d" $HESTIA/data/packages/$package
-	sed -i "/SHELL_JAIL_ENABLED='no'/d" $HESTIA/data/packages/$package
+	sed -i "/SHELL_JAIL_ENABLED='yes'/d" $DAVID/data/packages/$package
+	sed -i "/SHELL_JAIL_ENABLED='no'/d" $DAVID/data/packages/$package
 done
 
 # Checking sshd directives

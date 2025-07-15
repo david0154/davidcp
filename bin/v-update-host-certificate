@@ -24,11 +24,11 @@ hostname=$2
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/ip.sh
-source $HESTIA/func/ip.sh
+source $DAVID/func/ip.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -57,8 +57,8 @@ check_david_demo_mode
 #----------------------------------------------------------#
 
 # Copy hostnames certificates from user dir
-cp /home/$user/conf/web/$hostname/ssl/$hostname.pem $HESTIA/ssl/certificate.crt
-cp /home/$user/conf/web/$hostname/ssl/$hostname.key $HESTIA/ssl/certificate.key
+cp /home/$user/conf/web/$hostname/ssl/$hostname.pem $DAVID/ssl/certificate.crt
+cp /home/$user/conf/web/$hostname/ssl/$hostname.key $DAVID/ssl/certificate.key
 
 # Enable fallback support for mail domains that do not support SSL
 if [[ "$MAIL_SYSTEM" =~ exim ]]; then
@@ -70,13 +70,13 @@ if [[ "$MAIL_SYSTEM" =~ exim ]]; then
 	fi
 
 	# Assign exim permissions to certificate
-	chown $exim_user:mail $HESTIA/ssl/certificate.crt
-	chown $exim_user:mail $HESTIA/ssl/certificate.key
+	chown $exim_user:mail $DAVID/ssl/certificate.crt
+	chown $exim_user:mail $DAVID/ssl/certificate.key
 fi
 
 # Add UPDATE_HOSTNAME_SSL if not exist
 if [ -z "$UPDATE_HOSTNAME_SSL" ]; then
-	echo "UPDATE_HOSTNAME_SSL='yes'" >> "$HESTIA/conf/david.conf"
+	echo "UPDATE_HOSTNAME_SSL='yes'" >> "$DAVID/conf/david.conf"
 fi
 
 # Restart services

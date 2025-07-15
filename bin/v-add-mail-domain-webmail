@@ -38,13 +38,13 @@ fi
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # shellcheck source=/usr/local/david/func/ip.sh
-source $HESTIA/func/ip.sh
+source $DAVID/func/ip.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Additional argument formatting
 format_domain
@@ -132,7 +132,7 @@ else
 		if [ "$WEB_SYSTEM" = "nginx" ]; then
 			WEBMAIL_TEMPLATE="web_system"
 		fi
-	elif [ -f "$HESTIA/data/templates/mail/$WEB_SYSTEM/$webmail.tpl" ]; then
+	elif [ -f "$DAVID/data/templates/mail/$WEB_SYSTEM/$webmail.tpl" ]; then
 		WEBMAIL_TEMPLATE="$webmail"
 		if [ -n "$PROXY_SYSTEM" ]; then
 			PROXY_TEMPLATE="default_$webmail"

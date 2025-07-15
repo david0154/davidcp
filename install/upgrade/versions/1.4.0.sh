@@ -27,7 +27,7 @@ if [ "$MAIL_SYSTEM" == "exim4" ]; then
 	# Check if we've already done this upgrade before proceeding
 	if ! grep -q ^smtp_active_hostname /etc/exim4/exim4.conf.template; then
 
-		source $HESTIA/func/ip.sh
+		source $DAVID/func/ip.sh
 
 		echo "[ * ] Populating HELO/SMTP Banner value for existing IP addresses..."
 		> /etc/exim4/mailhelo.conf
@@ -66,7 +66,7 @@ if [ "$MAIL_SYSTEM" == "exim4" ]; then
 			echo 'you will have to replace or modify your config with the one found'
 			echo 'on GitHub at https://github.com/davidcp/davidcp/blob/release/install/deb/exim/exim4.conf.template.'
 			echo 'Your exim config file will be found here: /etc/exim4/exim4.conf.template'
-			$HESTIA/bin/v-add-user-notification admin 'SMTP Relay upgrade failed' 'Because of the complexity of the SMTP Relay upgrade, we were unable to safely modify your existing exim config file.<br><br>If you would like to use the new SMTP Relay features, you will have to replace or modify your config with the one <a href="https://github.com/davidcp/davidcp/blob/release/install/deb/exim/exim4.conf.template" target="_blank">found on GitHub</a>.<br><br>Your exim config file will be found here:<br><br><code>/etc/exim4/exim4.conf.template</code>'
+			$DAVID/bin/v-add-user-notification admin 'SMTP Relay upgrade failed' 'Because of the complexity of the SMTP Relay upgrade, we were unable to safely modify your existing exim config file.<br><br>If you would like to use the new SMTP Relay features, you will have to replace or modify your config with the one <a href="https://github.com/davidcp/davidcp/blob/release/install/deb/exim/exim4.conf.template" target="_blank">found on GitHub</a>.<br><br>Your exim config file will be found here:<br><br><code>/etc/exim4/exim4.conf.template</code>'
 		else
 			disable_smtp_relay=false
 		fi
@@ -130,19 +130,19 @@ fi
 
 # Remove API file if API is set to "no"
 if [ "$API" = "no" ]; then
-	if [ -f "$HESTIA/web/api/index.php" ]; then
+	if [ -f "$DAVID/web/api/index.php" ]; then
 		echo "[ * ] Disabling API access..."
-		$HESTIA/bin/v-change-sys-api remove
+		$DAVID/bin/v-change-sys-api remove
 	fi
 fi
 
-# Back up users existing configuration data to $HESTIA/conf/defaults/david.conf
-if [ ! -f "$HESTIA/conf/defaults/david.conf" ]; then
+# Back up users existing configuration data to $DAVID/conf/defaults/david.conf
+if [ ! -f "$DAVID/conf/defaults/david.conf" ]; then
 	echo "[ * ] Creating known good configuration data for system recovery..."
-	if [ ! -d "$HESTIA/conf/defaults/" ]; then
-		mkdir -p "$HESTIA/conf/defaults/"
+	if [ ! -d "$DAVID/conf/defaults/" ]; then
+		mkdir -p "$DAVID/conf/defaults/"
 	fi
-	cp -f $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
+	cp -f $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
 fi
 
 if [ -f "/usr/lib/networkd-dispatcher/routable.d/50-ifup-hooks" ]; then
@@ -154,45 +154,45 @@ fi
 # Consolidate nginx (standalone) templates used by active websites
 if [ "$WEB_SYSTEM" = "nginx" ]; then
 	echo "[ * ] Consolidating nginx templates for Drupal & CodeIgniter..."
-	sed -i "s|TPL='drupal6'|TPL='drupal'|g" $HESTIA/data/users/*/web.conf
-	sed -i "s|TPL='drupal7'|TPL='drupal'|g" $HESTIA/data/users/*/web.conf
-	sed -i "s|TPL='drupal8'|TPL='drupal'|g" $HESTIA/data/users/*/web.conf
-	sed -i "s|TPL='codeigniter2'|TPL='codeigniter'|g" $HESTIA/data/users/*/web.conf
-	sed -i "s|TPL='codeigniter3'|TPL='codeigniter'|g" $HESTIA/data/users/*/web.conf
+	sed -i "s|TPL='drupal6'|TPL='drupal'|g" $DAVID/data/users/*/web.conf
+	sed -i "s|TPL='drupal7'|TPL='drupal'|g" $DAVID/data/users/*/web.conf
+	sed -i "s|TPL='drupal8'|TPL='drupal'|g" $DAVID/data/users/*/web.conf
+	sed -i "s|TPL='codeigniter2'|TPL='codeigniter'|g" $DAVID/data/users/*/web.conf
+	sed -i "s|TPL='codeigniter3'|TPL='codeigniter'|g" $DAVID/data/users/*/web.conf
 fi
 
 # Remove outdated nginx templates
 echo "[ * ] Removing outdated nginx templates..."
-rm -rf $HESTIA/data/templates/web/nginx/php-fpm/drupal6.*tpl
-rm -rf $HESTIA/data/templates/web/nginx/php-fpm/drupal7.*tpl
-rm -rf $HESTIA/data/templates/web/nginx/php-fpm/drupal8.*tpl
-rm -rf $HESTIA/data/templates/web/nginx/php-fpm/codeigniter2.*tpl
-rm -rf $HESTIA/data/templates/web/nginx/php-fpm/codeigniter3.*tpl
+rm -rf $DAVID/data/templates/web/nginx/php-fpm/drupal6.*tpl
+rm -rf $DAVID/data/templates/web/nginx/php-fpm/drupal7.*tpl
+rm -rf $DAVID/data/templates/web/nginx/php-fpm/drupal8.*tpl
+rm -rf $DAVID/data/templates/web/nginx/php-fpm/codeigniter2.*tpl
+rm -rf $DAVID/data/templates/web/nginx/php-fpm/codeigniter3.*tpl
 
 # Clean up old David controlled webapps
-if [ -d "$HESTIA/web/images/webapps/" ]; then
+if [ -d "$DAVID/web/images/webapps/" ]; then
 	echo "[ * ] Clean up old web apps code..."
-	rm -rf $HESTIA/web/images/webapps/
-	rm -rf $HESTIA/web/src/app/WebApp/Installers/LaravelSetup.php
-	rm -rf $HESTIA/web/src/app/WebApp/Installers/OpencartSetup.php
-	rm -rf $HESTIA/web/src/app/WebApp/Installers/PrestashopSetup.php
-	rm -rf $HESTIA/web/src/app/WebApp/Installers/SymfonySetup.php
-	rm -rf $HESTIA/web/src/app/WebApp/Installers/WordpressSetup.php
-	rm -rf $HESTIA/web/src/app/WebApp/Installers/Joomla
+	rm -rf $DAVID/web/images/webapps/
+	rm -rf $DAVID/web/src/app/WebApp/Installers/LaravelSetup.php
+	rm -rf $DAVID/web/src/app/WebApp/Installers/OpencartSetup.php
+	rm -rf $DAVID/web/src/app/WebApp/Installers/PrestashopSetup.php
+	rm -rf $DAVID/web/src/app/WebApp/Installers/SymfonySetup.php
+	rm -rf $DAVID/web/src/app/WebApp/Installers/WordpressSetup.php
+	rm -rf $DAVID/web/src/app/WebApp/Installers/Joomla
 fi
 
 # Update ClamAV configuration file
 if [ -f "/etc/clamav/clamd.conf" ]; then
 	cp -f $HESTIA_INSTALL_DIR/clamav/clamd.conf /etc/clamav/
-	$HESTIA/bin/v-add-user-notification admin 'ClamAV config has been overwritten' 'Warning: If you have manualy changed /etc/clamav/clamd.conf and any changes you made will be lost an backup has been created in the /root/dvp_backups folder with the original config. If you have not changed the config file you can ignore this message'
+	$DAVID/bin/v-add-user-notification admin 'ClamAV config has been overwritten' 'Warning: If you have manualy changed /etc/clamav/clamd.conf and any changes you made will be lost an backup has been created in the /root/dvp_backups folder with the original config. If you have not changed the config file you can ignore this message'
 fi
 
 ##### COMMANDS FOR V1.5.X
 
 # Back up default package and install latest version
-if [ -d $HESTIA/data/packages/ ]; then
+if [ -d $DAVID/data/packages/ ]; then
 	echo "[ * ] Migrating legacy default package for all users..."
-	$HESTIA/bin/v-rename-user-package default custom > /dev/null 2>&1
+	$DAVID/bin/v-rename-user-package default custom > /dev/null 2>&1
 	echo "[ * ] Replacing default package..."
-	cp -f $HESTIA_INSTALL_DIR/packages/default.pkg $HESTIA/data/packages/
+	cp -f $HESTIA_INSTALL_DIR/packages/default.pkg $DAVID/data/packages/
 fi

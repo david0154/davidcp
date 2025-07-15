@@ -18,9 +18,9 @@ type=${2-any}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -39,10 +39,10 @@ check_david_demo_mode
 
 # Define conf
 case $type in
-	web) conf="$HESTIA/data/users/*/web.conf" ;;
-	dns) conf="$HESTIA/data/users/*/dns.conf" ;;
-	mail) conf="$HESTIA/data/users/*/mail.conf" ;;
-	*) conf="$HESTIA/data/users/*/*.conf" ;;
+	web) conf="$DAVID/data/users/*/web.conf" ;;
+	dns) conf="$DAVID/data/users/*/dns.conf" ;;
+	mail) conf="$DAVID/data/users/*/mail.conf" ;;
+	*) conf="$DAVID/data/users/*/*.conf" ;;
 esac
 
 owner=$(grep -H "DOMAIN='$domain'" $conf | head -n 1 | cut -f7 -d '/')

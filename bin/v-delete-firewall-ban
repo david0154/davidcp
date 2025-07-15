@@ -21,11 +21,11 @@ iptables="/sbin/iptables"
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/firewall.sh
-source $HESTIA/func/firewall.sh
+source $DAVID/func/firewall.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -45,7 +45,7 @@ check_david_demo_mode
 # Self heal iptables links
 heal_iptables_links
 
-conf="$HESTIA/data/firewall/banlist.conf"
+conf="$DAVID/data/firewall/banlist.conf"
 if [ "$chain" == "ALL" ]; then
 	check_ip=$(grep "IP='$ipv4_cidr' CHAIN='*'" $conf)
 	if [ -z "$check_ip" ]; then

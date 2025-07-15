@@ -4,7 +4,7 @@
 #
 # example: v-revoke-api-key mykey
 #
-# This function removes a key from in $HESTIA/data/keys/
+# This function removes a key from in $DAVID/data/keys/
 
 #----------------------------------------------------------#
 #                Variables & Functions                     #
@@ -14,9 +14,9 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                Variables & Functions                     #
@@ -35,12 +35,12 @@ check_david_demo_mode
 #                       Action                             #
 #----------------------------------------------------------#
 
-if [ ! -d "$HESTIA/data/keys/" ]; then
+if [ ! -d "$DAVID/data/keys/" ]; then
 	exit "$E_NOTEXIST"
 fi
 
-if [[ -e "$HESTIA/data/keys/$hash" ]]; then
-	rm $HESTIA/data/keys/$hash
+if [[ -e "$DAVID/data/keys/$hash" ]]; then
+	rm $DAVID/data/keys/$hash
 else
 	exit "$E_NOTEXIST"
 fi

@@ -8,7 +8,7 @@
 
 # Add NPM to the default writeable folder list
 echo "[ * ] Updating default writable folders for all users..."
-for user in $($HESTIA/bin/v-list-sys-users plain); do
+for user in $($DAVID/bin/v-list-sys-users plain); do
 	mkdir -p \
 		$HOMEDIR/$user/.npm
 
@@ -27,7 +27,7 @@ if [ "$PROXY_SYSTEM" = "nginx" ]; then
 				-e "s/%proxy_port%/$PROXY_PORT/g" \
 				-e "s/%proxy_ssl_port%/$PROXY_SSL_PORT/g" \
 				> /etc/$PROXY_SYSTEM/conf.d/$IP.conf
-	done < <(ls $HESTIA/data/ips/)
+	done < <(ls $DAVID/data/ips/)
 fi
 
 if [ "$FTP_SYSTEM" == "proftpd" ]; then
@@ -70,7 +70,7 @@ echo "[ * ] Updating configuration file: david.conf..."
 $BIN/v-change-sys-config-value "LOGIN_STYLE" "default"
 
 # Remove old lanugage files.
-if [ -e $HESTIA/web/inc/i18n/en.php ]; then
+if [ -e $DAVID/web/inc/i18n/en.php ]; then
 	echo "[ * ] Performing language library clean-up..."
-	rm -fr $HESTIA/web/inc/i18n
+	rm -fr $DAVID/web/inc/i18n
 fi

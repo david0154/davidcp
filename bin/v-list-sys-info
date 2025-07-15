@@ -17,13 +17,13 @@ format=${1-shell}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Retrieve David Control Panel version number
-HESTIA_VERSION=$(grep VERSION $HESTIA/conf/david.conf | cut -d '=' -f2 | sed "s|'||g")
-HESTIA_RELEASE=$(grep RELEASE_BRANCH $HESTIA/conf/david.conf | cut -d '=' -f2 | sed "s|'||g")
+HESTIA_VERSION=$(grep VERSION $DAVID/conf/david.conf | cut -d '=' -f2 | sed "s|'||g")
+HESTIA_RELEASE=$(grep RELEASE_BRANCH $DAVID/conf/david.conf | cut -d '=' -f2 | sed "s|'||g")
 
 # JSON list function
 json_list() {
@@ -33,7 +33,7 @@ json_list() {
         "OS": "'$OS'",
         "VERSION": "'$VERSION'",
         "ARCH": "'$ARCH'",
-        "HESTIA": "'$HESTIA_VERSION'",
+        "DAVID": "'$HESTIA_VERSION'",
         "RELEASE": "'$HESTIA_RELEASE'",
         "UPTIME": "'$UPTIME'",
         "LOADAVERAGE": "'$LOADAVERAGE'"
@@ -43,7 +43,7 @@ json_list() {
 
 # SHELL list function
 shell_list() {
-	echo "HOSTNAME   OS   VER   ARCH  HESTIA  RELEASE  UPTIME   LA"
+	echo "HOSTNAME   OS   VER   ARCH  DAVID  RELEASE  UPTIME   LA"
 	echo "--------   --   ---   ----  ------  -------  ------   --"
 	echo "$HOSTNAME $OS $VERSION $ARCH $HESTIA_VERSION $HESTIA_RELEASE $UPTIME $LOADAVERAGE"
 }
@@ -55,7 +55,7 @@ plain_list() {
 
 # CSV list function
 csv_list() {
-	echo "HOSTNAME,OS,VERSION,ARCH,HESTIA,RELEASE,UPTIME,LOADAVERAGE"
+	echo "HOSTNAME,OS,VERSION,ARCH,DAVID,RELEASE,UPTIME,LOADAVERAGE"
 	echo "$HOSTNAME,$OS,$VERSION,$ARCH,$HESTIA_VERSION,$HESTIA_RELEASE,$UPTIME,$LOADAVERAGE"
 }
 

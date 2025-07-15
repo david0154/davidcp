@@ -7,7 +7,7 @@ After=network.target
 User=root
 Group=david-users
 Environment=NODE_ENV=production
-Environment=HESTIA=/usr/local/david
+Environment=DAVID=/usr/local/david
 ExecStart=/usr/local/david/web-terminal/server.js
 ExecStop=/bin/kill -s TERM $MAINPID
 Restart=on-failure

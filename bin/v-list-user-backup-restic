@@ -18,15 +18,15 @@ format=${3-plain}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # shellcheck source=/usr/local/david/func/db.sh
-source $HESTIA/func/db.sh
+source $DAVID/func/db.sh
 # shellcheck source=/usr/local/david/func/backup.sh
-source $HESTIA/func/backup.sh
+source $DAVID/func/backup.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -84,7 +84,7 @@ plain_list() {
 	echo -e "$UDIR\t$RUNTIME\t$TIME\t$DATE"
 }
 
-source_conf $HESTIA/conf/restic.conf
+source_conf $DAVID/conf/restic.conf
 
 restic --repo "$REPO$user" --password-file $USER_DATA/restic.conf --json dump $snapshot /home/$user/backup/backup.conf > /home/$user/tmp/backup.conf
 

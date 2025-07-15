@@ -9,12 +9,12 @@ fi
 lang=${1-all}
 
 if [ "$lang" == "all" ]; then
-	languages=$(ls -d "$HESTIA/web/locale/*/" | awk -F'/' '{print $(NF-1)}')
+	languages=$(ls -d "$DAVID/web/locale/*/" | awk -F'/' '{print $(NF-1)}')
 	for lang in $languages; do
 		echo "[ * ] Update $lang "
-		msgfmt "$HESTIA/web/locale/$lang/LC_MESSAGES/davidcp.po" -o "$HESTIA/web/locale/$lang/LC_MESSAGES/davidcp.mo"
+		msgfmt "$DAVID/web/locale/$lang/LC_MESSAGES/davidcp.po" -o "$DAVID/web/locale/$lang/LC_MESSAGES/davidcp.mo"
 	done
 else
 	echo "[ * ] Update $lang "
-	msgfmt "$HESTIA/web/locale/$lang/LC_MESSAGES/davidcp.po" -o "$HESTIA/web/locale/$lang/LC_MESSAGES/davidcp.mo"
+	msgfmt "$DAVID/web/locale/$lang/LC_MESSAGES/davidcp.po" -o "$DAVID/web/locale/$lang/LC_MESSAGES/davidcp.mo"
 fi

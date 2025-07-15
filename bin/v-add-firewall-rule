@@ -23,24 +23,24 @@ rule=$6
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Get next firewall rule id
 get_next_fw_rule() {
 	if [ -z "$rule" ]; then
-		curr_str=$(grep "RULE=" $HESTIA/data/firewall/rules.conf \
+		curr_str=$(grep "RULE=" $DAVID/data/firewall/rules.conf \
 			| cut -f 2 -d \' | sort -n | tail -n1)
 		rule="$((curr_str + 1))"
 	fi
 }
 
 sort_fw_rules() {
-	cat $HESTIA/data/firewall/rules.conf \
-		| sort -n -k 2 -t \' > $HESTIA/data/firewall/rules.conf.tmp
-	mv -f $HESTIA/data/firewall/rules.conf.tmp \
-		$HESTIA/data/firewall/rules.conf
+	cat $DAVID/data/firewall/rules.conf \
+		| sort -n -k 2 -t \' > $DAVID/data/firewall/rules.conf.tmp
+	mv -f $DAVID/data/firewall/rules.conf.tmp \
+		$DAVID/data/firewall/rules.conf
 }
 
 #----------------------------------------------------------#
@@ -82,10 +82,10 @@ str="$str IP='$ipv4_cidr' COMMENT='$comment' SUSPENDED='no'"
 str="$str TIME='$time' DATE='$date'"
 
 # Adding to config
-echo "$str" >> $HESTIA/data/firewall/rules.conf
+echo "$str" >> $DAVID/data/firewall/rules.conf
 
 # Changing permissions
-chmod 660 $HESTIA/data/firewall/rules.conf
+chmod 660 $DAVID/data/firewall/rules.conf
 
 # Sorting firewall rules by id number
 sort_fw_rules

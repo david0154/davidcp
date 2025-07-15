@@ -25,7 +25,7 @@ v-add-access-key admin v-purge-nginx-cache,v-list-mail-accounts comment json
 ```
 
 The "PERMISSIONS" argument is optional for the admin user only.
-This function creates a key file in $HESTIA/data/access-keys/
+This function creates a key file in $DAVID/data/access-keys/
 
 ## v-add-backup-host
 
@@ -2505,7 +2505,7 @@ check api key
 v-check-api-key random_key 127.0.0.1
 ```
 
-This function checks a key file in $HESTIA/data/keys/
+This function checks a key file in $DAVID/data/keys/
 
 ## v-check-fs-permission
 
@@ -2650,7 +2650,7 @@ delete access key
 v-delete-access-key mykey
 ```
 
-This function removes a key from in $HESTIA/data/access-keys/
+This function removes a key from in $DAVID/data/access-keys/
 
 ## v-delete-backup-host
 
@@ -4011,7 +4011,7 @@ generate api key
 
 **Options**: –
 
-This function creates a key file in $HESTIA/data/keys/
+This function creates a key file in $DAVID/data/keys/
 
 ## v-generate-password-hash
 
@@ -6227,7 +6227,7 @@ revokes api key
 v-revoke-api-key mykey
 ```
 
-This function removes a key from in $HESTIA/data/keys/
+This function removes a key from in $DAVID/data/keys/
 
 ## v-run-cli-cmd
 

@@ -18,9 +18,9 @@ format=${2-shell}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # JSON list function
 json_list() {
@@ -120,12 +120,12 @@ is_common_format_valid $type "type"
 #----------------------------------------------------------#
 
 # Checking backup config
-if [ ! -e "$HESTIA/conf/$type.backup.conf" ]; then
+if [ ! -e "$DAVID/conf/$type.backup.conf" ]; then
 	exit
 fi
 
 # Parsing backup config
-source_conf "$HESTIA/conf/$type.backup.conf"
+source_conf "$DAVID/conf/$type.backup.conf"
 
 # Listing data
 case $format in

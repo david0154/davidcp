@@ -23,19 +23,19 @@ fi
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # shellcheck source=/usr/local/david/func/ip.sh
-source $HESTIA/func/ip.sh
+source $DAVID/func/ip.sh
 # shellcheck source=/usr/local/david/func/db.sh
-source $HESTIA/func/db.sh
+source $DAVID/func/db.sh
 # shellcheck source=/usr/local/david/func/rebuild.sh
-source $HESTIA/func/rebuild.sh
+source $DAVID/func/rebuild.sh
 # shellcheck source=/usr/local/david/func/backup.sh
-source $HESTIA/func/backup.sh
+source $DAVID/func/backup.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -55,7 +55,7 @@ check_david_demo_mode
 disk_usage=$(df $BACKUP | tail -n1 | tr ' ' '\n' | grep % | cut -f 1 -d %)
 if [ "$disk_usage" -ge "$BACKUP_DISK_LIMIT" ]; then
 	echo "Error: Not enough disk space" | $SENDMAIL -s "$subj" $email $notify
-	sed -i "/ $user /d" $HESTIA/data/queue/backup.pipe
+	sed -i "/ $user /d" $DAVID/data/queue/backup.pipe
 	check_result $E_DISK "Not enough disk space"
 fi
 
@@ -84,7 +84,7 @@ if [ ! -e "$BACKUP/$backup" ]; then
 	if [ -z "$downloaded" ]; then
 		subj="Download of $backup failed for $user"
 		$BIN/v-add-user-notification $user "$subj" "<p class'u-text-bold'>Unable to retrieve backup file from remote server.</p><p><span class='u-text-bold'>Error:</span> $backup file doesn't exist in <code>'${BACKUP}'</code> directory.</p>"
-		sed -i "/v-download-backup $user /d" $HESTIA/data/queue/backup.pipe
+		sed -i "/v-download-backup $user /d" $DAVID/data/queue/backup.pipe
 		check_result "$E_NOTEXIST" "backup file $backup doesn't exist in '${BACKUP}' folder"
 	else
 		if [ -e "$BACKUP/$backup" ]; then
@@ -109,7 +109,7 @@ if [ -e "$BACKUP/$backup" ]; then
 fi
 
 # Cleaning restore queue
-sed -i "/v-download-backup $user /d" $HESTIA/data/queue/backup.pipe
+sed -i "/v-download-backup $user /d" $DAVID/data/queue/backup.pipe
 
 # Logging
 $BIN/v-log-action "system" "Info" "Backup" "Backup download requested (User: $user, Archive: $backup)."

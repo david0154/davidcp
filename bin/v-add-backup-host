@@ -28,13 +28,13 @@ arch=$(arch)
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/backup.sh
-source $HESTIA/func/backup.sh
+source $DAVID/func/backup.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 # Fetch current verison B2 CLI tool
-source_conf "$HESTIA/install/upgrade/upgrade.conf"
+source_conf "$DAVID/install/upgrade/upgrade.conf"
 
 # Paths
 b2cli="/usr/local/bin/b2"
@@ -205,19 +205,19 @@ if [ $type == 'ftp' ] || [ $type = 'sftp' ]; then
 	new_timestamp
 	str="HOST='$host'\nUSERNAME='$user'\nPASSWORD='$password'\nPRIVATEKEY='$privatekey'"
 	str="$str\nBPATH='$path'\nPORT='$port'\nTIME='$time'\nDATE='$date'"
-	echo -e "$str" > $HESTIA/conf/$type.backup.conf
-	chmod 660 $HESTIA/conf/$type.backup.conf
+	echo -e "$str" > $DAVID/conf/$type.backup.conf
+	chmod 660 $DAVID/conf/$type.backup.conf
 elif [ $type == 'b2' ]; then
 	new_timestamp
 	str="BUCKET='$host'\nB2_KEYID='$user'\nB2_KEY='$raw_password'"
 	str="$str\nTIME='$time'\nDATE='$date'"
-	echo -e "$str" > $HESTIA/conf/$type.backup.conf
-	chmod 660 $HESTIA/conf/$type.backup.conf
+	echo -e "$str" > $DAVID/conf/$type.backup.conf
+	chmod 660 $DAVID/conf/$type.backup.conf
 elif [ $type == "rclone" ]; then
 	new_timestamp
 	str="HOST='$host'\nBPATH='$path'"
 	str="$str\nTIME='$time'\nDATE='$date'"
-	echo -e "$str" > $HESTIA/conf/$type.backup.conf
+	echo -e "$str" > $DAVID/conf/$type.backup.conf
 fi
 
 #----------------------------------------------------------#
@@ -225,15 +225,15 @@ fi
 #----------------------------------------------------------#
 
 # Update david.conf
-if [ -z "$(grep BACKUP_SYSTEM $HESTIA/conf/david.conf)" ]; then
-	echo "BACKUP_SYSTEM='$type'" >> $HESTIA/conf/david.conf
+if [ -z "$(grep BACKUP_SYSTEM $DAVID/conf/david.conf)" ]; then
+	echo "BACKUP_SYSTEM='$type'" >> $DAVID/conf/david.conf
 else
 	bckp=$(echo "$BACKUP_SYSTEM,$type" \
 		| sed "s/,/\n/g" \
 		| sort -r -u \
 		| sed "/^$/d" \
 		| sed ':a;N;$!ba;s/\n/,/g')
-	sed -i "s/BACKUP_SYSTEM=.*/BACKUP_SYSTEM='$bckp'/g" $HESTIA/conf/david.conf
+	sed -i "s/BACKUP_SYSTEM=.*/BACKUP_SYSTEM='$bckp'/g" $DAVID/conf/david.conf
 fi
 
 # Logging

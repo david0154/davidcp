@@ -18,9 +18,9 @@ token=$2
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -44,7 +44,7 @@ if [ -z "$TWOFA" ]; then
 fi
 
 # Check if token is valid
-result=$($HESTIA_PHP $HESTIA/web/inc/2fa/check.php "$TWOFA" "$token")
+result=$($HESTIA_PHP $DAVID/web/inc/2fa/check.php "$TWOFA" "$token")
 if [ "$result" != "ok" ]; then
 	echo "Error: Authentication token mismatch."
 	exit 9

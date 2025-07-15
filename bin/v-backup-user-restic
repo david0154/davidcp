@@ -17,15 +17,15 @@ notify=${2-no}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # shellcheck source=/usr/local/david/func/db.sh
-source $HESTIA/func/db.sh
+source $DAVID/func/db.sh
 # shellcheck source=/usr/local/david/func/backup.sh
-source $HESTIA/func/backup.sh
+source $DAVID/func/backup.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -47,9 +47,9 @@ check_david_demo_mode
 
 # Set notification email and subject
 subj="$user → backup failed"
-email=$(grep CONTACT "$HESTIA/data/users/$ROOT_USER/user.conf" | cut -f 2 -d \')
+email=$(grep CONTACT "$DAVID/data/users/$ROOT_USER/user.conf" | cut -f 2 -d \')
 
-source_conf $HESTIA/conf/restic.conf
+source_conf $DAVID/conf/restic.conf
 
 if [ ! -f "$USER_DATA/restic.conf" ]; then
 	password=$(generate_password '' '32')
@@ -107,7 +107,7 @@ if [ -e "$BACKUP/$user.log" ] && [ "$notify" = "yes" ]; then
 fi
 
 # Deleting task from queue
-sed -i "/v-backup-user-restic $user /d" $HESTIA/data/queue/backup.pipe
+sed -i "/v-backup-user-restic $user /d" $DAVID/data/queue/backup.pipe
 
 # Logging
 $BIN/v-log-action "$user" "Info" "Backup" "Backup created."

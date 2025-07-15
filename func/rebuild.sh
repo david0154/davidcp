@@ -63,8 +63,8 @@ rebuild_user_conf() {
 		sed -i "/MAIL_ACCOUNTS/a RATE_LIMIT='200'" $USER_DATA/user.conf
 	fi
 	# Run template trigger
-	if [ -x "$HESTIA/data/packages/$PACKAGE.sh" ]; then
-		$HESTIA/data/packages/$PACKAGE.sh "$user" "$CONTACT" "$NAME"
+	if [ -x "$DAVID/data/packages/$PACKAGE.sh" ]; then
+		$DAVID/data/packages/$PACKAGE.sh "$user" "$CONTACT" "$NAME"
 	fi
 
 	# Rebuild user
@@ -127,8 +127,8 @@ rebuild_user_conf() {
 	$BIN/v-add-user-sftp-jail "$user"
 
 	# Update disk pipe
-	sed -i "/ $user$/d" $HESTIA/data/queue/disk.pipe
-	echo "$BIN/v-update-user-disk $user" >> $HESTIA/data/queue/disk.pipe
+	sed -i "/ $user$/d" $DAVID/data/queue/disk.pipe
+	echo "$BIN/v-update-user-disk $user" >> $DAVID/data/queue/disk.pipe
 
 	# WEB
 	if [ -n "$WEB_SYSTEM" ] && [ "$WEB_SYSTEM" != 'no' ]; then
@@ -136,12 +136,12 @@ rebuild_user_conf() {
 		chmod 770 $USER_DATA/ssl
 		touch $USER_DATA/web.conf
 		chmod 660 $USER_DATA/web.conf
-		if [ "$(grep -w $user $HESTIA/data/queue/traffic.pipe)" ]; then
+		if [ "$(grep -w $user $DAVID/data/queue/traffic.pipe)" ]; then
 			echo "$BIN/v-update-web-domains-traff $user" \
-				>> $HESTIA/data/queue/traffic.pipe
+				>> $DAVID/data/queue/traffic.pipe
 		fi
 		echo "$BIN/v-update-web-domains-disk $user" \
-			>> $HESTIA/data/queue/disk.pipe
+			>> $DAVID/data/queue/disk.pipe
 
 		if [[ -L "$HOMEDIR/$user/web" ]]; then
 			rm $HOMEDIR/$user/web
@@ -184,7 +184,7 @@ rebuild_user_conf() {
 		touch $USER_DATA/mail.conf
 		chmod 660 $USER_DATA/mail.conf
 		echo "$BIN/v-update-mail-domains-disk $user" \
-			>> $HESTIA/data/queue/disk.pipe
+			>> $DAVID/data/queue/disk.pipe
 
 		if [[ -L "$HOMEDIR/$user/mail" ]]; then
 			rm $HOMEDIR/$user/mail
@@ -201,7 +201,7 @@ rebuild_user_conf() {
 	if [ -n "$DB_SYSTEM" ] && [ "$DB_SYSTEM" != 'no' ]; then
 		touch $USER_DATA/db.conf
 		chmod 660 $USER_DATA/db.conf
-		echo "$BIN/v-update-databases-disk $user" >> $HESTIA/data/queue/disk.pipe
+		echo "$BIN/v-update-databases-disk $user" >> $DAVID/data/queue/disk.pipe
 
 		if [ "$create_user" = "yes" ]; then
 			$BIN/v-rebuild-databases $user
@@ -366,9 +366,9 @@ rebuild_web_domain_conf() {
 		fi
 
 		webstats="$BIN/v-update-web-domain-stat $user $domain"
-		check_webstats=$(grep "$webstats" $HESTIA/data/queue/webstats.pipe)
+		check_webstats=$(grep "$webstats" $DAVID/data/queue/webstats.pipe)
 		if [ -z "$check_webstats" ]; then
-			echo "$webstats" >> $HESTIA/data/queue/webstats.pipe
+			echo "$webstats" >> $DAVID/data/queue/webstats.pipe
 		fi
 
 		if [ -n "$STATS_USER" ]; then
@@ -845,7 +845,7 @@ rebuild_mysql_database() {
 # Rebuild PostgreSQL
 rebuild_pgsql_database() {
 
-	host_str=$(grep "HOST='$HOST'" $HESTIA/conf/pgsql.conf)
+	host_str=$(grep "HOST='$HOST'" $DAVID/conf/pgsql.conf)
 	parse_object_kv_list "$host_str"
 	export PGPASSWORD="$PASSWORD"
 	if [ -z $HOST ] || [ -z $USER ] || [ -z $PASSWORD ] || [ -z $TPL ]; then
@@ -893,7 +893,7 @@ rebuild_pgsql_database() {
 # Import MySQL dump
 import_mysql_database() {
 
-	host_str=$(grep "HOST='$HOST'" $HESTIA/conf/mysql.conf)
+	host_str=$(grep "HOST='$HOST'" $DAVID/conf/mysql.conf)
 	parse_object_kv_list "$host_str"
 	if [ -z $HOST ] || [ -z $USER ] || [ -z $PASSWORD ]; then
 		echo "Error: mysql config parsing failed"
@@ -911,7 +911,7 @@ import_mysql_database() {
 # Import PostgreSQL dump
 import_pgsql_database() {
 
-	host_str=$(grep "HOST='$HOST'" $HESTIA/conf/pgsql.conf)
+	host_str=$(grep "HOST='$HOST'" $DAVID/conf/pgsql.conf)
 	parse_object_kv_list "$host_str"
 	export PGPASSWORD="$PASSWORD"
 	if [ -z $HOST ] || [ -z $USER ] || [ -z $PASSWORD ] || [ -z $TPL ]; then

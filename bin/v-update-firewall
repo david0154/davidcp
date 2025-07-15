@@ -20,11 +20,11 @@ source /etc/profile.d/david.sh
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source "$HESTIA/func/main.sh"
+source "$DAVID/func/main.sh"
 # shellcheck source=/usr/local/david/func/firewall.sh
-source "$HESTIA/func/firewall.sh"
+source "$DAVID/func/firewall.sh"
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -40,7 +40,7 @@ is_system_enabled "$FIREWALL_SYSTEM" 'FIREWALL_SYSTEM'
 heal_iptables_links
 
 # Checking local IPv4 rules
-rules="$HESTIA/data/firewall/rules.conf"
+rules="$DAVID/data/firewall/rules.conf"
 
 if [ ! -e "$rules" ]; then
 	exit
@@ -60,8 +60,8 @@ if [ $? -ne 0 ]; then
 	conntrack_ftp='no'
 fi
 
-chains="$HESTIA/data/firewall/chains.conf"
-banlist="$HESTIA/data/firewall/banlist.conf"
+chains="$DAVID/data/firewall/chains.conf"
+banlist="$DAVID/data/firewall/banlist.conf"
 
 # Checking custom OpenSSH port (or ports)
 sshport="$($BIN/v-list-sys-sshd-port plain | sed ':a;N;$!ba;s/\n/,/g')"
@@ -91,7 +91,7 @@ if [ "$conntrack" != 'no' ] || grep --quiet container=lxc /proc/1/environ; then
 	echo "$str" >> "$tmp"
 fi
 
-ips="$(ls $HESTIA/data/ips)"
+ips="$(ls $DAVID/data/ips)"
 # Handling local traffic
 for ip in $ips; do
 	echo "$iptables -A INPUT -s $ip -j ACCEPT" >> "$tmp"
@@ -154,8 +154,8 @@ bash "$tmp" 2> /dev/null
 rm -f "$tmp"
 
 # Checking custom trigger
-if [ -x "$HESTIA/data/firewall/custom.sh" ]; then
-	bash "$HESTIA/data/firewall/custom.sh"
+if [ -x "$DAVID/data/firewall/custom.sh" ]; then
+	bash "$DAVID/data/firewall/custom.sh"
 fi
 
 # Checking fail2ban support
@@ -206,7 +206,7 @@ else
 		echo "[Service]" >> $sd_unit
 		echo "Type=oneshot" >> $sd_unit
 		echo "RemainAfterExit=yes" >> $sd_unit
-		echo "ExecStartPre=-${HESTIA}/bin/v-update-firewall-ipset load" >> $sd_unit
+		echo "ExecStartPre=-${DAVID}/bin/v-update-firewall-ipset load" >> $sd_unit
 		if [ "$iptablesversion" = "v1.6" ]; then
 			echo "ExecStart=/sbin/iptables-restore /etc/iptables.rules" >> $sd_unit
 		else

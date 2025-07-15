@@ -19,11 +19,11 @@ aliases=$3
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -56,7 +56,7 @@ $BIN/v-add-cron-letsencrypt-job
 
 # Adding LE task
 echo "$BIN/v-add-letsencrypt-domain $user $domain '$aliases' no yes" \
-	>> $HESTIA/data/queue/letsencrypt.pipe
+	>> $DAVID/data/queue/letsencrypt.pipe
 
 #----------------------------------------------------------#
 #                       David                             #

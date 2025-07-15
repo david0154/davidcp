@@ -17,9 +17,9 @@ user=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Perform verification if read-only mode is enabled
 check_david_demo_mode
@@ -40,9 +40,9 @@ fi
 
 # Set correct path for log file (system or user)
 if [ "$user" = "system" ]; then
-	log_file="$HESTIA/log/activity.log"
+	log_file="$DAVID/log/activity.log"
 else
-	log_file="$HESTIA/data/users/$user/history.log"
+	log_file="$DAVID/data/users/$user/history.log"
 fi
 
 # Verify log file exists before deleting to prevent errors

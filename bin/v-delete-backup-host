@@ -17,9 +17,9 @@ type=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -41,7 +41,7 @@ check_david_demo_mode
 #----------------------------------------------------------#
 
 # Deleting host config
-rm -f $HESTIA/conf/$type.backup.conf
+rm -f $DAVID/conf/$type.backup.conf
 
 #----------------------------------------------------------#
 #                       David                             #
@@ -53,7 +53,7 @@ bckp=$(echo "$BACKUP_SYSTEM" \
 	| sed "s/^$type$//" \
 	| sed "/^$/d" \
 	| sed ':a;N;$!ba;s/\n/,/g')
-sed -i "s/BACKUP_SYSTEM=.*/BACKUP_SYSTEM='$bckp'/g" $HESTIA/conf/david.conf
+sed -i "s/BACKUP_SYSTEM=.*/BACKUP_SYSTEM='$bckp'/g" $DAVID/conf/david.conf
 
 # Logging
 $BIN/v-log-action "system" "Info" "Backup" "Removed remote backup host (Host: $host, Type: $type)."

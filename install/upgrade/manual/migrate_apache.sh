@@ -9,9 +9,9 @@
 
 # Includes
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/conf/david.conf
-source $HESTIA/conf/david.conf
+source $DAVID/conf/david.conf
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -42,13 +42,13 @@ if [ ! -z "$WEB_SYSTEM" ]; then
 	cp -rf "${HESTIA_INSTALL_DIR}/templates/web/$WEB_SYSTEM" "${WEBTPL}/"
 fi
 
-sed -i "/^WEB_BACKEND=/d" $HESTIA/conf/david.conf $HESTIA/conf/defaults/david.conf
-echo "WEB_BACKEND='php-fpm'" >> $HESTIA/conf/david.conf
-echo "WEB_BACKEND='php-fpm'" >> $HESTIA/conf/defaults/david.conf
+sed -i "/^WEB_BACKEND=/d" $DAVID/conf/david.conf $DAVID/conf/defaults/david.conf
+echo "WEB_BACKEND='php-fpm'" >> $DAVID/conf/david.conf
+echo "WEB_BACKEND='php-fpm'" >> $DAVID/conf/defaults/david.conf
 
 for user in $($BIN/v-list-sys-users plain); do
 	# Define user data and get suspended status
-	USER_DATA=$HESTIA/data/users/$user
+	USER_DATA=$DAVID/data/users/$user
 	SUSPENDED=$(get_user_value '$SUSPENDED')
 
 	# Check if user is suspended

@@ -25,14 +25,14 @@ iptables="/sbin/iptables"
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source "$HESTIA/func/main.sh"
+source "$DAVID/func/main.sh"
 # shellcheck source=/usr/local/david/func/firewall.sh
-source "$HESTIA/func/firewall.sh"
+source "$DAVID/func/firewall.sh"
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Get david port by reading nginx.conf
-davidport=$(sed -ne "/listen/{s/.*listen[^0-9]*\([0-9][0-9]*\)[ \t]*ssl\;/\1/p;q}" "$HESTIA/nginx/conf/nginx.conf")
+davidport=$(sed -ne "/listen/{s/.*listen[^0-9]*\([0-9][0-9]*\)[ \t]*ssl\;/\1/p;q}" "$DAVID/nginx/conf/nginx.conf")
 if [ -z "$davidport" ]; then
 	davidport=8083
 fi
@@ -85,7 +85,7 @@ case $chain in
 		port='3306,5432'
 		protocol=TCP
 		;;
-	HESTIA)
+	DAVID)
 		port=$davidport
 		protocol=TCP
 		;;
@@ -111,7 +111,7 @@ if [ $? -eq 0 ]; then
 fi
 
 # Preserving chain
-chains="$HESTIA/data/firewall/chains.conf"
+chains="$DAVID/data/firewall/chains.conf"
 check_chain=""
 [ -f "$chains" ] && check_chain=$(grep "CHAIN='$chain'" "$chains")
 if [ -z "$check_chain" ]; then

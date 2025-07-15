@@ -8,7 +8,7 @@
 
 # Import system health check and repair library
 # shellcheck source=/usr/local/david/func/syshealth.sh
-source $HESTIA/func/syshealth.sh
+source $DAVID/func/syshealth.sh
 
 #####################################################################
 #######                Functions & Initialization             #######
@@ -205,7 +205,7 @@ upgrade_send_notification_to_email() {
 	if [ "$UPGRADE_SEND_EMAIL" = "true" ]; then
 		# Retrieve admin email address, sendmail path, and message temp file path
 		admin_email=$($BIN/v-list-user "$ROOT_USER" json | grep "CONTACT" | cut -d'"' -f4)
-		send_mail="$HESTIA/web/inc/mail-wrapper.php"
+		send_mail="$DAVID/web/inc/mail-wrapper.php"
 		message_tmp_file="/tmp/david-upgrade-complete.txt"
 
 		# Create temporary file
@@ -247,7 +247,7 @@ upgrade_send_notification_to_email() {
 upgrade_send_log_to_email() {
 	if [ "$UPGRADE_SEND_EMAIL_LOG" = "true" ]; then
 		admin_email=$($BIN/v-list-user $ROOT_USER json | grep "CONTACT" | cut -d'"' -f4)
-		send_mail="$HESTIA/web/inc/mail-wrapper.php"
+		send_mail="$DAVID/web/inc/mail-wrapper.php"
 		cat $LOG | $send_mail -s "Update Installation Log - v${new_version}" $admin_email
 	fi
 }
@@ -271,7 +271,7 @@ prepare_upgrade_config() {
 			rhs="${rhs#\'*}"   # Del closing string quotes
 			echo "$lhs='$rhs'" >> $HESTIA_BACKUP/upgrade.conf
 		fi
-	done < "$HESTIA/install/upgrade/upgrade.conf"
+	done < "$DAVID/install/upgrade/upgrade.conf"
 }
 
 upgrade_init_backup() {
@@ -363,12 +363,12 @@ upgrade_start_backup() {
 	if [ "$DEBUG_MODE" = "true" ]; then
 		echo "      - Packages"
 	fi
-	cp -fr $HESTIA/data/packages/* $HESTIA_BACKUP/packages/
+	cp -fr $DAVID/data/packages/* $HESTIA_BACKUP/packages/
 
 	if [ "$DEBUG_MODE" = "true" ]; then
 		echo "      - Templates"
 	fi
-	cp -fr $HESTIA/data/templates/* $HESTIA_BACKUP/templates/
+	cp -fr $DAVID/data/templates/* $HESTIA_BACKUP/templates/
 
 	if [ "$DEBUG_MODE" = "true" ]; then
 		echo "      - Configuration files:"
@@ -378,7 +378,7 @@ upgrade_start_backup() {
 	if [ "$DEBUG_MODE" = "true" ]; then
 		echo "      ---- david"
 	fi
-	cp -fr $HESTIA/conf/* $HESTIA_BACKUP/conf/david/
+	cp -fr $DAVID/conf/* $HESTIA_BACKUP/conf/david/
 
 	# OpenSSL configuration files
 	if [ "$DEBUG_MODE" = "true" ]; then
@@ -503,7 +503,7 @@ upgrade_start_routine() {
 	VERSION=$(echo "$VERSION" | sed "s/~\([a-zA-Z0-9].*\)//g")
 
 	# Get list of all available version steps and create array
-	upgrade_steps=$(ls -v $HESTIA/install/upgrade/versions/*.sh)
+	upgrade_steps=$(ls -v $DAVID/install/upgrade/versions/*.sh)
 	for script in $upgrade_steps; do
 		declare -a available_versions
 		available_versions+=($(echo $script | sed "s|/usr/local/david/install/upgrade/versions/||g" | sed "s|.sh||g"))
@@ -520,7 +520,7 @@ upgrade_start_routine() {
 		for version_step in "${available_versions[@]}"; do
 			if [ $(check_version $VERSION) -lt $(check_version "$version_step") ]; then
 				upgrade_step_message
-				source $HESTIA/install/upgrade/versions/$version_step.sh
+				source $DAVID/install/upgrade/versions/$version_step.sh
 			fi
 		done
 		upgrade_set_version "$VERSION"
@@ -530,8 +530,8 @@ upgrade_start_routine() {
 		echo "[ ! ] The latest version of David Control Panel is already installed."
 		echo "      Verifying configuration..."
 		echo ""
-		if [ -e "$HESTIA/install/upgrade/versions/$VERSION.sh" ]; then
-			source $HESTIA/install/upgrade/versions/$VERSION.sh
+		if [ -e "$DAVID/install/upgrade/versions/$VERSION.sh" ]; then
+			source $DAVID/install/upgrade/versions/$VERSION.sh
 		fi
 		VERSION="$new_version"
 		upgrade_set_version "$VERSION"
@@ -672,10 +672,10 @@ upgrade_phpmyadmin() {
 }
 
 upgrade_filemanager() {
-	FILE_MANAGER_CHECK=$(cat $HESTIA/conf/david.conf | grep "FILE_MANAGER='false'")
+	FILE_MANAGER_CHECK=$(cat $DAVID/conf/david.conf | grep "FILE_MANAGER='false'")
 	if [ -z "$FILE_MANAGER_CHECK" ]; then
-		if [ -f "$HESTIA/web/fm/version" ]; then
-			fm_version=$(cat $HESTIA/web/fm/version)
+		if [ -f "$DAVID/web/fm/version" ]; then
+			fm_version=$(cat $DAVID/web/fm/version)
 		else
 			fm_version="1.0.0"
 		fi
@@ -688,13 +688,13 @@ upgrade_filemanager() {
 			echo "[ * ] File Manager is up to date ($fm_v)..."
 
 			if [ "$UPGRADE_UPDATE_FILEMANAGER_CONFIG" = "true" ]; then
-				if [ -e "$HESTIA/web/fm/configuration.php" ]; then
+				if [ -e "$DAVID/web/fm/configuration.php" ]; then
 					echo "[ ! ] Updating File Manager configuration..."
 					# Update configuration.php
-					cp -f $HESTIA_INSTALL_DIR/filemanager/filegator/configuration.php $HESTIA/web/fm/configuration.php
+					cp -f $HESTIA_INSTALL_DIR/filemanager/filegator/configuration.php $DAVID/web/fm/configuration.php
 
 					# Path to the file manager configuration file where the change will be made.
-					config_file="$HESTIA/web/fm/configuration.php"
+					config_file="$DAVID/web/fm/configuration.php"
 					app_name="File Manager - $APP_NAME"
 
 					# Sed replaces only the value after "File Manager -"

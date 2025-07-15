@@ -22,7 +22,7 @@ upgrade_config_set_value 'UPGRADE_REBUILD_USERS' 'false'
 upgrade_config_set_value 'UPGRADE_UPDATE_FILEMANAGER_CONFIG' 'false'
 
 # shellcheck source=/usr/local/david/func/db.sh
-source $HESTIA/func/db.sh
+source $DAVID/func/db.sh
 
 if [ -n "$(echo $DB_SYSTEM | grep -w mysql)" ]; then
 	mysql_connect 'localhost'

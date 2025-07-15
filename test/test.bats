@@ -21,7 +21,7 @@ function setup() {
         echo 'userbk=testbk-5285' >> /tmp/david-test-env.sh
         echo 'userpass1=test-5285' >> /tmp/david-test-env.sh
         echo 'userpass2=t3st-p4ssw0rd' >> /tmp/david-test-env.sh
-        echo 'HESTIA=/usr/local/david' >> /tmp/david-test-env.sh
+        echo 'DAVID=/usr/local/david' >> /tmp/david-test-env.sh
         echo 'domain=test-5285.davidcp.com' >> /tmp/david-test-env.sh
         echo 'domainuk=test-5285.davidcp.com.uk' >> /tmp/david-test-env.sh
         echo 'rootdomain=testdavidcp.com' >> /tmp/david-test-env.sh
@@ -34,9 +34,9 @@ function setup() {
     fi
 
     source /tmp/david-test-env.sh
-    source $HESTIA/func/main.sh
-    source $HESTIA/conf/david.conf
-    source $HESTIA/func/ip.sh
+    source $DAVID/func/main.sh
+    source $DAVID/conf/david.conf
+    source $DAVID/func/ip.sh
 }
 
 function validate_web_domain() {
@@ -49,12 +49,12 @@ function validate_web_domain() {
     refute [ -z "$domain" ]
     refute [ -z "$webproof" ]
 
-    source $HESTIA/func/ip.sh
+    source $DAVID/func/ip.sh
 
     run v-list-web-domain $user $domain
     assert_success
 
-    USER_DATA=$HESTIA/data/users/$user
+    USER_DATA=$DAVID/data/users/$user
     local domain_ip=$(get_object_value 'web' 'DOMAIN' "$domain" '$IP')
     SSL=$(get_object_value 'web' 'DOMAIN' "$domain" '$SSL')
     domain_ip=$(get_real_ip "$domain_ip")
@@ -95,12 +95,12 @@ function validate_headers_domain() {
   refute [ -z "$domain" ]
   refute [ -z "$webproof" ]
 
-  source $HESTIA/func/ip.sh
+  source $DAVID/func/ip.sh
 
   run v-list-web-domain $user $domain
   assert_success
 
-  USER_DATA=$HESTIA/data/users/$user
+  USER_DATA=$DAVID/data/users/$user
   local domain_ip=$(get_object_value 'web' 'DOMAIN' "$domain" '$IP')
   SSL=$(get_object_value 'web' 'DOMAIN' "$domain" '$SSL')
   domain_ip=$(get_real_ip "$domain_ip")
@@ -146,9 +146,9 @@ function validate_webmail_domain() {
     refute [ -z "$domain" ]
     refute [ -z "$webproof" ]
 
-    source $HESTIA/func/ip.sh
+    source $DAVID/func/ip.sh
 
-    USER_DATA=$HESTIA/data/users/$user
+    USER_DATA=$DAVID/data/users/$user
     local domain_ip=$(get_object_value 'web' 'DOMAIN' "$domain" '$IP')
     SSL=$(get_object_value 'mail' 'DOMAIN' "$domain" '$SSL')
     domain_ip=$(get_real_ip "$domain_ip")
@@ -200,7 +200,7 @@ function validate_database(){
     local dbuser=$3
     local password=$4
 
-    host_str=$(grep "HOST='localhost'" $HESTIA/conf/$type.conf)
+    host_str=$(grep "HOST='localhost'" $DAVID/conf/$type.conf)
     parse_object_kv_list "$host_str"
     if [ -z $PORT ]; then PORT=3306; fi
 
@@ -244,7 +244,7 @@ function check_ip_banned(){
   local ip=$1
   local chain=$2
 
-  run grep "IP='$ip' CHAIN='$chain'" $HESTIA/data/firewall/banlist.conf
+  run grep "IP='$ip' CHAIN='$chain'" $DAVID/data/firewall/banlist.conf
   assert_success
   assert_output --partial "$ip"
 }
@@ -252,7 +252,7 @@ function check_ip_banned(){
 function check_ip_not_banned(){
   local ip=$1
   local chain=$2
-  run grep "IP='$ip' CHAIN='$chain'" $HESTIA/data/firewall/banlist.conf
+  run grep "IP='$ip' CHAIN='$chain'" $DAVID/data/firewall/banlist.conf
   assert_failure E_ARGS
   refute_output
 }
@@ -652,9 +652,9 @@ function check_ip_not_banned(){
     refute_output
 
     assert_file_exist /etc/$WEB_SYSTEM/conf.d/$ip.conf
-    assert_file_exist $HESTIA/data/ips/$ip
-    assert_file_contains $HESTIA/data/ips/$ip "OWNER='$user'"
-    assert_file_contains $HESTIA/data/ips/$ip "INTERFACE='$interface'"
+    assert_file_exist $DAVID/data/ips/$ip
+    assert_file_contains $DAVID/data/ips/$ip "OWNER='$user'"
+    assert_file_contains $DAVID/data/ips/$ip "INTERFACE='$interface'"
 
     if [ -n "$PROXY_SYSTEM" ]; then
         assert_file_exist /etc/$PROXY_SYSTEM/conf.d/$ip.conf
@@ -700,9 +700,9 @@ function check_ip_not_banned(){
     refute_output
 
     assert_file_exist /etc/$WEB_SYSTEM/conf.d/$ip.conf
-    assert_file_exist $HESTIA/data/ips/$ip
-    assert_file_contains $HESTIA/data/ips/$ip "OWNER='$user'"
-    assert_file_contains $HESTIA/data/ips/$ip "INTERFACE='$interface'"
+    assert_file_exist $DAVID/data/ips/$ip
+    assert_file_contains $DAVID/data/ips/$ip "OWNER='$user'"
+    assert_file_contains $DAVID/data/ips/$ip "INTERFACE='$interface'"
 
     if [ -n "$PROXY_SYSTEM" ]; then
         assert_file_exist /etc/$PROXY_SYSTEM/conf.d/$ip.conf
@@ -721,7 +721,7 @@ function check_ip_not_banned(){
     refute_output
 
     assert_file_not_exist /etc/$WEB_SYSTEM/conf.d/$ip.conf
-    assert_file_not_exist $HESTIA/data/ips/$ip
+    assert_file_not_exist $DAVID/data/ips/$ip
 }
 
 @test "Ip: [Ubuntu] Netplan file changed" {
@@ -742,7 +742,7 @@ function check_ip_not_banned(){
 	refute_output
 
 	assert_file_not_exist /etc/$WEB_SYSTEM/conf.d/$ip.conf
-	assert_file_not_exist $HESTIA/data/ips/$ip
+	assert_file_not_exist $DAVID/data/ips/$ip
 
 	if [ -n "$PROXY_SYSTEM" ]; then
 			assert_file_not_exist /etc/$PROXY_SYSTEM/conf.d/$ip.conf
@@ -768,9 +768,9 @@ function check_ip_not_banned(){
     refute_output
 
     assert_file_exist /etc/$WEB_SYSTEM/conf.d/$ip.conf
-    assert_file_exist $HESTIA/data/ips/$ip
-    assert_file_contains $HESTIA/data/ips/$ip "OWNER='$user'"
-    assert_file_contains $HESTIA/data/ips/$ip "INTERFACE='$interface'"
+    assert_file_exist $DAVID/data/ips/$ip
+    assert_file_contains $DAVID/data/ips/$ip "OWNER='$user'"
+    assert_file_contains $DAVID/data/ips/$ip "INTERFACE='$interface'"
 
     if [ -n "$PROXY_SYSTEM" ]; then
         assert_file_exist /etc/$PROXY_SYSTEM/conf.d/$ip.conf
@@ -1728,11 +1728,11 @@ function check_ip_not_banned(){
     assert_success
     refute_output
 
-    run grep "RECORD='_domainkey'" "${HESTIA}/data/users/${user}/dns/${domain}.conf"
+    run grep "RECORD='_domainkey'" "${DAVID}/data/users/${user}/dns/${domain}.conf"
     assert_failure
     refute_output
 
-    run grep "RECORD='mail._domainkey'" "${HESTIA}/data/users/${user}/dns/${domain}.conf"
+    run grep "RECORD='mail._domainkey'" "${DAVID}/data/users/${user}/dns/${domain}.conf"
     assert_failure
     refute_output
 }
@@ -1742,11 +1742,11 @@ function check_ip_not_banned(){
     assert_success
     refute_output
 
-    run grep "RECORD='_domainkey'" "${HESTIA}/data/users/${user}/dns/${domain}.conf"
+    run grep "RECORD='_domainkey'" "${DAVID}/data/users/${user}/dns/${domain}.conf"
     assert_success
     assert_output --partial "RECORD='_domainkey' TYPE='TXT'"
 
-    run grep "RECORD='mail._domainkey'" "${HESTIA}/data/users/${user}/dns/${domain}.conf"
+    run grep "RECORD='mail._domainkey'" "${DAVID}/data/users/${user}/dns/${domain}.conf"
     assert_success
     assert_output  --partial "RECORD='mail._domainkey' TYPE='TXT'"
 }
@@ -1760,7 +1760,7 @@ function check_ip_not_banned(){
     assert_success
     refute_output
 
-    run grep "RECORD='k2._domainkey'" "${HESTIA}/data/users/${user}/dns/${domain}.conf"
+    run grep "RECORD='k2._domainkey'" "${DAVID}/data/users/${user}/dns/${domain}.conf"
     assert_success
     assert_output --partial "RECORD='k2._domainkey' TYPE='TXT'"
 }
@@ -2059,43 +2059,43 @@ function check_ip_not_banned(){
 #----------------------------------------------------------#
 
 @test "Firewall: Add ip to banlist" {
-  run v-add-firewall-ban '1.2.3.4' 'HESTIA'
+  run v-add-firewall-ban '1.2.3.4' 'DAVID'
   assert_success
   refute_output
 
-  check_ip_banned '1.2.3.4' 'HESTIA'
+  check_ip_banned '1.2.3.4' 'DAVID'
 }
 
 @test "Firewall: Delete ip to banlist" {
-  run v-delete-firewall-ban '1.2.3.4' 'HESTIA'
+  run v-delete-firewall-ban '1.2.3.4' 'DAVID'
   assert_success
   refute_output
-  check_ip_not_banned '1.2.3.4' 'HESTIA'
+  check_ip_not_banned '1.2.3.4' 'DAVID'
 }
 
 @test "Firewall: Add ip to banlist for ALL" {
-  run v-add-firewall-ban '1.2.3.4' 'HESTIA'
+  run v-add-firewall-ban '1.2.3.4' 'DAVID'
   assert_success
   refute_output
   run v-add-firewall-ban '1.2.3.4' 'MAIL'
   assert_success
   refute_output
-  check_ip_banned '1.2.3.4' 'HESTIA'
+  check_ip_banned '1.2.3.4' 'DAVID'
 }
 
 @test "Firewall: Delete ip to banlist CHAIN = ALL" {
   run v-delete-firewall-ban '1.2.3.4' 'ALL'
   assert_success
   refute_output
-  check_ip_not_banned '1.2.3.4' 'HESTIA'
+  check_ip_not_banned '1.2.3.4' 'DAVID'
 }
 
 @test "Test Whitelist Fail2ban" {
 
-echo   "1.2.3.4" >> $HESTIA/data/firewall/excludes.conf
-  run v-add-firewall-ban '1.2.3.4' 'HESTIA'
-  rm $HESTIA/data/firewall/excludes.conf
-  check_ip_not_banned '1.2.3.4' 'HESTIA'
+echo   "1.2.3.4" >> $DAVID/data/firewall/excludes.conf
+  run v-add-firewall-ban '1.2.3.4' 'DAVID'
+  rm $DAVID/data/firewall/excludes.conf
+  check_ip_not_banned '1.2.3.4' 'DAVID'
 }
 
 @test "Test create ipset" {
@@ -2134,7 +2134,7 @@ echo   "1.2.3.4" >> $HESTIA/data/firewall/excludes.conf
 #----------------------------------------------------------#
 
 @test "Package: Create new Package" {
-    cp $HESTIA/data/packages/default.pkg /tmp/package
+    cp $DAVID/data/packages/default.pkg /tmp/package
     run v-add-user-package /tmp/package davidtest
     assert_success
     refute_output
@@ -2163,7 +2163,7 @@ echo   "1.2.3.4" >> $HESTIA/data/firewall/excludes.conf
     run v-change-user-package  $user davidtest
     assert_success
     refute_output
-    run grep "BANDWIDTH='100'" $HESTIA/data/users/$user/user.conf
+    run grep "BANDWIDTH='100'" $DAVID/data/users/$user/user.conf
     assert_success
     assert_output --partial "100"
 }
@@ -2190,7 +2190,7 @@ echo   "1.2.3.4" >> $HESTIA/data/firewall/excludes.conf
     rm /tmp/package
     assert_success
     refute_output
-    run grep "BANDWIDTH='unlimited'" $HESTIA/data/users/$user/user.conf
+    run grep "BANDWIDTH='unlimited'" $DAVID/data/users/$user/user.conf
     assert_success
     assert_output --partial "unlimited"
 }

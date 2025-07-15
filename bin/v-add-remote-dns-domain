@@ -19,11 +19,11 @@ flush=$3
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/remote.sh
-source $HESTIA/func/remote.sh
+source $DAVID/func/remote.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -48,7 +48,7 @@ check_david_demo_mode
 # Parsing domain record
 str=$(grep "DOMAIN='$domain'" $USER_DATA/dns.conf 2> /dev/null)
 if [ -z "$str" ]; then
-	pipe="$HESTIA/data/queue/dns-cluster.pipe"
+	pipe="$DAVID/data/queue/dns-cluster.pipe"
 	queue_str=$(grep -n "$SCRIPT $1 $2 " $pipe | cut -f1 -d: | head -n1)
 	if [ -n "$queue_str" ]; then
 		sed -i "$queue_str d" $pipe
@@ -59,7 +59,7 @@ if [ "$DNS_CLUSTER_SYSTEM" = "david-zone" ]; then
 	str=$(echo "$str" | sed "s/SLAVE='no'/SLAVE='yes'/g")
 	str=$(echo "$str" | sed "s/SLAVE=''/SLAVE='yes'/g")
 	ip=$(ip addr | grep 'inet ' | grep global | head -n1 | awk '{print $2}' | cut -f1 -d/)
-	source_conf $HESTIA/data/ips/$ip
+	source_conf $DAVID/data/ips/$ip
 	if [ -z $NAT ]; then
 		str=$(echo "$str" | sed "s/MASTER=''/MASTER='$ip'/g")
 	else
@@ -68,7 +68,7 @@ if [ "$DNS_CLUSTER_SYSTEM" = "david-zone" ]; then
 fi
 
 IFS=$'\n'
-for cluster in $(grep "SUSPENDED='no'" $HESTIA/conf/dns-cluster.conf); do
+for cluster in $(grep "SUSPENDED='no'" $DAVID/conf/dns-cluster.conf); do
 	# Reset user, password and hash vars
 	clear_dns_cluster_settings
 
@@ -115,7 +115,7 @@ fi
 
 # Updating pipe
 rm -f $tmpfile
-pipe="$HESTIA/data/queue/dns-cluster.pipe"
+pipe="$DAVID/data/queue/dns-cluster.pipe"
 str=$(grep -n "$SCRIPT $1 $2 " $pipe | cut -f1 -d: | head -n1)
 if [ -n "$str" ]; then
 	sed -i "$str d" $pipe

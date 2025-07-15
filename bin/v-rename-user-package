@@ -19,11 +19,11 @@ mode=$3
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -41,7 +41,7 @@ fi
 
 is_package_valid "$old_name"
 is_object_format_valid "$new_name" "New package"
-pkg_dir="$HESTIA/data/packages"
+pkg_dir="$DAVID/data/packages"
 if [ -e "$pkg_dir/$new_name.pkg" ]; then
 	check_result "$E_NOTEXIST" "package $new_name exist"
 fi
@@ -53,11 +53,11 @@ check_david_demo_mode
 #                       Action                             #
 #----------------------------------------------------------#
 
-if [ -e "$HESTIA/data/packages/$old_name.pkg" ]; then
-	mv "$HESTIA/data/packages/$old_name.pkg" "$HESTIA/data/packages/$new_name.pkg"
+if [ -e "$DAVID/data/packages/$old_name.pkg" ]; then
+	mv "$DAVID/data/packages/$old_name.pkg" "$DAVID/data/packages/$new_name.pkg"
 	# Don't leave the .sh file behind
-	if [ -e "$HESTIA/data/packages/$old_name.sh" ]; then
-		mv "$HESTIA/data/packages/$old_name.sh" "$HESTIA/data/packages/$new_name.sh"
+	if [ -e "$DAVID/data/packages/$old_name.sh" ]; then
+		mv "$DAVID/data/packages/$old_name.sh" "$DAVID/data/packages/$new_name.sh"
 	fi
 
 	# Update package for existing users

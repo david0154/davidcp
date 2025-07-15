@@ -26,8 +26,8 @@ upgrade_config_set_value 'UPGRADE_UPDATE_FILEMANAGER_CONFIG' 'false'
 # Modify existing POLICY_USER directives (POLICY_USER_CHANGE_THEME, POLICY_USER_EDIT_WEB_TEMPLATES
 # and POLICY_USER_VIEW_LOGS) that are using value 'true' instead of the correct value 'yes'
 
-david_conf="$HESTIA/conf/david.conf"
-david_defaults_conf="$HESTIA/conf/defaults/david.conf"
+david_conf="$DAVID/conf/david.conf"
+david_defaults_conf="$DAVID/conf/defaults/david.conf"
 
 for i in POLICY_USER_CHANGE_THEME POLICY_USER_EDIT_WEB_TEMPLATES POLICY_USER_VIEW_LOGS; do
 	if [[ -f "$david_conf" ]]; then

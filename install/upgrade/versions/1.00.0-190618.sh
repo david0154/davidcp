@@ -9,7 +9,7 @@
 # Add webmail alias variable to system configuration if non-existent
 if [ -z "$WEBMAIL_ALIAS" ]; then
 	echo "[ * ] Updating webmail alias configuration..."
-	$HESTIA/bin/v-change-sys-config-value 'WEBMAIL_ALIAS' "webmail"
+	$DAVID/bin/v-change-sys-config-value 'WEBMAIL_ALIAS' "webmail"
 fi
 
 # Update Apache and Nginx configuration to support new file structure
@@ -39,14 +39,14 @@ if [ ! -e /etc/ssl/dhparam.pem ]; then
 fi
 
 # Back up default package and install latest version
-if [ -d $HESTIA/data/packages/ ]; then
+if [ -d $DAVID/data/packages/ ]; then
 	echo "[ * ] Replacing default packages..."
-	cp -f $HESTIA/data/packages/default.pkg $HESTIA_BACKUP/packages/
+	cp -f $DAVID/data/packages/default.pkg $HESTIA_BACKUP/packages/
 fi
 
 # Remove old Office 365 template as there is a newer version with an updated name
-if [ -f $HESTIA/data/templates/dns/o365.tpl ]; then
-	rm -f $HESTIA/data/templates/dns/o365.tpl
+if [ -f $DAVID/data/templates/dns/o365.tpl ]; then
+	rm -f $DAVID/data/templates/dns/o365.tpl
 fi
 
 # Back up and remove default index.html if it exists
@@ -69,7 +69,7 @@ chmod 644 /var/www/html/*
 chmod 644 /var/www/document_errors/*
 
 for user in $($BIN/v-list-users plain | cut -f1); do
-	USER_DATA=$HESTIA/data/users/$user
+	USER_DATA=$DAVID/data/users/$user
 	for domain in $($BIN/v-list-web-domains $user plain | cut -f 1); do
 		WEBFOLDER="/home/$user/web/$domain/public_html"
 		folderchecksum=$(find "$WEBFOLDER/css" "$WEBFOLDER/js" "$WEBFOLDER/webfonts" -type f -print0 2> /dev/null | sort -z | xargs -r0 cat | md5sum | cut -d" " -f1)
@@ -159,7 +159,7 @@ done
 if [ ! -f /etc/cron.daily/php-session-cleanup ]; then
 	echo '#!/bin/sh' > /etc/cron.daily/php-session-cleanup
 	echo "find -O3 /home/*/tmp/ -ignore_readdir_race -depth -mindepth 1 -name 'sess_*' -type f -cmin '+10080' -delete > /dev/null 2>&1" >> /etc/cron.daily/php-session-cleanup
-	echo "find -O3 $HESTIA/data/sessions/ -ignore_readdir_race -depth -mindepth 1 -name 'sess_*' -type f -cmin '+10080' -delete > /dev/null 2>&1" >> /etc/cron.daily/php-session-cleanup
+	echo "find -O3 $DAVID/data/sessions/ -ignore_readdir_race -depth -mindepth 1 -name 'sess_*' -type f -cmin '+10080' -delete > /dev/null 2>&1" >> /etc/cron.daily/php-session-cleanup
 fi
 chmod 755 /etc/cron.daily/php-session-cleanup
 
@@ -190,13 +190,13 @@ if [ -f /etc/roundcube/main.inc.php ]; then
 fi
 
 # Remove old OS-specific installation files if they exist to free up space
-if [ -d $HESTIA/install/ubuntu ]; then
+if [ -d $DAVID/install/ubuntu ]; then
 	echo "[ * ] Removing old davidcp installation files for Ubuntu..."
-	rm -rf $HESTIA/install/ubuntu
+	rm -rf $DAVID/install/ubuntu
 fi
-if [ -d $HESTIA/install/debian ]; then
+if [ -d $DAVID/install/debian ]; then
 	echo "[ * ] Removing old davidcp installation files for Debian..."
-	rm -rf $HESTIA/install/debian
+	rm -rf $DAVID/install/debian
 fi
 
 # Fix Dovecot configuration
@@ -231,12 +231,12 @@ fi
 if [ -z "$IMAP_SYSTEM" ]; then
 	if [ -f /usr/bin/dovecot ]; then
 		echo "[ * ] Adding missing IMAP_SYSTEM variable to david.conf..."
-		echo "IMAP_SYSTEM = 'dovecot'" >> $HESTIA/conf/david.conf
+		echo "IMAP_SYSTEM = 'dovecot'" >> $DAVID/conf/david.conf
 	fi
 fi
 
 # Run sftp jail once
-$HESTIA/bin/v-add-sys-sftp-jail
+$DAVID/bin/v-add-sys-sftp-jail
 
 # Enable SFTP subsystem for SSH
 sftp_subsys_enabled=$(grep -iE "^#?.*subsystem.+(sftp )?sftp-server" /etc/ssh/sshd_config)
@@ -248,7 +248,7 @@ fi
 
 # Remove and migrate obsolete object keys
 for user in $($BIN/v-list-users plain | cut -f1); do
-	USER_DATA=$HESTIA/data/users/$user
+	USER_DATA=$DAVID/data/users/$user
 
 	# Web keys
 	for domain in $($BIN/v-list-web-domains $user plain | cut -f 1); do

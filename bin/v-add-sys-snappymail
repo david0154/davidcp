@@ -12,11 +12,11 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 # upgrade config file
-source "$HESTIA/install/upgrade/upgrade.conf"
+source "$DAVID/install/upgrade/upgrade.conf"
 
 MODE=$1
 UPDATE="no"
@@ -44,9 +44,9 @@ if [ "x$(id -u)" != 'x0' ]; then
 	exit 10
 fi
 
-# Ensure that $HESTIA (/usr/local/david/) and other variables are valid.
-if [ -z "$HESTIA" ]; then
-	HESTIA="/usr/local/david"
+# Ensure that $DAVID (/usr/local/david/) and other variables are valid.
+if [ -z "$DAVID" ]; then
+	DAVID="/usr/local/david"
 fi
 
 if [ -z "$HOMEDIR" ] || [ -z "$HESTIA_INSTALL_DIR" ]; then
@@ -137,7 +137,7 @@ if [ "$UPDATE" == "no" ]; then
 	echo "Disallow: /" >> $SM_INSTALL_DIR/robots.txt
 
 	# Updating david.conf
-	if [ -z "$(grep WEBMAIL_SYSTEM $HESTIA/conf/david.conf)" ]; then
+	if [ -z "$(grep WEBMAIL_SYSTEM $DAVID/conf/david.conf)" ]; then
 		$BIN/v-change-sys-config-value 'WEBMAIL_SYSTEM' 'snappymail'
 	else
 		if [ -z "$(echo "$WEBMAIL_SYSTEM" | grep -w 'snappymail')" ]; then

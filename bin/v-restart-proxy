@@ -14,14 +14,14 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 date=$(date +"%Y-%m-%d %H:%M:%S")
 
 send_email_report() {
-	email=$(grep CONTACT "$HESTIA/data/users/$ROOT_USER/user.conf")
+	email=$(grep CONTACT "$DAVID/data/users/$ROOT_USER/user.conf")
 	email=$(echo "$email" | cut -f 2 -d "'")
 	tmpfile=$(mktemp)
 	subj="$(hostname): $PROXY_SYSTEM restart failed"
@@ -59,18 +59,18 @@ fi
 
 # Schedule restart
 if [ "$1" = 'scheduled' ] || [ -z "$1" ] && [ "$SCHEDULED_RESTART" = 'yes' ]; then
-	sed -i "/\/$SCRIPT now/d" $HESTIA/data/queue/restart.pipe
-	echo "$BIN/$SCRIPT now" >> $HESTIA/data/queue/restart.pipe
+	sed -i "/\/$SCRIPT now/d" $DAVID/data/queue/restart.pipe
+	echo "$BIN/$SCRIPT now" >> $DAVID/data/queue/restart.pipe
 	exit
 fi
 
 if [ "$1" = "updatessl" ]; then
-	sed -i "/\/$SCRIPT ssl/d" $HESTIA/data/queue/restart.pipe
-	echo "$BIN/$SCRIPT ssl" >> $HESTIA/data/queue/restart.pipe
+	sed -i "/\/$SCRIPT ssl/d" $DAVID/data/queue/restart.pipe
+	echo "$BIN/$SCRIPT ssl" >> $DAVID/data/queue/restart.pipe
 	exit
 fi
 
-if [ -f "$HESTIA/web/inc/nginx_proxy" ]; then
+if [ -f "$DAVID/web/inc/nginx_proxy" ]; then
 	# if david is behind default nginx, restart in background with 15 sec delay
 	# background restart
 	if [ "$1" = 'background' ]; then
@@ -92,8 +92,8 @@ if [ -f "$HESTIA/web/inc/nginx_proxy" ]; then
 		$BIN/v-restart-service $PROXY_SYSTEM > /dev/null 2>&1
 
 		# Update restart queue
-		if [ -e "$HESTIA/data/queue/restart.pipe" ]; then
-			sed -i "/$SCRIPT/d" $HESTIA/data/queue/restart.pipe
+		if [ -e "$DAVID/data/queue/restart.pipe" ]; then
+			sed -i "/$SCRIPT/d" $DAVID/data/queue/restart.pipe
 		fi
 
 		exit
@@ -126,9 +126,9 @@ else
 	fi
 
 	# Update restart queue
-	if [ -e "$HESTIA/data/queue/restart.pipe" ]; then
-		sed -i "/\/$SCRIPT now/d" $HESTIA/data/queue/restart.pipe
-		sed -i "/\/$SCRIPT ssl/d" $HESTIA/data/queue/restart.pipe
+	if [ -e "$DAVID/data/queue/restart.pipe" ]; then
+		sed -i "/\/$SCRIPT now/d" $DAVID/data/queue/restart.pipe
+		sed -i "/\/$SCRIPT ssl/d" $DAVID/data/queue/restart.pipe
 	fi
 fi
 

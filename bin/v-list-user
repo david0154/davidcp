@@ -18,9 +18,9 @@ format=${2-shell}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 # JSON list function
 json_list() {
 	echo '{
@@ -179,9 +179,9 @@ is_object_valid 'user' 'USER' "$user"
 # Defining config
 USER=$user
 HOME=$HOMEDIR/$user
-source_conf "$HESTIA/data/users/$user/user.conf"
-U_USERS=$(cat "$HESTIA/data/users/$ROOT_USER/user.conf" | grep "U_USERS" | cut -d'=' -f2 | sed "s/'//g")
-SUSPENDED_USERS=$(cat "$HESTIA/data/users/$ROOT_USER/user.conf" | grep "SUSPENDED_USERS" | cut -d'=' -f2 | sed "s/'//g")
+source_conf "$DAVID/data/users/$user/user.conf"
+U_USERS=$(cat "$DAVID/data/users/$ROOT_USER/user.conf" | grep "U_USERS" | cut -d'=' -f2 | sed "s/'//g")
+SUSPENDED_USERS=$(cat "$DAVID/data/users/$ROOT_USER/user.conf" | grep "SUSPENDED_USERS" | cut -d'=' -f2 | sed "s/'//g")
 
 # Listing data
 case $format in

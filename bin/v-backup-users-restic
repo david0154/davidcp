@@ -14,9 +14,9 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Perform verification if read-only mode is enabled
 check_david_demo_mode
@@ -33,14 +33,14 @@ if [ "$BACKUP_INCREMENTAL" != "yes" ]; then
 fi
 
 for user in $($BIN/v-list-sys-users plain); do
-	check_suspend=$(grep "SUSPENDED='no'" $HESTIA/data/users/$user/user.conf)
-	log=$HESTIA/log/backup.log
-	if [ ! -f "$HESTIA/data/users/$user/user.conf" ]; then
+	check_suspend=$(grep "SUSPENDED='no'" $DAVID/data/users/$user/user.conf)
+	log=$DAVID/log/backup.log
+	if [ ! -f "$DAVID/data/users/$user/user.conf" ]; then
 		continue
 	fi
 	check_backup_conditions
-	check_suspend=$(grep "SUSPENDED='no'" $HESTIA/data/users/$user/user.conf)
-	log=$HESTIA/log/backup.log
+	check_suspend=$(grep "SUSPENDED='no'" $DAVID/data/users/$user/user.conf)
+	log=$DAVID/log/backup.log
 	if [ -n "$check_suspend" ]; then
 		echo -e "================================" >> $log
 		echo -e "$user" >> $log

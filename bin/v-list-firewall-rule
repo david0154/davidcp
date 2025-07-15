@@ -18,9 +18,9 @@ format=${2-shell}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 json_list() {
 	echo '{'
@@ -74,7 +74,7 @@ is_object_valid '../../../data/firewall/rules' 'RULE' "$rule"
 #----------------------------------------------------------#
 
 # Parsing rules
-parse_object_kv_list $(grep "RULE='$rule'" $HESTIA/data/firewall/rules.conf)
+parse_object_kv_list $(grep "RULE='$rule'" $DAVID/data/firewall/rules.conf)
 
 # Listing data
 case $format in

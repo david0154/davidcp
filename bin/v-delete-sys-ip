@@ -18,13 +18,13 @@ ip="$1"
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/ip.sh
-source $HESTIA/func/ip.sh
+source $DAVID/func/ip.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -44,7 +44,7 @@ check_david_demo_mode
 #----------------------------------------------------------#
 
 # Import IP variables
-source "$HESTIA/data/ips/$ip"
+source "$DAVID/data/ips/$ip"
 cidr="$(convert_netmask "$NETMASK")"
 
 # Get primary IP
@@ -85,7 +85,7 @@ elif [ -e "/etc/network/interfaces" ]; then
 fi
 
 # Deleting David IP
-rm -f $HESTIA/data/ips/$ip
+rm -f $DAVID/data/ips/$ip
 
 # Deleting web config
 if [ -n "$WEB_SYSTEM" ]; then

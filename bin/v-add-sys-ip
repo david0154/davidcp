@@ -37,15 +37,15 @@ nat_ip="$7"
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/ip.sh
-source $HESTIA/func/ip.sh
+source $DAVID/func/ip.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # shellcheck source=/usr/local/david/func/syshealth.sh
-source "$HESTIA/func/syshealth.sh"
+source "$DAVID/func/syshealth.sh"
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 if [ -z "$4" ]; then
 	user="$ROOT_USER"
@@ -131,8 +131,8 @@ INTERFACE='$iface'
 NETMASK='$netmask'
 NAT='$nat_ip'
 TIME='$time'
-DATE='$date'" > $HESTIA/data/ips/$ip
-chmod 660 $HESTIA/data/ips/$ip
+DATE='$date'" > $DAVID/data/ips/$ip
+chmod 660 $DAVID/data/ips/$ip
 
 # WEB support
 if [ -n "$WEB_SYSTEM" ]; then
@@ -199,7 +199,7 @@ if [ -n "$PROXY_SYSTEM" ]; then
 	fi
 fi
 
-# Adapt Port Listing in HESTIA NGINX Backend
+# Adapt Port Listing in DAVID NGINX Backend
 syshealth_adapt_david_nginx_listen_ports
 # Also update resolver
 syshealth_adapt_nginx_resolver

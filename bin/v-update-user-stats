@@ -18,11 +18,11 @@ source /etc/profile.d/david.sh
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Argument definition
 user=$1
@@ -72,11 +72,11 @@ TOTAL_USERS=0
 
 # Updating user stats
 for user in $user_list; do
-	USER_DATA=$HESTIA/data/users/$user
-	if [ ! -f "$HESTIA/data/users/$user/user.conf" ]; then
+	USER_DATA=$DAVID/data/users/$user
+	if [ ! -f "$DAVID/data/users/$user/user.conf" ]; then
 		continue
 	fi
-	USER_DATA=$HESTIA/data/users/$user
+	USER_DATA=$DAVID/data/users/$user
 	source $USER_DATA/user.conf
 	next_month=$(date +'%m/01/%y' -d "$(date +%Y-%m-15) 1 month")
 	DATE=$(date -d "$next_month -1day" +%F)
@@ -133,7 +133,7 @@ done
 
 if [ "$update_overall_stats" = 'yes' ]; then
 	# Updating overall stats
-	stats="$HESTIA/data/users/$ROOT_USER/overall_stats.log"
+	stats="$DAVID/data/users/$ROOT_USER/overall_stats.log"
 
 	s="DATE='$DATE' TIME='$TIME' PACKAGE='default' IP_OWNED='$TOTAL_IP_OWNED'"
 	s="$s DISK_QUOTA='0' U_DISK='$TOTAL_U_DISK' U_DISK_DIRS='$TOTAL_U_DISK_DIRS'"

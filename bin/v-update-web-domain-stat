@@ -19,11 +19,11 @@ domain_idn=$2
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Additional argument formatting
 format_domain
@@ -86,7 +86,7 @@ build_awstats() {
 
 	# Logo check
 	if [ ! -e "$dir/logo.svg" ]; then
-		cp -r $HESTIA/web/images/logo.svg $dir/
+		cp -r $DAVID/web/images/logo.svg $dir/
 	fi
 
 	# Icon directory check

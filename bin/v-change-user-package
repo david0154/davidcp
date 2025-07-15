@@ -19,9 +19,9 @@ force=$3
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 is_package_available() {
 
@@ -34,7 +34,7 @@ is_package_available() {
 	DISK_QUOTA='0'
 	BANDWIDTH='0'
 
-	source_conf "$HESTIA/data/packages/$package.pkg"
+	source_conf "$DAVID/data/packages/$package.pkg"
 
 	# Checking usage agains package limits
 	if [ "$WEB_DOMAINS" != 'unlimited' ]; then
@@ -79,7 +79,7 @@ change_user_package() {
 	# Keep user creation date and time saved
 	creation_time="$TIME"
 	creation_date="$DATE"
-	source_conf "$HESTIA/data/packages/$package.pkg"
+	source_conf "$DAVID/data/packages/$package.pkg"
 	echo "NAME='$NAME'
 PACKAGE='$package'
 WEB_TEMPLATE='$WEB_TEMPLATE'
@@ -174,16 +174,16 @@ check_david_demo_mode
 change_user_package
 
 # Update user shell
-shell_conf=$(cat "$HESTIA/data/packages/$package.pkg" | grep -m1 'SHELL' | cut -f 2 -d \')
+shell_conf=$(cat "$DAVID/data/packages/$package.pkg" | grep -m1 'SHELL' | cut -f 2 -d \')
 $BIN/v-change-user-shell "$user" "$shell_conf"
 
 # Run template trigger
-if [ -x "$HESTIA/data/packages/$package.sh" ]; then
-	$HESTIA/data/packages/$package.sh "$user" "$CONTACT" "$NAME"
+if [ -x "$DAVID/data/packages/$package.sh" ]; then
+	$DAVID/data/packages/$package.sh "$user" "$CONTACT" "$NAME"
 fi
 
 # Update disk quota
-source $HESTIA/conf/david.conf
+source $DAVID/conf/david.conf
 if [ "$DISK_QUOTA" = 'yes' ]; then
 	$BIN/v-update-user-quota "$user"
 fi

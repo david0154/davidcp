@@ -15,9 +15,9 @@ function random() {
 
 function setup() {
     source /tmp/wildcard.sh
-    source $HESTIA/func/main.sh
-    source $HESTIA/conf/david.conf
-    source $HESTIA/func/ip.sh
+    source $DAVID/func/main.sh
+    source $DAVID/conf/david.conf
+    source $DAVID/func/ip.sh
 }
 
 # User and domain needs to already exists as dns domain due to DNS

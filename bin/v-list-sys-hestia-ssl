@@ -17,14 +17,14 @@ format=${1-shell}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # JSON list function
 json_list() {
 	echo '{'
-	echo -e "\t\"HESTIA\": {"
+	echo -e "\t\"DAVID\": {"
 	echo "        \"CRT\": \"$crt\","
 	echo "        \"KEY\": \"$key\","
 	echo "        \"CA\": \"$ca\","
@@ -97,11 +97,11 @@ csv_list() {
 #----------------------------------------------------------#
 
 # Parsing SSL certificate
-crt=$(cat $HESTIA/ssl/certificate.crt | sed ':a;N;$!ba;s/\n/\\n/g')
-key=$(cat $HESTIA/ssl/certificate.key | sed ':a;N;$!ba;s/\n/\\n/g')
+crt=$(cat $DAVID/ssl/certificate.crt | sed ':a;N;$!ba;s/\n/\\n/g')
+key=$(cat $DAVID/ssl/certificate.key | sed ':a;N;$!ba;s/\n/\\n/g')
 
 # Parsing SSL certificate details without CA
-info=$(openssl x509 -text -in $HESTIA/ssl/certificate.crt)
+info=$(openssl x509 -text -in $DAVID/ssl/certificate.crt)
 subj=$(echo "$info" | grep Subject: | cut -f 2 -d =)
 before=$(echo "$info" | grep Before: | sed -e "s/.*Before: //")
 after=$(echo "$info" | grep "After :" | sed -e "s/.*After : //")

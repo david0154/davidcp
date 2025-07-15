@@ -97,7 +97,7 @@ if [ ! -f "/usr/share/keyrings/nginx-keyring.gpg" ]; then
 
 fi
 
-if [ ! -f "$HESTIA/data/packages/system.pkg" ]; then
+if [ ! -f "$DAVID/data/packages/system.pkg" ]; then
 	echo "[ * ] Install default system package."
-	cp -f $HESTIA/install/deb/packages/system.pkg $HESTIA/data/packages/system.pkg
+	cp -f $DAVID/install/deb/packages/system.pkg $DAVID/data/packages/system.pkg
 fi

@@ -4,7 +4,7 @@
 #
 # example: v-check-api-key random_key 127.0.0.1
 #
-# This function checks a key file in $HESTIA/data/keys/
+# This function checks a key file in $DAVID/data/keys/
 
 #----------------------------------------------------------#
 #                Variables & Functions                     #
@@ -14,15 +14,15 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 new_timestamp
 
 abort_missmatch() {
 	echo "Error: key missmatch"
-	echo "$date $time api $ip failed to login" >> $HESTIA/log/auth.log
+	echo "$date $time api $ip failed to login" >> $DAVID/log/auth.log
 	exit "$E_PASSWORD"
 }
 
@@ -44,19 +44,19 @@ key="$(basename "$1")"
 [[ -z $key || ${#key} -lt 16 ]] && abort_missmatch
 
 # Key file must exist
-maybe_key_path="$(readlink -e "${HESTIA}/data/keys/${key}")"
+maybe_key_path="$(readlink -e "${DAVID}/data/keys/${key}")"
 [[ -z $maybe_key_path ]] && abort_missmatch
 
 # Key file cannot be the key store
-[[ $maybe_key_path == "${HESTIA}/data/keys" ]] && abort_missmatch
+[[ $maybe_key_path == "${DAVID}/data/keys" ]] && abort_missmatch
 
 # Key file must be in the key store
-[[ $maybe_key_path == "${HESTIA}/data/keys/"* ]] || abort_missmatch
+[[ $maybe_key_path == "${DAVID}/data/keys/"* ]] || abort_missmatch
 
 #----------------------------------------------------------#
 #                       David                             #
 #----------------------------------------------------------#
 
-echo "$date $time api $ip successfully launched" >> $HESTIA/log/auth.log
+echo "$date $time api $ip successfully launched" >> $DAVID/log/auth.log
 
 exit

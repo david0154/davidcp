@@ -21,13 +21,13 @@ restart=$4
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/domain.sh
-source $HESTIA/func/domain.sh
+source $DAVID/func/domain.sh
 # shellcheck source=/usr/local/david/func/ip.sh
-source $HESTIA/func/ip.sh
+source $DAVID/func/ip.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Additional argument formatting
 format_domain
@@ -46,7 +46,7 @@ is_object_valid 'user' 'USER' "$user"
 is_object_unsuspended 'user' 'USER' "$user"
 is_object_valid 'web' 'DOMAIN' "$domain"
 is_object_unsuspended 'web' 'DOMAIN' "$domain"
-check_new_domain=$(grep "DOMAIN='$new_domain'" $HESTIA/data/users/*/web.conf)
+check_new_domain=$(grep "DOMAIN='$new_domain'" $DAVID/data/users/*/web.conf)
 if [ -n "$check_new_domain" ]; then
 	check_result "$E_EXISTS" "$new_domain already exists"
 fi

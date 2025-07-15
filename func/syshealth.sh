@@ -6,34 +6,34 @@
 #                                                                           #
 #===========================================================================#
 
-# Read known configuration keys from $HESTIA/conf/defaults/$system.conf
+# Read known configuration keys from $DAVID/conf/defaults/$system.conf
 function read_kv_config_file() {
 	local system=$1
 
-	if [ ! -f "$HESTIA/conf/defaults/$system.conf" ]; then
+	if [ ! -f "$DAVID/conf/defaults/$system.conf" ]; then
 		write_kv_config_file $system
 	fi
 	while read -r str; do
 		echo "$str"
-	done < <(cat $HESTIA/conf/defaults/$system.conf)
+	done < <(cat $DAVID/conf/defaults/$system.conf)
 	unset system
 }
 
-# Write known configuration keys to $HESTIA/conf/defaults/
+# Write known configuration keys to $DAVID/conf/defaults/
 function write_kv_config_file() {
 	# Ensure configuration directory exists
-	if [ ! -d "$HESTIA/conf/defaults/" ]; then
-		mkdir "$HESTIA/conf/defaults/"
+	if [ ! -d "$DAVID/conf/defaults/" ]; then
+		mkdir "$DAVID/conf/defaults/"
 	fi
 
 	# Remove previous known good configuration
-	if [ -f "$HESTIA/conf/defaults/$system.conf" ]; then
-		rm -f $HESTIA/conf/defaults/$system.conf
+	if [ -f "$DAVID/conf/defaults/$system.conf" ]; then
+		rm -f $DAVID/conf/defaults/$system.conf
 	fi
 
-	touch $HESTIA/conf/defaults/$system.conf
+	touch $DAVID/conf/defaults/$system.conf
 	for key in $known_keys; do
-		echo $key >> $HESTIA/conf/defaults/$system.conf
+		echo $key >> $DAVID/conf/defaults/$system.conf
 	done
 }
 
@@ -205,12 +205,12 @@ function syshealth_update_system_config_format() {
 }
 
 # Restore System Configuration
-# Replaces $HESTIA/conf/david.conf with "known good defaults" file ($HESTIA/conf/defaults/david.conf)
+# Replaces $DAVID/conf/david.conf with "known good defaults" file ($DAVID/conf/defaults/david.conf)
 function syshealth_restore_system_config() {
-	if [ -f "$HESTIA/conf/defaults/david.conf" ]; then
-		mv $HESTIA/conf/david.conf $HESTIA/conf/david.conf.old
-		cp $HESTIA/conf/defaults/david.conf $HESTIA/conf/david.conf
-		rm -f $HESTIA/conf/david.conf.old
+	if [ -f "$DAVID/conf/defaults/david.conf" ]; then
+		mv $DAVID/conf/david.conf $DAVID/conf/david.conf.old
+		cp $DAVID/conf/defaults/david.conf $DAVID/conf/david.conf
+		rm -f $DAVID/conf/david.conf.old
 	else
 		echo "ERROR: System default configuration file not found, aborting."
 		exit 1
@@ -218,11 +218,11 @@ function syshealth_restore_system_config() {
 }
 
 function check_key_exists() {
-	grep -e "^$1=" $HESTIA/conf/david.conf
+	grep -e "^$1=" $DAVID/conf/david.conf
 }
 
 # Repair System Configuration
-# Adds missing variables to $HESTIA/conf/david.conf with safe default values
+# Adds missing variables to $DAVID/conf/david.conf with safe default values
 function syshealth_repair_system_config() {
 	# Release branch
 	if [[ -z $(check_key_exists 'RELEASE_BRANCH') ]]; then
@@ -285,7 +285,7 @@ function syshealth_repair_system_config() {
 
 	# Backend port
 	if [[ -z $(check_key_exists 'BACKEND_PORT') ]]; then
-		ORIGINAL_PORT=$(sed -ne "/listen/{s/.*listen[^0-9]*\([0-9][0-9]*\)[ \t]*ssl\;/\1/p;q}" "$HESTIA/nginx/conf/nginx.conf")
+		ORIGINAL_PORT=$(sed -ne "/listen/{s/.*listen[^0-9]*\([0-9][0-9]*\)[ \t]*ssl\;/\1/p;q}" "$DAVID/nginx/conf/nginx.conf")
 		echo "[ ! ] Adding missing variable to david.conf: BACKEND_PORT ('$ORIGINAL_PORT')"
 		$BIN/v-change-sys-config-value 'BACKEND_PORT' $ORIGINAL_PORT
 	fi
@@ -356,7 +356,7 @@ function syshealth_repair_system_config() {
 
 	# API access allowed IP's
 	if [ "$API" = "yes" ]; then
-		check_api_key=$(grep "API_ALLOWED_IP" $HESTIA/conf/david.conf)
+		check_api_key=$(grep "API_ALLOWED_IP" $DAVID/conf/david.conf)
 		if [ -z "$check_api_key" ]; then
 			if [[ -z $(check_key_exists 'API_ALLOWED_IP') ]]; then
 				echo "[ ! ] Adding missing variable to david.conf: API_ALLOWED_IP ('allow-all')"
@@ -548,7 +548,7 @@ function syshealth_repair_system_config() {
 		$BIN/v-change-sys-config-value "DOMAINDIR_WRITABLE" "no"
 	fi
 
-	touch $HESTIA/conf/david.conf.new
+	touch $DAVID/conf/david.conf.new
 	while IFS='= ' read -r lhs rhs; do
 		if [[ ! $lhs =~ ^\ *# && -n $lhs ]]; then
 			rhs="${rhs%%^\#*}" # Del in line right comments
@@ -557,23 +557,23 @@ function syshealth_repair_system_config() {
 			rhs="${rhs#\'*}"   # Del closing string quotes
 
 		fi
-		check_ckey=$(grep "^$lhs='" "$HESTIA/conf/david.conf.new")
+		check_ckey=$(grep "^$lhs='" "$DAVID/conf/david.conf.new")
 		if [ -z "$check_ckey" ]; then
-			echo "$lhs='$rhs'" >> "$HESTIA/conf/david.conf.new"
+			echo "$lhs='$rhs'" >> "$DAVID/conf/david.conf.new"
 		else
-			sed -i "s|^$lhs=.*|$lhs='$rhs'|g" "$HESTIA/conf/david.conf.new"
+			sed -i "s|^$lhs=.*|$lhs='$rhs'|g" "$DAVID/conf/david.conf.new"
 		fi
-	done < $HESTIA/conf/david.conf
+	done < $DAVID/conf/david.conf
 
-	cmp --silent $HESTIA/conf/david.conf $HESTIA/conf/david.conf.new
+	cmp --silent $DAVID/conf/david.conf $DAVID/conf/david.conf.new
 	if [ $? -ne 0 ]; then
 		echo "[ ! ] Duplicated keys found repair config"
-		rm $HESTIA/conf/david.conf
-		cp $HESTIA/conf/david.conf.new $HESTIA/conf/david.conf
-		rm $HESTIA/conf/david.conf.new
+		rm $DAVID/conf/david.conf
+		cp $DAVID/conf/david.conf.new $DAVID/conf/david.conf
+		rm $DAVID/conf/david.conf.new
 	fi
 
-	source_conf "$HESTIA/conf/david.conf"
+	source_conf "$DAVID/conf/david.conf"
 }
 
 # Repair System Cron Jobs
@@ -596,7 +596,7 @@ function syshealth_repair_system_cronjobs() {
 	echo "41 4 * * * sudo /usr/local/david/bin/v-update-sys-david-all" >> /var/spool/cron/crontabs/davidweb
 }
 
-# Adapt Port Listing in HESTIA NGINX Backend
+# Adapt Port Listing in DAVID NGINX Backend
 # Activates or deactivates port listing on IPV4 or/and IPV6 network interfaces
 function syshealth_adapt_david_nginx_listen_ports() {
 	# Detect "physical" NICs only (virtual NICs created by Docker, WireGuard etc. are excluded)

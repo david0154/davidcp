@@ -19,9 +19,9 @@ branch=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -56,10 +56,10 @@ else
 	fi
 
 	# Remove old branch variable
-	sed -i "/RELEASE_BRANCH/d" $HESTIA/conf/david.conf
+	sed -i "/RELEASE_BRANCH/d" $DAVID/conf/david.conf
 
 	# Set new branch variable
-	echo "RELEASE_BRANCH='$branch'" >> $HESTIA/conf/david.conf
+	echo "RELEASE_BRANCH='$branch'" >> $DAVID/conf/david.conf
 	echo "Updated system to update from Git using branch: $branch"
 fi
 

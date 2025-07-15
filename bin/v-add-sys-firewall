@@ -14,9 +14,9 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -34,9 +34,9 @@ check_david_demo_mode
 #----------------------------------------------------------#
 
 # Adding default ruleset
-if [ -z "$(ls -A $HESTIA/data/firewall 2> /dev/null)" ]; then
-	cp -rf $HESTIA_COMMON_DIR/firewall $HESTIA/data/
-	rm -f $HESTIA/data/firewall/ipset/blacklist.sh $HESTIA/data/firewall/ipset/blacklist.ipv6.sh
+if [ -z "$(ls -A $DAVID/data/firewall 2> /dev/null)" ]; then
+	cp -rf $HESTIA_COMMON_DIR/firewall $DAVID/data/
+	rm -f $DAVID/data/firewall/ipset/blacklist.sh $DAVID/data/firewall/ipset/blacklist.ipv6.sh
 fi
 
 # Updating FIREWAL_SYSTEM value

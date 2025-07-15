@@ -201,7 +201,7 @@ hide client_send = ^SMTP_RELAY_USER^SMTP_RELAY_PASS
 
 Some SMTP relay services might require you to set the domain within the SMTP relay account. To automate this hooks have been added to v-add-mail-domain and v-delete-mail domains.
 
-Create: $HESTIA/data/extensions/add-mail-domain.sh and $HESTIA/data/extensions/v-delete-mail-domain.sh
+Create: $DAVID/data/extensions/add-mail-domain.sh and $DAVID/data/extensions/v-delete-mail-domain.sh
 
 ### Proxmox mail server
 

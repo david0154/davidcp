@@ -2,10 +2,10 @@
 
 # Includes
 # shellcheck source=/usr/local/david/conf/david.conf
-source $HESTIA/conf/david.conf
+source $DAVID/conf/david.conf
 
 # Variables and arguments
-HESTIA="/usr/local/david"
+DAVID="/usr/local/david"
 script=$1
 log=$2
 scroll=$3

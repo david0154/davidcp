@@ -17,11 +17,11 @@ iptables="/sbin/iptables"
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/firewall.sh
-source $HESTIA/func/firewall.sh
+source $DAVID/func/firewall.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -49,7 +49,7 @@ echo "$iptables -X david" >> $tmp
 
 # Deleting custom chains
 IFS=$'\n'
-for chain in $(cat $HESTIA/data/firewall/chains.conf 2> /dev/null); do
+for chain in $(cat $DAVID/data/firewall/chains.conf 2> /dev/null); do
 	parse_object_kv_list "$chain"
 	echo "$iptables -F fail2ban-$CHAIN" >> $tmp
 	echo "$iptables -X fail2ban-$CHAIN" >> $tmp
@@ -79,7 +79,7 @@ else
 		echo "[Service]" >> $sd_unit
 		echo "Type=oneshot" >> $sd_unit
 		echo "RemainAfterExit=yes" >> $sd_unit
-		echo "ExecStartPre=-${HESTIA}/bin/v-update-firewall-ipset load" >> $sd_unit
+		echo "ExecStartPre=-${DAVID}/bin/v-update-firewall-ipset load" >> $sd_unit
 		if [ "$iptablesversion" = "v1.6" ]; then
 			echo "ExecStart=/sbin/iptables-restore /etc/iptables.rules" >> $sd_unit
 		else

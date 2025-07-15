@@ -15,11 +15,11 @@ host=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/remote.sh
-source $HESTIA/func/remote.sh
+source $DAVID/func/remote.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -40,9 +40,9 @@ check_david_demo_mode
 # Selecting remote hosts
 IFS=$'\n'
 if [ -z $host ]; then
-	hosts=$(cat $HESTIA/conf/dns-cluster.conf | grep "SUSPENDED='no'")
+	hosts=$(cat $DAVID/conf/dns-cluster.conf | grep "SUSPENDED='no'")
 else
-	hosts=$(grep "HOST='$host'" $HESTIA/conf/dns-cluster.conf)
+	hosts=$(grep "HOST='$host'" $DAVID/conf/dns-cluster.conf)
 fi
 
 # Starting cluster loop
@@ -59,12 +59,12 @@ for cluster in $hosts; do
 	check_result $? "$HOST connection failed" $E_CONNECT
 
 	# Syncing user domains
-	user_list=$(ls -d $HESTIA/data/users/*/ | sed "s#$HESTIA/data/users/##" | sed s"/.$//" | grep -v "dns-cluster")
+	user_list=$(ls -d $DAVID/data/users/*/ | sed "s#$DAVID/data/users/##" | sed s"/.$//" | grep -v "dns-cluster")
 	for user in $user_list; do
-		USER_DATA="$HESTIA/data/users/$user"
+		USER_DATA="$DAVID/data/users/$user"
 		ROLE=$(get_user_value '$ROLE')
 		if [ "$ROLE" != "dns-cluster" ]; then
-			for str in $(cat $HESTIA/data/users/$user/dns.conf); do
+			for str in $(cat $DAVID/data/users/$user/dns.conf); do
 				unset $SLAVE
 				parse_object_kv_list "$str"
 				if [ "$SLAVE" != "yes" ]; then
@@ -76,7 +76,7 @@ for cluster in $hosts; do
 
 						# Syncing domain records
 						tmp_file="/tmp/vst-sync.$DOMAIN"
-						cluster_file "$HESTIA/data/users/$user/dns/$DOMAIN.conf" "$tmp_file"
+						cluster_file "$DAVID/data/users/$user/dns/$DOMAIN.conf" "$tmp_file"
 						check_result $? "$HOST connection failed" "$E_CONNECT"
 
 						cluster_cmd v-insert-dns-records "$DNS_USER" "$DOMAIN" "$tmp_file" 'no'
@@ -87,7 +87,7 @@ for cluster in $hosts; do
 						str=$(echo "$str" | sed "s/SLAVE=''/SLAVE='yes'/g")
 
 						ip=$(ip addr | grep 'inet ' | grep global | head -n1 | awk '{print $2}' | cut -f1 -d/)
-						source_conf $HESTIA/data/ips/$ip
+						source_conf $DAVID/data/ips/$ip
 						if [ -z $NAT ]; then
 							str=$(echo "$str" | sed "s/MASTER=''/MASTER='$ip'/g")
 						else
@@ -117,8 +117,8 @@ done
 #----------------------------------------------------------#
 
 # Flushing dns-cluster queue
-rm -f $HESTIA/data/queue/dns-cluster.pipe
-touch $HESTIA/data/queue/dns-cluster.pipe
-chmod 660 $HESTIA/data/queue/dns-cluster.pipe
+rm -f $DAVID/data/queue/dns-cluster.pipe
+touch $DAVID/data/queue/dns-cluster.pipe
+chmod 660 $DAVID/data/queue/dns-cluster.pipe
 
 exit

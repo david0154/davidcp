@@ -53,7 +53,7 @@ if [ ! -f "/var/spool/cron/crontabs/davidweb" ]; then
 					>> /var/spool/cron/crontabs/davidweb
 			$BIN/v-delete-cron-job admin "$JOB"
 		fi
-	done < $HESTIA/data/users/admin/cron.conf
+	done < $DAVID/data/users/admin/cron.conf
 	# Update permissions
 	chmod 600 /var/spool/cron/crontabs/davidweb
 	chown davidweb:davidweb /var/spool/cron/crontabs/davidweb
@@ -62,17 +62,17 @@ fi
 
 chown davidweb:davidweb /usr/local/david/data/sessions
 
-packages=$(ls --sort=time $HESTIA/data/packages | grep .pkg)
+packages=$(ls --sort=time $DAVID/data/packages | grep .pkg)
 # Update David Packages
 for package in $packages; do
-	if [ -z "$(grep -e 'BACKUPS_INCREMENTAL' $HESTIA/data/packages/$package)" ]; then
-		echo "BACKUPS_INCREMENTAL='no'" >> $HESTIA/data/packages/$package
+	if [ -z "$(grep -e 'BACKUPS_INCREMENTAL' $DAVID/data/packages/$package)" ]; then
+		echo "BACKUPS_INCREMENTAL='no'" >> $DAVID/data/packages/$package
 	fi
 
 	# Add additional key-value pairs if they don't exist
 	for key in DISK_QUOTA CPU_QUOTA CPU_QUOTA_PERIOD MEMORY_LIMIT SWAP_LIMIT; do
-		if [ -z "$(grep -e "$key" $HESTIA/data/packages/$package)" ]; then
-			echo "$key='unlimited'" >> $HESTIA/data/packages/$package
+		if [ -z "$(grep -e "$key" $DAVID/data/packages/$package)" ]; then
+			echo "$key='unlimited'" >> $DAVID/data/packages/$package
 		fi
 	done
 done

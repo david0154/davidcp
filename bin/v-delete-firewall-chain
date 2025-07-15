@@ -18,11 +18,11 @@ iptables='/sbin/iptables'
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source "$HESTIA/func/main.sh"
+source "$DAVID/func/main.sh"
 # shellcheck source=/usr/local/david/func/firewall.sh
-source "$HESTIA/func/firewall.sh"
+source "$DAVID/func/firewall.sh"
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -43,8 +43,8 @@ check_david_demo_mode
 heal_iptables_links
 
 # Deleting chain
-chains="$HESTIA/data/firewall/chains.conf"
-banlist="$HESTIA/data/firewall/banlist.conf"
+chains="$DAVID/data/firewall/chains.conf"
+banlist="$DAVID/data/firewall/banlist.conf"
 chain_param=""
 [ -f "$chains" ] && chain_param=$(grep "CHAIN='$chain'" "$chains")
 if [ -n "$chain_param" ]; then

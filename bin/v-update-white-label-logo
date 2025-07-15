@@ -18,46 +18,46 @@ reset=${2-no}
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source "$HESTIA/func/main.sh"
+source "$DAVID/func/main.sh"
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                       Action                             #
 #----------------------------------------------------------#
 
 if [ "$reset" = "yes" ]; then
-	rm -rf "$HESTIA/web/images/custom/"
+	rm -rf "$DAVID/web/images/custom/"
 fi
 
-if [ -f "$HESTIA/web/images/custom/logo.svg" ]; then
-	cp -f "$HESTIA/web/images/custom/logo.svg" "$HESTIA/web/images/logo.svg"
-elif [ ! -f "$HESTIA/web/images/custom/logo.svg" ] && [ "$download" = "yes" ]; then
-	download_file "https://raw.githubusercontent.com/davidcp/davidcp/release/web/images/logo.svg" "$HESTIA/web/images/logo.svg"
+if [ -f "$DAVID/web/images/custom/logo.svg" ]; then
+	cp -f "$DAVID/web/images/custom/logo.svg" "$DAVID/web/images/logo.svg"
+elif [ ! -f "$DAVID/web/images/custom/logo.svg" ] && [ "$download" = "yes" ]; then
+	download_file "https://raw.githubusercontent.com/davidcp/davidcp/release/web/images/logo.svg" "$DAVID/web/images/logo.svg"
 fi
 
-if [ -f "$HESTIA/web/images/custom/logo.png" ]; then
-	cp -f "$HESTIA/web/images/custom/logo.png" "$HESTIA/web/images/logo.png"
-elif [ ! -f "$HESTIA/web/images/custom/logo.png" ] && [ "$download" = "yes" ]; then
-	download_file "https://raw.githubusercontent.com/davidcp/davidcp/release/web/images/logo.png" "$HESTIA/web/images/logo.png"
+if [ -f "$DAVID/web/images/custom/logo.png" ]; then
+	cp -f "$DAVID/web/images/custom/logo.png" "$DAVID/web/images/logo.png"
+elif [ ! -f "$DAVID/web/images/custom/logo.png" ] && [ "$download" = "yes" ]; then
+	download_file "https://raw.githubusercontent.com/davidcp/davidcp/release/web/images/logo.png" "$DAVID/web/images/logo.png"
 fi
 
-if [ -f "$HESTIA/web/images/custom/logo-header.svg" ]; then
-	cp -f "$HESTIA/web/images/custom/logo-header.svg" "$HESTIA/web/images/logo-header.svg"
-elif [ ! -f "$HESTIA/web/images/custom/logo-header.svg" ] && [ "$download" = "yes" ]; then
-	download_file "https://raw.githubusercontent.com/davidcp/davidcp/release/web/images/logo-header.svg" "$HESTIA/web/images/logo-header.svg"
+if [ -f "$DAVID/web/images/custom/logo-header.svg" ]; then
+	cp -f "$DAVID/web/images/custom/logo-header.svg" "$DAVID/web/images/logo-header.svg"
+elif [ ! -f "$DAVID/web/images/custom/logo-header.svg" ] && [ "$download" = "yes" ]; then
+	download_file "https://raw.githubusercontent.com/davidcp/davidcp/release/web/images/logo-header.svg" "$DAVID/web/images/logo-header.svg"
 fi
 
-if [ -f "$HESTIA/web/images/custom/favicon.png" ]; then
-	cp -f "$HESTIA/web/images/custom/favicon.png" "$HESTIA/web/images/favicon.png"
-elif [ ! -f "$HESTIA/web/images/custom/favicon.png" ] && [ "$download" = "yes" ]; then
-	download_file "https://raw.githubusercontent.com/davidcp/davidcp/release/web/images/favicon.png" "$HESTIA/web/images/favicon.png"
+if [ -f "$DAVID/web/images/custom/favicon.png" ]; then
+	cp -f "$DAVID/web/images/custom/favicon.png" "$DAVID/web/images/favicon.png"
+elif [ ! -f "$DAVID/web/images/custom/favicon.png" ] && [ "$download" = "yes" ]; then
+	download_file "https://raw.githubusercontent.com/davidcp/davidcp/release/web/images/favicon.png" "$DAVID/web/images/favicon.png"
 fi
 
-if [ -f "$HESTIA/web/images/custom/favicon.ico" ]; then
-	cp -f "$HESTIA/web/images/custom/favicon.ico" "$HESTIA/web/favicon.ico"
-elif [ ! -f "$HESTIA/web/images/custom/favicon.ico" ] && [ "$download" = "yes" ]; then
-	download_file "https://raw.githubusercontent.com/davidcp/davidcp/release/web/favicon.ico" "$HESTIA/web/favicon.ico"
+if [ -f "$DAVID/web/images/custom/favicon.ico" ]; then
+	cp -f "$DAVID/web/images/custom/favicon.ico" "$DAVID/web/favicon.ico"
+elif [ ! -f "$DAVID/web/images/custom/favicon.ico" ] && [ "$download" = "yes" ]; then
+	download_file "https://raw.githubusercontent.com/davidcp/davidcp/release/web/favicon.ico" "$DAVID/web/favicon.ico"
 fi
 
 #----------------------------------------------------------#

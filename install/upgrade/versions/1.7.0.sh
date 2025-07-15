@@ -23,11 +23,11 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/ip.sh
-source $HESTIA/func/ip.sh
+source $DAVID/func/ip.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 upgrade_config_set_value 'UPGRADE_UPDATE_WEB_TEMPLATES' 'true'
 upgrade_config_set_value 'UPGRADE_UPDATE_DNS_TEMPLATES' 'true'
@@ -38,15 +38,15 @@ upgrade_config_set_value 'UPGRADE_UPDATE_FILEMANAGER_CONFIG' 'false'
 # Make sure to sync install quoteshell arg
 if [ "$FILE_MANAGER" = "true" ]; then
 	echo "[ * ] Force update filemanager..."
-	$HESTIA/bin/v-delete-sys-filemanager quiet
-	$HESTIA/bin/v-add-sys-filemanager quiet
+	$DAVID/bin/v-delete-sys-filemanager quiet
+	$DAVID/bin/v-add-sys-filemanager quiet
 fi
 
-packages=$(ls --sort=time $HESTIA/data/packages | grep .pkg)
+packages=$(ls --sort=time $DAVID/data/packages | grep .pkg)
 echo "[ * ] Update existing packages to support rate limit mail accounts..."
 for package in $packages; do
-	if [ -z "$(grep -e 'RATE_LIMIT' $HESTIA/data/packages/$package)" ]; then
-		echo "RATE_LIMIT='200'" >> $HESTIA/data/packages/$package
+	if [ -z "$(grep -e 'RATE_LIMIT' $DAVID/data/packages/$package)" ]; then
+		echo "RATE_LIMIT='200'" >> $DAVID/data/packages/$package
 	fi
 done
 
@@ -74,7 +74,7 @@ for file in /etc/dovecot/dovecot.conf /etc/clamav/clamd.conf /etc/exim/exim.conf
 	fi
 done
 # Update any custom php templates
-for file in $HESTIA/data/templates/web/php-fpm/*; do
+for file in $DAVID/data/templates/web/php-fpm/*; do
 	echo "[ * ] Update $file legacy /var/run/ to /run/..."
 	sed -i 's|/var/run/|/run/|g' $file
 done

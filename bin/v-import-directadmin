@@ -13,11 +13,11 @@
 # This script restore backups from DA to davidcp
 
 # shellcheck source=/usr/local/david/func/main.sh
-source "$HESTIA"/func/main.sh
+source "$DAVID"/func/main.sh
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 if [ ! -e /usr/bin/rsync ] || [ ! -e /usr/bin/file ]; then
 	echo "#######################################"
@@ -151,7 +151,7 @@ if [ -z "$directadmin_usermail" ]; then
 fi
 
 check_sysuser=$(cut -f 1 -d : /etc/passwd | grep "^$directadmin_user$")
-if [ -n "$check_sysuser" ] || [ -e "$HESTIA/data/users/$directadmin_user" ]; then
+if [ -n "$check_sysuser" ] || [ -e "$DAVID/data/users/$directadmin_user" ]; then
 	delete_tmp
 	check_result "$E_EXISTS" "user $directadmin_user exists"
 fi
@@ -315,7 +315,7 @@ function da_restore_imap_pass() {
 	#DirectAdmin passw is SHA512-CRYPT
 	da_orig_pass=$(grep -w "$1" backup/"$2"/email/passwd | tr ':' ' ' | cut -d " " -f2)
 	echo "${da_orig_pass}"
-	USER_DATA=$HESTIA/data/users/${3}/
+	USER_DATA=$DAVID/data/users/${3}/
 	update_object_value "mail/${2}" 'ACCOUNT' "${1}" '$MD5' "{SHA512-CRYPT}$da_orig_pass"
 	echo "Password for $1@$2 restored"
 }

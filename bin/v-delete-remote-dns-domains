@@ -15,11 +15,11 @@ host=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/remote.sh
-source $HESTIA/func/remote.sh
+source $DAVID/func/remote.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -40,9 +40,9 @@ check_david_demo_mode
 IFS=$'\n'
 
 if [ -z $host ]; then
-	hosts=$(cat "$HESTIA/conf/dns-cluster.conf")
+	hosts=$(cat "$DAVID/conf/dns-cluster.conf")
 else
-	hosts=$(grep "HOST='$host'" "$HESTIA/conf/dns-cluster.conf")
+	hosts=$(grep "HOST='$host'" "$DAVID/conf/dns-cluster.conf")
 fi
 
 # Starting cluster loop
@@ -69,7 +69,7 @@ done
 #----------------------------------------------------------#
 
 # Updating pipe
-pipe="$HESTIA/data/queue/dns-cluster.pipe"
+pipe="$DAVID/data/queue/dns-cluster.pipe"
 str=$(grep -n "$SCRIPT $1 $2$" $pipe | cut -f1 -d: | head -n1)
 if [ -n "$str" ]; then
 	sed -i "$str d" $pipe

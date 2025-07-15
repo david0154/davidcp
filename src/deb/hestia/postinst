@@ -12,10 +12,10 @@ source /etc/davidcp/david.conf
 
 # Load upgrade functions and variables
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/upgrade.sh
-source $HESTIA/func/upgrade.sh
-source_conf "$HESTIA/conf/david.conf"
+source $DAVID/func/upgrade.sh
+source_conf "$DAVID/conf/david.conf"
 
 ###############################################################
 #             Set new version numbers for packages            #

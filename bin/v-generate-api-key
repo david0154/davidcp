@@ -4,7 +4,7 @@
 #
 # example: v-generate-api-key
 #
-# This function creates a key file in $HESTIA/data/keys/
+# This function creates a key file in $DAVID/data/keys/
 
 #----------------------------------------------------------#
 #                Variables & Functions                     #
@@ -14,9 +14,9 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 keygen() {
 	tr < /dev/urandom -dc _A-Z-a-z-0-9 | head -c 32
@@ -31,19 +31,19 @@ check_david_demo_mode
 #                       Action                             #
 #----------------------------------------------------------#
 
-if [ ! -d "$HESTIA/data/keys/" ]; then
-	mkdir -p $HESTIA/data/keys/
-	chown davidweb:root $HESTIA/data/keys/
-	chmod 750 $HESTIA/data/keys/
+if [ ! -d "$DAVID/data/keys/" ]; then
+	mkdir -p $DAVID/data/keys/
+	chown davidweb:root $DAVID/data/keys/
+	chmod 750 $DAVID/data/keys/
 fi
 
-if [[ -e "$HESTIA/data/keys/$HASH" ]]; then
-	while [[ -e "$HESTIA/data/keys/$HASH" ]]; do
+if [[ -e "$DAVID/data/keys/$HASH" ]]; then
+	while [[ -e "$DAVID/data/keys/$HASH" ]]; do
 		HASH=$(keygen)
 	done
 fi
 
-touch $HESTIA/data/keys/$HASH
+touch $DAVID/data/keys/$HASH
 echo "$HASH"
 
 #----------------------------------------------------------#

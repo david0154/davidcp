@@ -11,7 +11,7 @@ echo "[ * ] Increasing Diffie-Hellman Parameter strength to 4096-bit..."
 if [ -e /etc/ssl/dhparam.pem ]; then
 	mv /etc/ssl/dhparam.pem $HESTIA_BACKUP/conf/
 fi
-cp -f $HESTIA/install/deb/ssl/dhparam.pem /etc/ssl/
+cp -f $DAVID/install/deb/ssl/dhparam.pem /etc/ssl/
 chmod 600 /etc/ssl/dhparam.pem
 
 # Enhance Vsftpd security
@@ -25,7 +25,7 @@ fi
 if [ "$IMAP_SYSTEM" = "dovecot" ]; then
 	echo "[ * ] Hardening Dovecot SSL configuration..."
 	mv /etc/dovecot/conf.d/10-ssl.conf $HESTIA_BACKUP/conf/
-	cp -f $HESTIA/install/deb/dovecot/conf.d/10-ssl.conf /etc/dovecot/conf.d/
+	cp -f $DAVID/install/deb/dovecot/conf.d/10-ssl.conf /etc/dovecot/conf.d/
 fi
 
 # Update DNS resolvers in david-nginx's configuration
@@ -41,10 +41,10 @@ if [ ! -z "$resolver" ]; then
 fi
 
 # Remove Webalizer and set AWStats as default
-WEBALIZER_CHECK=$(cat $HESTIA/conf/david.conf | grep webalizer)
+WEBALIZER_CHECK=$(cat $DAVID/conf/david.conf | grep webalizer)
 if [ ! -z "$WEBALIZER_CHECK" ]; then
 	echo "[ * ] Set awstats as default web statistics backend..."
-	$HESTIA/bin/v-change-sys-config-value 'STATS_SYSTEM' 'awstats'
+	$DAVID/bin/v-change-sys-config-value 'STATS_SYSTEM' 'awstats'
 fi
 
 # Remove old david.conf files from Apache & NGINX if they exist

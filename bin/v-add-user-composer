@@ -16,17 +16,17 @@ user=$1
 version=${2-2}
 update=$3
 
-if [ -z "$HESTIA" ]; then
-	HESTIA="/usr/local/david"
+if [ -z "$DAVID" ]; then
+	DAVID="/usr/local/david"
 fi
 
 # Includes
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #

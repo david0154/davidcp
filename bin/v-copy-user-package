@@ -19,11 +19,11 @@ new_package=$2
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/conf/david.conf
-source $HESTIA/conf/david.conf
+source $DAVID/conf/david.conf
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 # Perform verification if read-only mode is enabled
 check_david_demo_mode
@@ -38,16 +38,16 @@ is_object_format_valid "$package" "Package"
 is_object_format_valid "$new_package" "New package"
 
 if [ -n "$1" ]; then
-	if [ ! -f "$HESTIA/data/packages/$package.pkg" ]; then
+	if [ ! -f "$DAVID/data/packages/$package.pkg" ]; then
 		echo "Error: package does not exist."
 		exit "$E_NOTEXIST"
 	fi
 	if [ -n "$2" ]; then
 		# Copy package
-		cp -f "$HESTIA/data/packages/$package.pkg" "$HESTIA/data/packages/$new_package.pkg"
+		cp -f "$DAVID/data/packages/$package.pkg" "$DAVID/data/packages/$new_package.pkg"
 		# Don't leave the .sh file behind
-		if [ -f "$HESTIA/data/packages/$package.sh" ]; then
-			cp $HESTIA/data/packages/$package.sh $HESTIA/data/packages/$new_package.sh
+		if [ -f "$DAVID/data/packages/$package.sh" ]; then
+			cp $DAVID/data/packages/$package.sh $DAVID/data/packages/$new_package.sh
 		fi
 	else
 		echo "Error: new package name not specified."

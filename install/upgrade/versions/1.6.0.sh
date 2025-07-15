@@ -64,7 +64,7 @@ if [ -f "/etc/default/spamassassin" ]; then
 fi
 
 # Adding LE autorenew cronjob if there are none
-if [ -z "$(grep v-update-lets $HESTIA/data/users/admin/cron.conf)" ]; then
+if [ -z "$(grep v-update-lets $DAVID/data/users/admin/cron.conf)" ]; then
 	min=$(generate_password '012345' '2')
 	hour=$(generate_password '1234567' '1')
 	command="sudo $BIN/v-update-letsencrypt-ssl"
@@ -73,7 +73,7 @@ fi
 
 # Add apis if they don't exist
 # Changes have been made make sure to overwrite them to prevent issues in the future
-cp -rf $HESTIA_INSTALL_DIR/api $HESTIA/data/
+cp -rf $HESTIA_INSTALL_DIR/api $DAVID/data/
 
 # Update Cloudflare address
 if [ -f /etc/nginx/nginx.conf ] && [ "$(grep 'set_real_ip_from 2405:8100::/32' /etc/nginx/nginx.conf)" = "" ]; then
@@ -119,7 +119,7 @@ release=$(lsb_release -s -i)
 if [ $release = 'Ubuntu' ]; then
 	if [ $ips -gt 1 ]; then
 		add_upgrade_message "Warning: Please check your network configuration!\n\n A bug has been discovered that might affect your setup and can lead to issues after a system reboot. Please review your network configuration. See https://github.com/davidcp/davidcp/pull/2612#issuecomment-1135571835 for more info regarding this issue!"
-		$HESTIA/bin/v-add-user-notification admin "Warning: Please check your network configuration!\n\n A bug has been discovered that might affect your setup and can lead to issues after a system reboot. Please review your network configuration. <a href='https://github.com/davidcp/davidcp/pull/2612#issuecomment-1135571835'>More info</a>"
+		$DAVID/bin/v-add-user-notification admin "Warning: Please check your network configuration!\n\n A bug has been discovered that might affect your setup and can lead to issues after a system reboot. Please review your network configuration. <a href='https://github.com/davidcp/davidcp/pull/2612#issuecomment-1135571835'>More info</a>"
 	fi
 fi
 

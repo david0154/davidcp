@@ -100,7 +100,7 @@ if [ -z "$($BIN/v-list-cron-jobs admin | grep 'v-update-sys-queue daily')" ]; th
 	command="sudo $BIN/v-update-sys-queue daily"
 	$BIN/v-add-cron-job 'admin' '01' '00' '*' '*' '*' "$command"
 fi
-[ ! -f "touch $HESTIA/data/queue/daily.pipe" ] && touch $HESTIA/data/queue/daily.pipe
+[ ! -f "touch $DAVID/data/queue/daily.pipe" ] && touch $DAVID/data/queue/daily.pipe
 
 # Remove existing network-up hooks so they get regenerated when updating the firewall
 # - network hook will also restore ipset config during start-up
@@ -136,18 +136,18 @@ fi
 
 # Install File Manager during upgrade if environment variable oesn't already exist and isn't set to false
 # so that we don't override preference
-FILE_MANAGER_CHECK=$(cat $HESTIA/conf/david.conf | grep "FILE_MANAGER='false'")
+FILE_MANAGER_CHECK=$(cat $DAVID/conf/david.conf | grep "FILE_MANAGER='false'")
 if [ -z "$FILE_MANAGER_CHECK" ]; then
-	if [ ! -e "$HESTIA/web/fm/configuration.php" ]; then
+	if [ ! -e "$DAVID/web/fm/configuration.php" ]; then
 		echo "[ ! ] Installing File Manager..."
 		# Install the File Manager
-		$HESTIA/bin/v-add-sys-filemanager quiet
+		$DAVID/bin/v-add-sys-filemanager quiet
 	else
 		echo "[ * ] Updating File Manager configuration..."
 		# Update configuration.php
-		cp -f $HESTIA_INSTALL_DIR/filemanager/filegator/configuration.php $HESTIA/web/fm/configuration.php
+		cp -f $HESTIA_INSTALL_DIR/filemanager/filegator/configuration.php $DAVID/web/fm/configuration.php
 		# Set environment variable for interface
-		$HESTIA/bin/v-change-sys-config-value 'FILE_MANAGER' 'true'
+		$DAVID/bin/v-change-sys-config-value 'FILE_MANAGER' 'true'
 	fi
 fi
 
@@ -165,7 +165,7 @@ fi
 
 # Fix public_(s)html group ownership
 echo "[ * ] Updating public_(s)html ownership..."
-for user in $($HESTIA/bin/v-list-sys-users plain); do
+for user in $($DAVID/bin/v-list-sys-users plain); do
 	# skip users with missing home folder
 	[[ -d /home/${user}/ ]] || continue
 
@@ -182,7 +182,7 @@ if [ -e /var/lib/phpmyadmin/blowfish_secret.inc.php ]; then
 fi
 
 # Ensure that backup compression level is correctly set
-GZIP_LVL_CHECK=$(cat $HESTIA/conf/david.conf | grep BACKUP_GZIP)
+GZIP_LVL_CHECK=$(cat $DAVID/conf/david.conf | grep BACKUP_GZIP)
 if [ -z "$GZIP_LVL_CHECK" ]; then
 	echo "[ * ] Updating backup compression level variable..."
 	$BIN/v-change-sys-config-value "BACKUP_GZIP" '9'
@@ -190,29 +190,29 @@ fi
 
 # Update phpMyAdmin/phpPgAdmin templates and set missing alias variables if necessary
 if [ -e "/var/lib/phpmyadmin" ]; then
-	PMA_ALIAS_CHECK=$(cat $HESTIA/conf/david.conf | grep DB_PMA_ALIAS)
+	PMA_ALIAS_CHECK=$(cat $DAVID/conf/david.conf | grep DB_PMA_ALIAS)
 	if [ -z "$PMA_ALIAS_CHECK" ]; then
 		echo "[ * ] Updating phpMyAdmin alias..."
-		$HESTIA/bin/v-change-sys-db-alias "pma" "phpMyAdmin"
+		$DAVID/bin/v-change-sys-db-alias "pma" "phpMyAdmin"
 	else
 		echo "[ * ] Updating phpMyAdmin configuration..."
-		$HESTIA/bin/v-change-sys-db-alias "pma" "$DB_PMA_ALIAS"
+		$DAVID/bin/v-change-sys-db-alias "pma" "$DB_PMA_ALIAS"
 	fi
 fi
 
 if [ -e "/var/lib/phppgadmin" ]; then
-	PGA_ALIAS_CHECK=$(cat $HESTIA/conf/david.conf | grep DB_PGA_ALIAS)
+	PGA_ALIAS_CHECK=$(cat $DAVID/conf/david.conf | grep DB_PGA_ALIAS)
 	if [ -z "$PGA_ALIAS_CHECK" ]; then
 		echo "[ * ] Updating phpPgAdmin alias..."
-		$HESTIA/bin/v-change-sys-db-alias "pga" "phpPgAdmin"
+		$DAVID/bin/v-change-sys-db-alias "pga" "phpPgAdmin"
 	else
 		echo "[ * ] Updating phpPgAdmin configuration..."
-		$HESTIA/bin/v-change-sys-db-alias "pga" "$DB_PGA_ALIAS"
+		$DAVID/bin/v-change-sys-db-alias "pga" "$DB_PGA_ALIAS"
 	fi
 fi
 
 # Ensure that backup compression level is correctly set
-GZIP_LVL_CHECK=$(cat $HESTIA/conf/david.conf | grep BACKUP_GZIP)
+GZIP_LVL_CHECK=$(cat $DAVID/conf/david.conf | grep BACKUP_GZIP)
 if [ -z "$GZIP_LVL_CHECK" ]; then
 	echo "[ * ] Updating backup compression level variable..."
 	$BIN/v-change-sys-config-value "BACKUP_GZIP" '9'

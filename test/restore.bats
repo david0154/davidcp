@@ -20,7 +20,7 @@ function setup() {
         echo 'userbk=testbk-5285' >> /tmp/david-test-env.sh
         echo 'userpass1=test-5285' >> /tmp/david-test-env.sh
         echo 'userpass2=t3st-p4ssw0rd' >> /tmp/david-test-env.sh
-        echo 'HESTIA=/usr/local/david' >> /tmp/david-test-env.sh
+        echo 'DAVID=/usr/local/david' >> /tmp/david-test-env.sh
         echo 'domain=test-5285.davidcp.com' >> /tmp/david-test-env.sh
         echo 'domainuk=test-5285.davidcp.com.uk' >> /tmp/david-test-env.sh
         echo 'rootdomain=testdavidcp.com' >> /tmp/david-test-env.sh
@@ -30,9 +30,9 @@ function setup() {
     fi
 
     source /tmp/david-test-env.sh
-    source $HESTIA/func/main.sh
-    source $HESTIA/conf/david.conf
-    source $HESTIA/func/ip.sh
+    source $DAVID/func/main.sh
+    source $DAVID/conf/david.conf
+    source $DAVID/func/ip.sh
 }
 
 
@@ -48,12 +48,12 @@ function validate_web_domain() {
     refute [ -z "$domain" ]
     refute [ -z "$webproof" ]
 
-    source $HESTIA/func/ip.sh
+    source $DAVID/func/ip.sh
 
     run v-list-web-domain $user $domain
     assert_success
 
-    USER_DATA=$HESTIA/data/users/$user
+    USER_DATA=$DAVID/data/users/$user
     local domain_ip=$(get_object_value 'web' 'DOMAIN' "$domain" '$IP')
     SSL=$(get_object_value 'web' 'DOMAIN' "$domain" '$SSL')
     domain_ip=$(get_real_ip "$domain_ip")

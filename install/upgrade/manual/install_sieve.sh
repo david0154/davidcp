@@ -11,10 +11,10 @@
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
-source_conf "$HESTIA/install/upgrade/upgrade.conf"
+source_conf "$DAVID/conf/david.conf"
+source_conf "$DAVID/install/upgrade/upgrade.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #

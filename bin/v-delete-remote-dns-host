@@ -17,11 +17,11 @@ host=$1
 # shellcheck source=/etc/davidcp/david.conf
 source /etc/davidcp/david.conf
 # shellcheck source=/usr/local/david/func/main.sh
-source $HESTIA/func/main.sh
+source $DAVID/func/main.sh
 # shellcheck source=/usr/local/david/func/remote.sh
-source $HESTIA/func/remote.sh
+source $DAVID/func/remote.sh
 # load config file
-source_conf "$HESTIA/conf/david.conf"
+source_conf "$DAVID/conf/david.conf"
 
 #----------------------------------------------------------#
 #                    Verifications                         #
@@ -43,13 +43,13 @@ check_david_demo_mode
 $BIN/v-delete-remote-dns-domains "$host" >> /dev/null 2>&1
 
 # Deleting server
-sed -i "/HOST='$host' /d" "$HESTIA/conf/dns-cluster.conf"
+sed -i "/HOST='$host' /d" "$DAVID/conf/dns-cluster.conf"
 
 # Deleting DNS_CLUSTER key
-check_cluster=$(grep HOST $HESTIA/conf/dns-cluster.conf | wc -l)
+check_cluster=$(grep HOST $DAVID/conf/dns-cluster.conf | wc -l)
 if [ "$check_cluster" -eq '0' ]; then
-	rm -f "$HESTIA/conf/dns-cluster.conf"
-	sed -i "/DNS_CLUSTER=/d" "$HESTIA/conf/david.conf"
+	rm -f "$DAVID/conf/dns-cluster.conf"
+	sed -i "/DNS_CLUSTER=/d" "$DAVID/conf/david.conf"
 
 	# Delete cron job
 	cmd="v-update-sys-queue dns-cluster"
