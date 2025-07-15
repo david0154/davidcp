@@ -15,6 +15,9 @@ David Control Panel is designed to provide administrators an easy to use web and
 - MariaDB/MySQL and/or PostgreSQL databases
 - Let's Encrypt SSL support with wildcard certificates
 - Firewall with brute-force attack detection and IP lists (iptables, fail2ban, and ipset).
+- Leech protection,Hot link protection
+- WordPress maneger
+- also come with pre build ai for security check and error handling,code scan, virus scan 
 
 ## Supported platforms and operating systems
 
