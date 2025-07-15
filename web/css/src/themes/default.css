@@ -15,9 +15,9 @@
 	--border-radius-base: 4px;
 
 	/* Colors */
-	--color-text: #7c7c7c;
-	--color-text-link: #326b9b;
-	--color-text-link-hover: #c36;
+	--color-text: #f3aa0b;
+	--color-text-link: #1e7ac5;
+	--color-text-link-hover: rgb(100, 241, 18);
 	--color-text-heading: #4b4b4b;
 	--color-background: #fff;
 
@@ -26,7 +26,7 @@
 	--alert-box-shadow: 0 2px 4px rgb(0 0 0 / 20%);
 	--alert-text-shadow: 0 1px rgb(0 0 0 / 45%);
 	--alert-info-color: #618ecc;
-	--alert-danger-color: #ec6c6c;
+	--alert-danger-color: #1ee961;
 	--alert-success-color: #5ea64c;
 
 	/* Icons */
