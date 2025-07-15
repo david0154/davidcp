@@ -16,11 +16,10 @@ hero:
       text: Get started
       link: /docs/introduction/getting-started
     - theme: alt
-      text: Try the demo
-      link: https://demo.davidcp.com:8083/
+  
     - theme: alt
       text: View on GitHub
-      link: https://github.com/davidcp/davidcp
+      link: https://github.com/david0154/davidcp
 
 features:
   - icon: 🚀
@@ -41,6 +40,5 @@ features:
   - icon: 🤝
     title: Supported by the community
     details: David has a great support community - join the forum! To keep the project running, we rely on donations, which can be made via PayPal or cryptocurrency.
-    link: /donate
-    linkText: Donate
----
+ =  
+ ---

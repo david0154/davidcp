@@ -95,7 +95,7 @@ apt-get upgrade
 
 ## Contributions
 
-If you would like to contribute to the project, please [read our Contribution Guidelines](https://github.com/david0154/davidcp/blob/release/CONTRIBUTING.md) for a brief overview of our development process and standards.
+If you would like to contribute to the project, please [read our Contribution Guidelines]https://github.com/david0154/davidcp/blob/main/CONTRIBUTING.md) for a brief overview of our development process and standards.
 
 ## Copyright
 
