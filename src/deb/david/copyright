@@ -1,9 +1,9 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: david
-Source: https://www.davidcp.com
+Source:https://www.davidk.online
 
 Files: *
-Copyright: 2018-2025, David Control Panel <info@davidcp.com>
+Copyright: 2018-2025, David Control Panel <info@davidk.online>
 License: GPL-3.0+
 Remarks: David Control Panel is a fork from VestaCP, special thanks to vestacp.com and Serghey Rodin
 

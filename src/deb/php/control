@@ -3,8 +3,8 @@ Package: david-php
 Priority: optional
 Version: 8.3.17
 Section: admin
-Maintainer: HestaCP <info@davidcp.com>
-Homepage: https://www.davidcp.com
+Maintainer: HestaCP <info@davidk.online>
+Homepage:https://www.davidk.online
 Architecture: amd64
 Depends: david, libzip4, unzip, libonig5 | libonig4 | libonig2
 Conflct: libzip5

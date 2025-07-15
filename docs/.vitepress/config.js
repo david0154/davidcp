@@ -57,8 +57,8 @@ function nav() {
 		{ text: 'Install', link: '/install' },
 		{ text: 'Documentation', link: '/docs/introduction/getting-started', activeMatch: '/docs/' },
 		{ text: 'Team', link: '/team' },
-		{ text: 'Demo', link: 'https://demo.davidcp.com:8083/' },
-		{ text: 'Forum', link: 'https://forum.davidcp.com/' },
+		{ text: 'Demo', link: 'https://demo.davidk.online:8083/' },
+		{ text: 'Forum', link: 'https://forum.davidk.online/' },
 		{ text: 'Donate', link: '/donate' },
 		{
 			text: `v${version}`,

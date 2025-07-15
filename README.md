@@ -99,7 +99,7 @@ If you would like to contribute to the project, please [read our Contribution Gu
 
 ## Copyright
 
-"David Control Panel", "davidcp", and the David logo are original copyright of davidcp.com and the following restrictions apply:
+"David Control Panel", "davidcp", and the David logo are original copyright of davidk.online and the following restrictions apply:
 
 **You are allowed to:**
 

@@ -21,10 +21,10 @@ function setup() {
         echo 'userpass1=test-5285' >> /tmp/david-test-env.sh
         echo 'userpass2=t3st-p4ssw0rd' >> /tmp/david-test-env.sh
         echo 'DAVID=/usr/local/david' >> /tmp/david-test-env.sh
-        echo 'domain=test-5285.davidcp.com' >> /tmp/david-test-env.sh
-        echo 'domainuk=test-5285.davidcp.com.uk' >> /tmp/david-test-env.sh
-        echo 'rootdomain=testdavidcp.com' >> /tmp/david-test-env.sh
-        echo 'subdomain=cdn.testdavidcp.com' >> /tmp/david-test-env.sh
+        echo 'domain=test-5285.davidk.online' >> /tmp/david-test-env.sh
+        echo 'domainuk=test-5285.davidk.online.uk' >> /tmp/david-test-env.sh
+        echo 'rootdomain=testdavidk.online' >> /tmp/david-test-env.sh
+        echo 'subdomain=cdn.testdavidk.online' >> /tmp/david-test-env.sh
         echo 'database=test-5285_database' >> /tmp/david-test-env.sh
         echo 'dbuser=test-5285_dbuser' >> /tmp/david-test-env.sh
     fi
@@ -36,27 +36,27 @@ function setup() {
 }
 
 @test "Setup Test domain" {
-    run v-add-user $user $user $user@davidcp.com default "Super Test"
+    run v-add-user $user $user $user@davidk.online default "Super Test"
     assert_success
     refute_output
 
-    run v-add-web-domain $user 'testdavidcp.com'
+    run v-add-web-domain $user 'testdavidk.online'
     assert_success
     refute_output
 
-    ssl=$(v-generate-ssl-cert "testdavidcp.com" "info@testdavidcp.com" US CA "Orange County" davidcp IT "mail.$domain" | tail -n1 | awk '{print $2}')
-    mv $ssl/testdavidcp.com.crt /tmp/testdavidcp.com.crt
-    mv $ssl/testdavidcp.com.key /tmp/testdavidcp.com.key
+    ssl=$(v-generate-ssl-cert "testdavidk.online" "info@testdavidk.online" US CA "Orange County" davidcp IT "mail.$domain" | tail -n1 | awk '{print $2}')
+    mv $ssl/testdavidk.online.crt /tmp/testdavidk.online.crt
+    mv $ssl/testdavidk.online.key /tmp/testdavidk.online.key
 
     # Use self signed certificates during last test
-    run v-add-web-domain-ssl $user testdavidcp.com /tmp
+    run v-add-web-domain-ssl $user testdavidk.online /tmp
     assert_success
     refute_output
 }
 
 @test "Web Config test" {
     for template in $(v-list-web-templates plain); do
-        run v-change-web-domain-tpl $user testdavidcp.com $template
+        run v-change-web-domain-tpl $user testdavidk.online $template
         assert_success
         refute_output
     done
@@ -65,7 +65,7 @@ function setup() {
 @test "Proxy Config test" {
     if [ "$PROXY_SYSTEM" = "nginx" ]; then
         for template in $(v-list-proxy-templates plain); do
-            run v-change-web-domain-proxy-tpl $user testdavidcp.com $template
+            run v-change-web-domain-proxy-tpl $user testdavidk.online $template
             assert_success
             refute_output
         done

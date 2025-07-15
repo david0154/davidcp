@@ -21,10 +21,10 @@ function setup() {
         echo 'userpass1=test-5285' >> /tmp/david-test-env.sh
         echo 'userpass2=t3st-p4ssw0rd' >> /tmp/david-test-env.sh
         echo 'DAVID=/usr/local/david' >> /tmp/david-test-env.sh
-        echo 'domain=test-5285.davidcp.com' >> /tmp/david-test-env.sh
-        echo 'domainuk=test-5285.davidcp.com.uk' >> /tmp/david-test-env.sh
-        echo 'rootdomain=testdavidcp.com' >> /tmp/david-test-env.sh
-        echo 'subdomain=cdn.testdavidcp.com' >> /tmp/david-test-env.sh
+        echo 'domain=test-5285.davidk.online' >> /tmp/david-test-env.sh
+        echo 'domainuk=test-5285.davidk.online.uk' >> /tmp/david-test-env.sh
+        echo 'rootdomain=testdavidk.online' >> /tmp/david-test-env.sh
+        echo 'subdomain=cdn.testdavidk.online' >> /tmp/david-test-env.sh
         echo 'database=test-5285_database' >> /tmp/david-test-env.sh
         echo 'dbuser=test-5285_dbuser' >> /tmp/david-test-env.sh
     fi
@@ -136,7 +136,7 @@ r' "key"
 
 
 @test "is_domain_format_valid success" {
-     run is_domain_format_valid 'davidcp.com' "key"
+     run is_domain_format_valid 'davidk.online' "key"
     assert_success
 }
 
@@ -154,8 +154,8 @@ r' "key"
     assert_failure $E_INVALID
 }
 
-@test "is_domain_format_valid davidcp.com." {
-     run is_domain_format_valid 'mx.davidcp.com.' "key"
+@test "is_domain_format_valid davidk.online." {
+     run is_domain_format_valid 'mx.davidk.online.' "key"
     assert_success
 }
 
@@ -169,7 +169,7 @@ r' "key"
 @test "is_dns_record_format_valid" {
     rtype='MX'
     priority=1;
-    run is_dns_record_format_valid 'mx.davidcp.com.'
+    run is_dns_record_format_valid 'mx.davidk.online.'
     assert_success
 }
 
@@ -183,26 +183,26 @@ r'
 }
 
 @test "is_alias_format_valid success" {
-     run is_alias_format_valid 'davidcp.com' "key"
+     run is_alias_format_valid 'davidk.online' "key"
     assert_success
 }
 
 @test "is_alias_format_valid success www.domain.com" {
-     run is_alias_format_valid 'www.davidcp.com' "key"
+     run is_alias_format_valid 'www.davidk.online' "key"
     assert_success
 }
-@test "is_alias_format_valid success davidcp.com,www.davidcp.com" {
-     run is_alias_format_valid 'davidcp.com,www.davidcp.com' "key"
-    assert_success
-}
-
-@test "is_alias_format_valid success *.davidcp.com" {
-     run is_alias_format_valid '*.davidcp.com' "key"
+@test "is_alias_format_valid success davidk.online,www.davidk.online" {
+     run is_alias_format_valid 'davidk.online,www.davidk.online' "key"
     assert_success
 }
 
-@test "is_alias_format_valid success www.davidcp.com,*.davidcp.com" {
-     run is_alias_format_valid 'www.davidcp.com,*.davidcp.com' "key"
+@test "is_alias_format_valid success *.davidk.online" {
+     run is_alias_format_valid '*.davidk.online' "key"
+    assert_success
+}
+
+@test "is_alias_format_valid success www.davidk.online,*.davidk.online" {
+     run is_alias_format_valid 'www.davidk.online,*.davidk.online' "key"
     assert_success
 }
 

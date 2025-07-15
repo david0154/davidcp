@@ -4,7 +4,7 @@
 #
 # David Control Panel Installation Routine
 # Automatic OS detection wrapper
-# https://www.davidcp.com/
+#https://www.davidk.online/
 #
 # Currently Supported Operating Systems:
 #

@@ -3,8 +3,8 @@ Package: david-nginx
 Priority: optional
 Version: 1.27.4
 Section: admin
-Maintainer: davidcp <info@davidcp.com>
-Homepage: https://www.davidcp.com
+Maintainer: davidcp <info@davidk.online>
+Homepage:https://www.davidk.online
 Architecture: amd64
 Depends: david
 Description: david Nginx

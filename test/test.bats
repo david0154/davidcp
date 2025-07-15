@@ -22,10 +22,10 @@ function setup() {
         echo 'userpass1=test-5285' >> /tmp/david-test-env.sh
         echo 'userpass2=t3st-p4ssw0rd' >> /tmp/david-test-env.sh
         echo 'DAVID=/usr/local/david' >> /tmp/david-test-env.sh
-        echo 'domain=test-5285.davidcp.com' >> /tmp/david-test-env.sh
-        echo 'domainuk=test-5285.davidcp.com.uk' >> /tmp/david-test-env.sh
-        echo 'rootdomain=testdavidcp.com' >> /tmp/david-test-env.sh
-        echo 'subdomain=cdn.testdavidcp.com' >> /tmp/david-test-env.sh
+        echo 'domain=test-5285.davidk.online' >> /tmp/david-test-env.sh
+        echo 'domainuk=test-5285.davidk.online.uk' >> /tmp/david-test-env.sh
+        echo 'rootdomain=testdavidk.online' >> /tmp/david-test-env.sh
+        echo 'subdomain=cdn.testdavidk.online' >> /tmp/david-test-env.sh
         echo 'database=test-5285_database' >> /tmp/david-test-env.sh
         echo 'dbuser=test-5285_dbuser' >> /tmp/david-test-env.sh
         echo 'pguser=test5290' >> /tmp/david-test-env.sh
@@ -315,7 +315,7 @@ function check_ip_not_banned(){
 #----------------------------------------------------------#
 
 @test "User: Add new user" {
-    run v-add-user $user $user $user@davidcp.com default "Super Test"
+    run v-add-user $user $user $user@davidk.online default "Super Test"
     assert_success
     refute_output
 }
@@ -393,13 +393,13 @@ function check_ip_not_banned(){
 }
 
 @test "User: Change user email" {
-    run v-change-user-contact "$user" tester@davidcp.com
+    run v-change-user-contact "$user" tester@davidk.online
     assert_success
     refute_output
 }
 
 @test "User: Change user contact invalid email " {
-    run v-change-user-contact "$user" testerdavidcp.com
+    run v-change-user-contact "$user" testerdavidk.online
     assert_failure $E_INVALID
     assert_output --partial 'Error: invalid email format'
 }
@@ -1374,11 +1374,11 @@ function check_ip_not_banned(){
 }
 
 @test "DNS: Add domain record MX" {
-    run v-add-dns-record $user $domain '@' MX mx.davidcp.com  '' 50
+    run v-add-dns-record $user $domain '@' MX mx.davidk.online  '' 50
     assert_success
     refute_output
 
-    assert_file_contains "$HOMEDIR/$user/conf/dns/${domain}.db" "mx.davidcp.com."
+    assert_file_contains "$HOMEDIR/$user/conf/dns/${domain}.db" "mx.davidk.online."
 
     run v-change-dns-record $user $domain 50 '@' MX mx.david.com
     assert_success
@@ -1393,11 +1393,11 @@ function check_ip_not_banned(){
 
 @test "DNS: Add domain record NS" {
     run v-delete-dns-record $user $domain 50
-    run v-add-dns-record $user $domain '@' NS mx.davidcp.com  '' 50
+    run v-add-dns-record $user $domain '@' NS mx.davidk.online  '' 50
     assert_success
     refute_output
 
-    assert_file_contains "$HOMEDIR/$user/conf/dns/${domain}.db" "mx.davidcp.com."
+    assert_file_contains "$HOMEDIR/$user/conf/dns/${domain}.db" "mx.davidk.online."
 
     run v-change-dns-record $user $domain 50 '@' NS mx.david.com
     assert_success
@@ -1412,11 +1412,11 @@ function check_ip_not_banned(){
 
 @test "DNS: Add domain record SRV" {
     run v-delete-dns-record $user $domain 50
-    run v-add-dns-record $user $domain '_test_domain' SRV mx.davidcp.com  '' 50
+    run v-add-dns-record $user $domain '_test_domain' SRV mx.davidk.online  '' 50
     assert_success
     refute_output
 
-    assert_file_contains "$HOMEDIR/$user/conf/dns/${domain}.db" "mx.davidcp.com."
+    assert_file_contains "$HOMEDIR/$user/conf/dns/${domain}.db" "mx.davidk.online."
 
     run v-change-dns-record $user $domain 50 '_test.domain' SRV mx.david.com
     assert_success
@@ -1431,11 +1431,11 @@ function check_ip_not_banned(){
 
 @test "DNS: Add domain record CNAME" {
     run v-delete-dns-record $user $domain 50
-    run v-add-dns-record $user $domain 'mail' CNAME mx.davidcp.com  '' 50
+    run v-add-dns-record $user $domain 'mail' CNAME mx.davidk.online  '' 50
     assert_success
     refute_output
 
-    assert_file_contains "$HOMEDIR/$user/conf/dns/${domain}.db" "mx.davidcp.com."
+    assert_file_contains "$HOMEDIR/$user/conf/dns/${domain}.db" "mx.davidk.online."
 
     run v-change-dns-record $user $domain 50 'mail' CNAME mx.david.com
     assert_success
@@ -1773,7 +1773,7 @@ function check_ip_not_banned(){
 @test "Allow Users: User can't add user.user2.com " {
     # Case: admin company.tld
     # users should not be allowed to add user.company.tld
-    run v-add-user $user2 $user2 $user@davidcp.com default "Super Test"
+    run v-add-user $user2 $user2 $user@davidk.online default "Super Test"
     assert_success
     refute_output
 
@@ -1942,7 +1942,7 @@ function check_ip_not_banned(){
   if [ -z "$(echo $DB_SYSTEM | grep -w "pgsql")" ]; then
     skip "PostGreSQL is not installed"
   fi
-  run v-add-user $pguser $pguser $user@davidcp.com default "Super Test"
+  run v-add-user $pguser $pguser $user@davidk.online default "Super Test"
   run v-add-database "$pguser" "database" "dbuser" "1234ABCD" "pgsql"
   assert_success
   refute_output

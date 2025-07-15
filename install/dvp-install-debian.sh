@@ -3,7 +3,7 @@
 # ======================================================== #
 #
 # David Control Panel Installer for Debian
-# https://www.davidcp.com/
+#https://www.davidk.online/
 #
 # Currently Supported Versions:
 # Debian 11 12
@@ -90,7 +90,7 @@ help() {
   -f, --force             Force installation
   -h, --help              Print this help
 
-  Example: bash $0 -e demo@davidcp.com -p p4ssw0rd --multiphp yes"
+  Example: bash $0 -e demo@davidk.online -p p4ssw0rd --multiphp yes"
 	exit 1
 }
 
@@ -595,7 +595,7 @@ install_welcome_message() {
 		echo "                          USE AT YOUR OWN RISK                      "
 	fi
 	echo "                                  ${DISPLAY_VER}                        "
-	echo "                            www.davidcp.com                            "
+	echo "                            www.davidk.online                            "
 	echo
 	echo "========================================================================"
 	echo
@@ -2286,7 +2286,7 @@ if [ "$iptables" = 'yes' ]; then
 fi
 
 # Get public IP
-pub_ipv4="$(curl -fsLm5 --retry 2 --ipv4 https://ip.davidcp.com/)"
+pub_ipv4="$(curl -fsLm5 --retry 2 --ipv4 https://ip.davidk.online/)"
 if [ -n "$pub_ipv4" ] && [ "$pub_ipv4" != "$ip" ]; then
 	if [ -e /etc/rc.local ]; then
 		sed -i '/exit 0/d' /etc/rc.local
@@ -2445,15 +2445,15 @@ we hope that you enjoy using it as much as we do!
 Please feel free to contact us at any time if you have any questions,
 or if you encounter any bugs or problems:
 
-Documentation:  https://docs.davidcp.com/
-Forum:          https://forum.davidcp.com/
+Documentation:  https://docs.davidk.online/
+Forum:          https://forum.davidk.online/
 GitHub:         https://www.github.com/davidcp/davidcp
 
 Note: Automatic updates are enabled by default. If you would like to disable them,
 please log in and navigate to Server > Updates to turn them off.
 
 Help support the David Control Panel project by donating via PayPal:
-https://www.davidcp.com/donate
+https://www.davidk.online/donate
 
 --
 Sincerely yours,
@@ -2471,7 +2471,7 @@ cat $tmpfile
 rm -f $tmpfile
 
 # Add welcome message to notification panel
-$DAVID/bin/v-add-user-notification "$username" 'Welcome to David Control Panel!' '<p>You are now ready to begin adding <a href="/add/user/">user accounts</a> and <a href="/add/web/">domains</a>. For help and assistance, <a href="https://davidcp.com/docs/" target="_blank">view the documentation</a> or <a href="https://forum.davidcp.com/" target="_blank">visit our forum</a>.</p><p>Please <a href="https://github.com/davidcp/davidcp/issues" target="_blank">report any issues via GitHub</a>.</p><p class="u-text-bold">Have a wonderful day!</p><p><i class="fas fa-heart icon-red"></i> The David Control Panel development team</p>'
+$DAVID/bin/v-add-user-notification "$username" 'Welcome to David Control Panel!' '<p>You are now ready to begin adding <a href="/add/user/">user accounts</a> and <a href="/add/web/">domains</a>. For help and assistance, <a href="https://davidk.online/docs/" target="_blank">view the documentation</a> or <a href="https://forum.davidk.online/" target="_blank">visit our forum</a>.</p><p>Please <a href="https://github.com/davidcp/davidcp/issues" target="_blank">report any issues via GitHub</a>.</p><p class="u-text-bold">Have a wonderful day!</p><p><i class="fas fa-heart icon-red"></i> The David Control Panel development team</p>'
 
 # Clean-up
 # Sort final configuration file

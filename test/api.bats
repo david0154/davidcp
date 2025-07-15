@@ -33,7 +33,7 @@ function setup() {
 }
 
 @test "[Fail][ APIV2 ] Create new user" {
-    run curl -k -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "hash=$accesskey&returncode=yes&cmd=v-add-user&arg1=davidtest&arg2=strongpassword&arg3=info@davidcp.com" "https://$server:$port/api/index.php"
+    run curl -k -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "hash=$accesskey&returncode=yes&cmd=v-add-user&arg1=davidtest&arg2=strongpassword&arg3=info@davidk.online" "https://$server:$port/api/index.php"
     assert_success
     assert_output --partial "don't have permission to run the command v-add-user"
 }
@@ -45,7 +45,7 @@ function setup() {
 }
 
 @test "[Success][ Hash ] Create new user" {
-    run curl -k -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "hash=$apikey&cmd=v-add-user&arg1=davidtest&arg2=/tmp/clusterpassword&arg3=info@davidcp.com&arg4=default" "https://$server:$port/api/index.php"
+    run curl -k -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "hash=$apikey&cmd=v-add-user&arg1=davidtest&arg2=/tmp/clusterpassword&arg3=info@davidk.online&arg4=default" "https://$server:$port/api/index.php"
     assert_success
     assert_output --partial "OK"
 }
@@ -58,12 +58,12 @@ function setup() {
 
 
 @test "[Success][ Local ] Add user" {
-    run v-add-user davidtest 1234BCD info@davidcp.com
+    run v-add-user davidtest 1234BCD info@davidk.online
     assert_success
 }
 
 @test "[Success][ Local ] Add DNS domain" {
-    run v-add-dns-domain davidtest ilovedavidcp.com 127.0.0.1
+    run v-add-dns-domain davidtest ilovedavidk.online 127.0.0.1
     assert_success
 }
 
@@ -77,8 +77,8 @@ function setup() {
     assert_success
 }
 
-@test "[Success][ Local ] nslookup ilovedavidcp.com" {
-    run nslookup ilovedavidcp.com $server
+@test "[Success][ Local ] nslookup ilovedavidk.online" {
+    run nslookup ilovedavidk.online $server
     assert_success
     assert_output --partial "127.0.0.1"
 }

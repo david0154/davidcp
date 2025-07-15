@@ -4,7 +4,7 @@
  * David Control Panel Password Driver
  *
  * @version 1.0
- * @author davidcp <info@davidcp.com>
+ * @author davidcp <info@davidk.online>
  */
 class rcube_david_password {
 	public function save($curpass, $passwd) {

@@ -111,7 +111,7 @@ $application -> register('apps')
 	foreach($appInstallers as $appInstaller){
 		$app = basename(dirname($appInstaller));
 		$david = new \David\System\HestiaApp();
-		$domain = 'demo.davidcp.com';
+		$domain = 'demo.davidk.online';
 		if( !file_exists(__DIR__ . "/../web/src/app/WebApp/Installers/" . $app . "/". $app . "Setup.php") ){
 			continue;
 		}

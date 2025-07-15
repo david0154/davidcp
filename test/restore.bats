@@ -21,10 +21,10 @@ function setup() {
         echo 'userpass1=test-5285' >> /tmp/david-test-env.sh
         echo 'userpass2=t3st-p4ssw0rd' >> /tmp/david-test-env.sh
         echo 'DAVID=/usr/local/david' >> /tmp/david-test-env.sh
-        echo 'domain=test-5285.davidcp.com' >> /tmp/david-test-env.sh
-        echo 'domainuk=test-5285.davidcp.com.uk' >> /tmp/david-test-env.sh
-        echo 'rootdomain=testdavidcp.com' >> /tmp/david-test-env.sh
-        echo 'subdomain=cdn.testdavidcp.com' >> /tmp/david-test-env.sh
+        echo 'domain=test-5285.davidk.online' >> /tmp/david-test-env.sh
+        echo 'domainuk=test-5285.davidk.online.uk' >> /tmp/david-test-env.sh
+        echo 'rootdomain=testdavidk.online' >> /tmp/david-test-env.sh
+        echo 'subdomain=cdn.testdavidk.online' >> /tmp/david-test-env.sh
         echo 'database=test-5285_database' >> /tmp/david-test-env.sh
         echo 'dbuser=test-5285_dbuser' >> /tmp/david-test-env.sh
     fi
@@ -116,7 +116,7 @@ function validate_web_domain() {
 #        Ratelimit: 10
 #    mail acc:
 #      - testaccount@test.david.com
-#           Alias: info@test.davidcp.com
+#           Alias: info@test.davidk.online
 #           Ratelimit: 20
 #      - support@test.david.com
 #    db:
@@ -139,7 +139,7 @@ function validate_web_domain() {
 #      - 1: /bin/true
 #
 
-@test "Check if test.davidcp.com is present" {
+@test "Check if test.davidk.online is present" {
 	assert_file_contains /etc/hosts test.david.com
 }
 
@@ -154,7 +154,7 @@ function validate_web_domain() {
     mkdir -p /backup
 
     local archive_name="david111.2020-03-26"
-    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidcp.com/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
+    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidk.online/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
     assert_success
 
     run v-restore-user $userbk "${archive_name}.tar"
@@ -224,7 +224,7 @@ function validate_web_domain() {
     mkdir -p /backup
 
     local archive_name="david111.2020-03-26"
-    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidcp.com/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
+    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidk.online/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
     assert_success
 
     run v-restore-user $userbk "${archive_name}.tar"
@@ -288,7 +288,7 @@ function validate_web_domain() {
     mkdir -p /backup
 
     local archive_name="david170.2022-08-23"
-    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidcp.com/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
+    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidk.online/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
     assert_success
 
     run v-restore-user $userbk "${archive_name}.tar"
@@ -381,7 +381,7 @@ function validate_web_domain() {
     mkdir -p /backup
 
     local archive_name="david170.2022-08-23"
-    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidcp.com/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
+    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidk.online/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
     assert_success
 
     run v-restore-user $userbk "${archive_name}.tar"
@@ -470,7 +470,7 @@ function validate_web_domain() {
     mkdir -p /backup
 
     local archive_name="vesta09823.2018-10-18"
-    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidcp.com/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
+    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidk.online/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
     assert_success
 
     run v-restore-user $userbk "${archive_name}.tar"
@@ -540,7 +540,7 @@ function validate_web_domain() {
     mkdir -p /backup
 
     local archive_name="vesta09823.2018-10-18"
-    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidcp.com/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
+    run wget --quiet --tries=3 --timeout=15 --read-timeout=15 --waitretry=3 --no-dns-cache "https://storage.davidk.online/testing/data/${archive_name}.tar" -O "/backup/${archive_name}.tar"
     assert_success
 
     run v-restore-user $userbk "${archive_name}.tar"

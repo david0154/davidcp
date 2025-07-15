@@ -1,6 +1,6 @@
 [Unit]
 Description=davidcp Web Terminal
-Documentation=https://davidcp.com/docs/
+Documentation=https://davidk.online/docs/
 After=network.target
 
 [Service]

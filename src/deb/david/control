@@ -3,8 +3,8 @@ Package: david
 Priority: optional
 Version: 1.10.0~alpha
 Section: admin
-Maintainer: davidcp <info@davidcp.com>
-Homepage: https://www.davidcp.com
+Maintainer: davidcp <info@davidk.online>
+Homepage:https://www.davidk.online
 Architecture: amd64
 Depends: bash, awk, sed, acl, sysstat, setpriv | util-linux (>= 2.33), zstd, lsb-release, idn2, jq, bubblewrap, at
 Description: david

@@ -43,9 +43,9 @@ if [ -f "/etc/apt/sources.list.d/david-beta.list" ]; then
 	rm /etc/apt/sources.list.d/david-beta.list
 	sed -i 's/#//g' /etc/apt/sources.list.d/david.list
 fi
-check=$(cat /etc/apt/sources.list.d/david.list | grep "beta.davidcp.com")
+check=$(cat /etc/apt/sources.list.d/david.list | grep "beta.davidk.online")
 if [ ! -z "$check" ]; then
 	echo "[ ! ] Change to stable release!"
-	sed -i '/beta.davidcp.com/d' /etc/apt/sources.list.d/david.list
+	sed -i '/beta.davidk.online/d' /etc/apt/sources.list.d/david.list
 	sed -i 's/#//g' /etc/apt/sources.list.d/david.list
 fi

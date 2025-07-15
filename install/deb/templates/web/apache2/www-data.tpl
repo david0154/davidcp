@@ -1,7 +1,7 @@
 #=========================================================================#
 # Default Web Domain Template                                             #
 # DO NOT MODIFY THIS FILE! CHANGES WILL BE LOST WHEN REBUILDING DOMAINS   #
-# https://davidcp.com/docs/server-administration/web-templates.html      #
+# https://davidk.online/docs/server-administration/web-templates.html      #
 #=========================================================================#
 
 # phpMyAdmin and phpPgAdmin require access as www-data instead of user for security reasons
