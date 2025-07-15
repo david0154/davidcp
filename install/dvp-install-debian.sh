@@ -1898,7 +1898,7 @@ if [ "$postgresql" = 'yes' ]; then
 	mkdir -p /etc/phppgadmin/
 	mkdir -p /usr/share/phppgadmin/
 
-	wget --retry-connrefused --quiet https://github.com/hestiacp/phppgadmin/releases/download/v$pga_v/phppgadmin-v$pga_v.tar.gz
+	wget --retry-connrefused --quiet https://github.com/davidcp/phppgadmin/releases/download/v$pga_v/phppgadmin-v$pga_v.tar.gz
 	tar xzf phppgadmin-v$pga_v.tar.gz -C /usr/share/phppgadmin/
 
 	cp -f $DAVID_INSTALL_DIR/pga/config.inc.php /etc/phppgadmin/
