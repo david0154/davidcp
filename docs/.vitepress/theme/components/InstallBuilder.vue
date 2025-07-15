@@ -9,7 +9,7 @@
 				</p>
 				<CopyToClipboardInput
 					class="u-mb10"
-					value="wget https://raw.githubusercontent.com/david0154/davidcp/release/install/dvp-install.sh"
+					value="wgethttps://raw.githubusercontent.com/david0154/davidcp/main/install/dvp-install.sh"
 				/>
 				<p class="u-mb10">
 					Check you are running as the <code>root</code> user, configure the options you want below,
