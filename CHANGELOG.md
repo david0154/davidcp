@@ -1250,7 +1250,7 @@ After that run apt update && apt upgrade
 - Fixed an issue with # in config files
 - Fixed multiple bugs in installer
 - Set correct permission /install/deb/ folder
-- Adjust /etc/apt/sources.list.d/david.list to include architecture to resolve issue with I386 missing in apt.davidcp.com
+- Adjust /etc/apt/sources.list.d/david.list to include architecture to resolve issue with I386 missing in apt.histacp.com
 - Fallback to hostname without retrying ptr lookup in exim (#2259)
 - Enable quota with in dovecot when sieve is enabled @madito
 - Unable to edit php8.1 service #2261
@@ -1264,7 +1264,7 @@ After that run apt update && apt upgrade
 ### Breaking changes
 
 - **NOTE:** Changes have been made on how phpmyadmin/phppgadmin config are included in apache2 config. To restore to the old behaviour add `IncludeOptional conf.d/*.inc` below `IncludeOptional conf.d/*.conf` in /etc/apache2/apache2.conf and restart your server.
-- **NOTE:** David packages for arm64 has been added to atp.davidcp.com please use the normal install instructions instead! For current ARM installs to enable auto update remove the `#` in /etc/apt/sources.list.d/david.list `# deb https://apt.davidcp.com/ focal main` becomes `deb https://apt.davidcp.com/ focal main` and then run `apt update && apt upgrade -y`
+- **NOTE:** David packages for arm64 has been added to atp.davidcp.com please use the normal install instructions instead! For current ARM installs to enable auto update remove the `#` in /etc/apt/sources.list.d/david.list `# deb https://apt.histacp.com/ focal main` becomes `deb https://apt.histacp.com/ focal main` and then run `apt update && apt upgrade -y`
 - **NOTE:** Make sure your server / VPS has a valid PTR record or otherwise you will not be able to send any mail!
 
 ### Features

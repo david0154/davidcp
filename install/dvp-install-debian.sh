@@ -15,7 +15,7 @@
 #----------------------------------------------------------#
 export PATH=$PATH:/sbin
 export DEBIAN_FRONTEND=noninteractive
-RHOST='apt.davidcp.com'
+RHOST='apt.histacp.com'
 VERSION='debian'
 DAVID='/usr/local/david'
 LOG="/root/dvp_install_backups/dvp_install-$(date +%d%m%Y%H%M).log"
