@@ -1,0 +1,55 @@
+#!/bin/bash
+# info: update david package/configs
+# options: PACKAGE
+#
+# example: v-update-sys-david david-php
+#
+# This function runs as apt update trigger. It pulls shell script from david
+# server and runs it. (david, david-nginx and david-php are valid options)
+
+#----------------------------------------------------------#
+#                Variables & Functions                     #
+#----------------------------------------------------------#
+
+# Argument definition
+package=$1
+
+# Includes
+# shellcheck source=/etc/davidcp/david.conf
+source /etc/davidcp/david.conf
+# shellcheck source=/usr/local/david/func/main.sh
+source $HESTIA/func/main.sh
+# load config file
+source_conf "$HESTIA/conf/david.conf"
+
+#----------------------------------------------------------#
+#                    Verifications                         #
+#----------------------------------------------------------#
+
+# Checking arg number
+check_args '1' "$#" 'PACKAGE'
+is_david_package "david david-nginx david-php" "$package"
+
+# Perform verification if read-only mode is enabled
+check_david_demo_mode
+
+#----------------------------------------------------------#
+#                       Action                             #
+#----------------------------------------------------------#
+
+# Update repo
+apt-get update -o Dir::Etc::sourcelist="sources.list.d/david.list" \
+	-o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0" -qq
+
+# Update david package
+apt-get install $package -qq > /dev/null 2>&1
+check_result $? "$package update failed" "$E_UPDATE"
+
+#----------------------------------------------------------#
+#                       David                             #
+#----------------------------------------------------------#
+
+# Logging
+log_event "$OK" "$ARGUMENTS"
+
+exit

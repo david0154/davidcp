@@ -1,0 +1,14 @@
+Source: david
+Package: david
+Priority: optional
+Version: 1.10.0~alpha
+Section: admin
+Maintainer: davidcp <info@davidcp.com>
+Homepage: https://www.davidcp.com
+Architecture: amd64
+Depends: bash, awk, sed, acl, sysstat, setpriv | util-linux (>= 2.33), zstd, lsb-release, idn2, jq, bubblewrap, at
+Description: david
+ david is an open source hosting control panel.
+ david has a clean and focused interface without the clutter.
+ david has the latest of very innovative technologies.
+ david is a fork from VestaCP, special thanks to vestacp.com and Serghey Rodin

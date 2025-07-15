@@ -1,0 +1,14 @@
+Source: david-nginx
+Package: david-nginx
+Priority: optional
+Version: 1.27.4
+Section: admin
+Maintainer: davidcp <info@davidcp.com>
+Homepage: https://www.davidcp.com
+Architecture: amd64
+Depends: david
+Description: david Nginx
+ david is an open source hosting control panel.
+ david has a clean and focused interface without the clutter.
+ david has the latest of very innovative technologies.
+ david is a fork from VestaCP, special thanks to vestacp.com and Serghey Rodin.

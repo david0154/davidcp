@@ -1,0 +1,51 @@
+#!/bin/bash
+# info: delete web terminal
+# options: NONE
+#
+# example: v-delete-sys-web-terminal
+#
+# This function disables the web terminal.
+
+#----------------------------------------------------------#
+#                Variables & Functions                     #
+#----------------------------------------------------------#
+
+# Includes
+# shellcheck source=/etc/davidcp/david.conf
+source /etc/davidcp/david.conf
+# shellcheck source=/usr/local/david/func/main.sh
+source $HESTIA/func/main.sh
+# load config file
+source_conf "$HESTIA/conf/david.conf"
+
+#----------------------------------------------------------#
+#                    Verifications                         #
+#----------------------------------------------------------#
+
+if [ -z "$WEB_TERMINAL" ]; then
+	exit
+fi
+
+# Perform verification if read-only mode is enabled
+check_david_demo_mode
+
+#----------------------------------------------------------#
+#                       Action                             #
+#----------------------------------------------------------#
+
+# Updating WEB_TERMINAL value
+$BIN/v-change-sys-config-value "WEB_TERMINAL" "false"
+
+# Stopping web terminal websocket server
+$BIN/v-stop-service "david-web-terminal"
+systemctl disable david-web-terminal
+
+#----------------------------------------------------------#
+#                       David                             #
+#----------------------------------------------------------#
+
+# Logging
+$BIN/v-log-action "system" "Warning" "Web Terminal" "Web terminal disabled."
+log_event "$OK" "$ARGUMENTS"
+
+exit

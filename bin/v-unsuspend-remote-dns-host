@@ -1,0 +1,51 @@
+#!/bin/bash
+# info: unsuspend remote dns server
+# options: HOST
+#
+# example: v-unsuspend-remote-dns-host hosname.com
+#
+# This function for unsuspending remote dns server.
+
+#----------------------------------------------------------#
+#                Variables & Functions                     #
+#----------------------------------------------------------#
+
+# Argument definition
+host=$1
+
+# Includes
+# shellcheck source=/etc/davidcp/david.conf
+source /etc/davidcp/david.conf
+# shellcheck source=/usr/local/david/func/main.sh
+source $HESTIA/func/main.sh
+# load config file
+source_conf "$HESTIA/conf/david.conf"
+
+#----------------------------------------------------------#
+#                    Verifications                         #
+#----------------------------------------------------------#
+
+check_args '1' "$#" 'HOST'
+is_format_valid 'host'
+is_system_enabled "$DNS_SYSTEM" 'DNS_SYSTEM'
+is_object_valid "../../conf/dns-cluster" 'HOST' "$host"
+is_object_suspended "../../conf/dns-cluster" 'HOST' "$host"
+
+# Perform verification if read-only mode is enabled
+check_david_demo_mode
+
+#----------------------------------------------------------#
+#                       Action                             #
+#----------------------------------------------------------#
+
+# Unsuspend remote dns server
+update_object_value "../../conf/dns-cluster" 'HOST' "$host" '$SUSPENDED' 'no'
+
+#----------------------------------------------------------#
+#                       David                             #
+#----------------------------------------------------------#
+
+# Logging
+log_event "$OK" "$ARGUMENTS"
+
+exit

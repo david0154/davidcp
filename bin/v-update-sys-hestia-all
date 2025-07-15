@@ -1,0 +1,37 @@
+#!/bin/bash
+# info: update all david packages
+# options: NONE
+#
+# example: v-update-sys-david-all
+#
+# This function of updating all david packages
+
+#----------------------------------------------------------#
+#                Variables & Functions                     #
+#----------------------------------------------------------#
+
+# Includes
+# shellcheck source=/etc/davidcp/david.conf
+source /etc/davidcp/david.conf
+# shellcheck source=/usr/local/david/func/main.sh
+source $HESTIA/func/main.sh
+# load config file
+source_conf "$HESTIA/conf/david.conf"
+
+# Perform verification if read-only mode is enabled
+check_david_demo_mode
+
+#----------------------------------------------------------#
+#                       Action                             #
+#----------------------------------------------------------#
+
+# Starting update loop
+for package in david david-nginx david-php; do
+	$BIN/v-update-sys-david "$package"
+done
+
+#----------------------------------------------------------#
+#                       David                             #
+#----------------------------------------------------------#
+
+exit

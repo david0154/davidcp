@@ -1,0 +1,30 @@
+#!/bin/bash
+# info: change active system theme
+# options: NONE
+#
+# example: v-refresh-sys-theme
+#
+# This function for changing the currently active system theme.
+
+#----------------------------------------------------------#
+#                Variables & Functions                     #
+#----------------------------------------------------------#
+
+# Includes
+# shellcheck source=/etc/davidcp/david.conf
+source /etc/davidcp/david.conf
+# shellcheck source=/usr/local/david/func/main.sh
+source $HESTIA/func/main.sh
+# load config file
+source_conf "$HESTIA/conf/david.conf"
+
+#----------------------------------------------------------#
+#                       Action                             #
+#----------------------------------------------------------#
+
+# Store current theme name
+CURRENT_THEME=$THEME
+
+# Cycle theme to regenerate (helps if cache is stuck)
+$BIN/v-change-sys-theme "default"
+$BIN/v-change-sys-theme "$CURRENT_THEME"

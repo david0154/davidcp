@@ -1,0 +1,4 @@
+Defaults:root !requiretty
+
+# sudo is limited to david scripts
+davidweb   ALL=NOPASSWD:/usr/local/david/bin/*

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -e
+
+if [ "$1" != "configure" ]; then
+	exit 0
+fi
+
+# Run triggers below only on updates
+if [ ! -e "/usr/local/david/data/users/" ]; then
+	exit
+fi
+
+# Prevent running and causes issues with outdated david version
+if ! id "davidweb" &> /dev/null; then
+	exit
+fi
+
+# Check if preinstall hook exists
+if [ -e "/etc/davidcp/hooks/php/pre_install.sh" ]; then
+	/etc/davidcp/hooks/php/pre_install.sh
+fi
+
+###############################################################
+#                Initialize functions/variables               #
+###############################################################
+
+if [ -z "$HESTIA" ]; then
+	export HESTIA='/usr/local/david'
+	PATH=$PATH:/usr/local/david/bin
+	export PATH
+fi
+
+# Load upgrade functions and variables
+source /usr/local/david/func/main.sh
+source /usr/local/david/func/upgrade.sh
+source /usr/local/david/conf/david.conf
+source /usr/local/david/install/upgrade/upgrade.conf
+
+# Restart david service
+if [ -f "/etc/init.d/david" ]; then
+	systemctl restart david > /dev/null 2>&1
+fi
+
+# Check if preinstall hook exists
+if [ -e "/etc/davidcp/hooks/php/post_install.sh" ]; then
+	/etc/davidcp/hooks/php/post_install.sh
+fi

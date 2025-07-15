@@ -1,0 +1,17 @@
+{
+	"name": "@davidcp/web-terminal-ws",
+	"private": true,
+	"version": "1.0.2",
+	"type": "module",
+	"scripts": {
+		"start": "node server.js"
+	},
+	"dependencies": {
+		"node-pty": "^1.0.0",
+		"ws": "^8.18.3"
+	},
+	"devDependencies": {
+		"@types/ws": "^8.18.1",
+		"@types/node": "^22.16.3"
+	}
+}

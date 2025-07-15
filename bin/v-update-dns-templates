@@ -1,0 +1,45 @@
+#!/bin/bash
+# info: update dns templates
+# options: [RESTART]
+#
+# example: v-update-dns-templates
+#
+# This function for obtaining updated dns templates from David package.
+
+#----------------------------------------------------------#
+#                Variables & Functions                     #
+#----------------------------------------------------------#
+
+# Argument definition
+restart=$1
+
+# Includes
+# shellcheck source=/etc/davidcp/david.conf
+source /etc/davidcp/david.conf
+# shellcheck source=/usr/local/david/func/main.sh
+source $HESTIA/func/main.sh
+# load config file
+source_conf "$HESTIA/conf/david.conf"
+
+# Perform verification if read-only mode is enabled
+check_david_demo_mode
+
+#----------------------------------------------------------#
+#                    Verifications                         #
+#----------------------------------------------------------#
+
+is_format_valid 'restart'
+
+#----------------------------------------------------------#
+#                       Action                             #
+#----------------------------------------------------------#
+
+# Update templates
+cp -rf $HESTIA_COMMON_DIR/templates/dns $HESTIA/data/templates/
+
+#----------------------------------------------------------#
+#                       David                             #
+#----------------------------------------------------------#
+
+$BIN/v-log-action "system" "Info" "Updates" "Default DNS zone templates updated."
+exit

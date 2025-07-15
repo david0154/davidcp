@@ -1,0 +1,15 @@
+Source: david-php
+Package: david-php
+Priority: optional
+Version: 8.3.17
+Section: admin
+Maintainer: HestaCP <info@davidcp.com>
+Homepage: https://www.davidcp.com
+Architecture: amd64
+Depends: david, libzip4, unzip, libonig5 | libonig4 | libonig2
+Conflct: libzip5
+Description: david php-fpm
+ david is an open source hosting control panel.
+ david has a clean and focused interface without the clutter.
+ david has the latest of very innovative technologies.
+ david is a fork from VestaCP, special thanks to vestacp.com and Serghey Rodin

@@ -1,0 +1,14 @@
+Source: david-web-terminal
+Package: david-web-terminal
+Priority: optional
+Version: 1.0.2
+Section: admin
+Maintainer: davidcp <info@davidcp.com>
+Homepage: https://www.davidcp.com
+Architecture: amd64
+Depends: david, nodejs (>= 20.0.0)
+Description: david web terminal
+ david is an open source hosting control panel.
+ david has a clean and focused interface without the clutter.
+ david has the latest of very innovative technologies.
+ david is a fork from VestaCP, special thanks to vestacp.com and Serghey Rodin

@@ -1,0 +1,16 @@
+[Unit]
+Description=davidcp Web Terminal
+Documentation=https://davidcp.com/docs/
+After=network.target
+
+[Service]
+User=root
+Group=david-users
+Environment=NODE_ENV=production
+Environment=HESTIA=/usr/local/david
+ExecStart=/usr/local/david/web-terminal/server.js
+ExecStop=/bin/kill -s TERM $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

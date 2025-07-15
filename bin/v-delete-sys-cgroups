@@ -1,0 +1,53 @@
+#!/bin/bash
+# info: delete all cgroups
+# options: NONE
+#
+# example: v-delete-sys-cgroups
+#
+# This function disables cgroups
+
+#----------------------------------------------------------#
+#                Variables & Functions                     #
+#----------------------------------------------------------#
+
+# Includes
+# shellcheck source=/etc/davidcp/david.conf
+source /etc/davidcp/david.conf
+# shellcheck source=/usr/local/david/func/main.sh
+source $HESTIA/func/main.sh
+# load config file
+source_conf "$HESTIA/conf/david.conf"
+
+#----------------------------------------------------------#
+#                    Verifications                         #
+#----------------------------------------------------------#
+
+# Perform verification if read-only mode is enabled
+check_david_demo_mode
+
+#----------------------------------------------------------#
+#                       Action                             #
+#----------------------------------------------------------#
+
+# Revert cgroup for all users
+for user in $("$BIN/v-list-users" list); do
+	user_id=$(id -u "$user")
+	user_slice="user-${user_id}.slice"
+	systemctl revert "$user_slice"
+done
+
+# Reload daemon
+systemctl daemon-reload
+
+# Updating david.conf value
+$BIN/v-change-sys-config-value "RESOURCES_LIMIT" "no"
+
+#----------------------------------------------------------#
+#                       David                             #
+#----------------------------------------------------------#
+
+# Logging
+$BIN/v-log-action "system" "Info" "Plugins" "System cgroup Enforcement disabled."
+log_event "$OK" "$ARGUMENTS"
+
+exit
