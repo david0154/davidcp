@@ -1,26 +1,4 @@
-<h1 align="center"><a href="https://www.davidcp.com/">David Control Panel</a></h1>
 
-![davidcp Web Interface screenshot](https://storage.davidcp.com/davidscreen.png)
-
-<h2 align="center">Lightweight and powerful control panel for the modern web</h2>
-
-<p align="center"><strong>Latest stable release:</strong> Version 1.9.3 | <a href="https://github.com/davidcp/davidcp/blob/release/CHANGELOG.md">View Changelog</a></p>
-
-<p align="center">
-	<a href="https://www.davidcp.com/">davidcp.com</a> |
-	<a href="https://docs.davidcp.com/">Documentation</a> |
-	<a href="https://forum.davidcp.com/">Forum</a>
-	<br/><br/>
-	<a href="https://drone.davidcp.com/davidcp/davidcp">
-		<img src="https://drone.davidcp.com/api/badges/davidcp/davidcp/status.svg?ref=refs/heads/main" alt="Drone Status"/>
-	</a>
-	<a href="https://github.com/davidcp/davidcp/actions/workflows/lint.yml">
-		<img src="https://github.com/davidcp/davidcp/actions/workflows/lint.yml/badge.svg" alt="Lint Status"/>
-	</a>
-	<a href="https://gurubase.io/g/david">
-		<img src="https://img.shields.io/badge/Gurubase-Ask%20Hestia%20Guru-006BFF" alt="Gurubase"/>
-	</a>
-</p>
 
 ## **Welcome!**
 
@@ -94,7 +72,7 @@ You may specify a number of various flags during installation to only install th
 bash dvp-install.sh -h
 ```
 
-Alternatively, You can use <https://davidcp.com/install.html> which allows you to easily generate the installation command via GUI.
+
 
 ## How to upgrade an existing installation
 
@@ -107,7 +85,7 @@ apt-get upgrade
 
 ## Issues & Support Requests
 
-- If you encounter a general problem while using David Control Panel and need help, please [visit our forum](https://forum.davidcp.com/) to search for potential solutions or post a new thread where community members can assist.
+- If you encounter a general problem while using David Control Panel and need help, please  to search for potential solutions or post a new thread where community members can assist.
 - Bugs and other reproducible issues should be filed via GitHub by [creating a new issue report](https://github.com/david0154/davidcp/issues) so that our developers can investigate further. Please note that requests for support will be redirected to our forum.
 
 **IMPORTANT: We _cannot_ provide support for requests that do not describe the troubleshooting steps that have already been performed, or for third-party applications not related to David Control Panel (such as WordPress). Please make sure that you include as much information as possible in your forum posts or issue reports!**
@@ -132,4 +110,4 @@ If you would like to contribute to the project, please [read our Contribution Gu
 
 ## License
 
-David Control Panel is licensed under [GPL v3](https://github.com/david0154/davidcp/blob/release/LICENSE) license, and is based on the [VestaCP](https://vestacp.com/) project.<br>
+David Control Panel is licensed under [GPL v3](https://github.com/david0154/davidcp/blob/release/LICENSE) license.<br>
