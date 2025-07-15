@@ -67,7 +67,7 @@ ssh root@your.server
 Download the installation script for the latest release:
 
 ```bash
-wget https://raw.githubusercontent.com/davidcp/davidcp/release/install/dvp-install.sh
+wget https://raw.githubusercontent.com/david0154/davidcp/release/install/dvp-install.sh
 ```
 
 If the download fails due to an SSL validation error, please be sure you've installed the ca-certificate package on your system - you can do this with the following command:
@@ -108,13 +108,13 @@ apt-get upgrade
 ## Issues & Support Requests
 
 - If you encounter a general problem while using David Control Panel and need help, please [visit our forum](https://forum.davidcp.com/) to search for potential solutions or post a new thread where community members can assist.
-- Bugs and other reproducible issues should be filed via GitHub by [creating a new issue report](https://github.com/davidcp/davidcp/issues) so that our developers can investigate further. Please note that requests for support will be redirected to our forum.
+- Bugs and other reproducible issues should be filed via GitHub by [creating a new issue report](https://github.com/david0154/davidcp/issues) so that our developers can investigate further. Please note that requests for support will be redirected to our forum.
 
 **IMPORTANT: We _cannot_ provide support for requests that do not describe the troubleshooting steps that have already been performed, or for third-party applications not related to David Control Panel (such as WordPress). Please make sure that you include as much information as possible in your forum posts or issue reports!**
 
 ## Contributions
 
-If you would like to contribute to the project, please [read our Contribution Guidelines](https://github.com/davidcp/davidcp/blob/release/CONTRIBUTING.md) for a brief overview of our development process and standards.
+If you would like to contribute to the project, please [read our Contribution Guidelines](https://github.com/david0154/davidcp/blob/release/CONTRIBUTING.md) for a brief overview of our development process and standards.
 
 ## Copyright
 
@@ -132,4 +132,4 @@ If you would like to contribute to the project, please [read our Contribution Gu
 
 ## License
 
-David Control Panel is licensed under [GPL v3](https://github.com/davidcp/davidcp/blob/release/LICENSE) license, and is based on the [VestaCP](https://vestacp.com/) project.<br>
+David Control Panel is licensed under [GPL v3](https://github.com/david0154/davidcp/blob/release/LICENSE) license, and is based on the [VestaCP](https://vestacp.com/) project.<br>
