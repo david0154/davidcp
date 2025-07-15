@@ -583,7 +583,7 @@ All notable changes to this project will be documented in this file.
 - Added support for folder wildcards in backup exclusions (#2338 @youradds)
 - Added Nginx template for Mautic (#3192 3188 @youradds)
 - Added alias for composer (#3070)
-- Updated PhpPgAdmin and with support for PostgreSQL 15 (<https://github.com/davidcp/phppgadmin>)
+- Updated PhpPgAdmin and with support for PostgreSQL 15 (<https://github.com/hestiacp/phppgadmin>)
 - Upgrade MariaDB to 10.11 (#3305)
 - Add Quick installer for Flarum (#3342 and #3298 @Steveorevo)
 - Enable UTF8MB4 on default for Mysql (#3337 #1882)
