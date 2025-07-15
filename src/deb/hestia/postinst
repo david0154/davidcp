@@ -63,7 +63,7 @@ upgrade_refresh_config | tee -a $LOG
 upgrade_start_routine | tee -a $LOG
 
 # Run upgrades of dependencies
-source_conf "$HESTIA_BACKUP/upgrade.conf"
+source_conf "$DAVID_BACKUP/upgrade.conf"
 
 # Update Web domain templates
 upgrade_rebuild_web_templates | tee -a $LOG

@@ -16,4 +16,4 @@ if [ ! -f /etc/apt/apt.conf.d/80-retries ]; then
 fi
 
 # Validate version number and replace if different
-HESTIA_V=$(dpkg -s david | grep -i version | awk '{ print $2 }')
+DAVID_V=$(dpkg -s david | grep -i version | awk '{ print $2 }')

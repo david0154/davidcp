@@ -393,7 +393,7 @@ class HestiaApp
 
     private function run(string $cmd, array $arguments): HestiaCommandResult
     {
-        $cli_script = realpath(HESTIA_DIR_BIN . $cmd);
+        $cli_script = realpath(DAVID_DIR_BIN . $cmd);
 
         $command = ['/usr/bin/sudo', $cli_script, ...$arguments];
 

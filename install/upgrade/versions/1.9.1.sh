@@ -26,5 +26,5 @@ upgrade_config_set_value 'UPGRADE_UPDATE_FILEMANAGER_CONFIG' 'false'
 # Update david-event.conf
 if [ -f "/etc/apache2/conf.d/david-event.conf" ]; then
 	rm -f /etc/apache2/conf.d/david-event.conf
-	cp -f $HESTIA_INSTALL_DIR/apache2/david-event.conf /etc/apache2/conf.d/
+	cp -f $DAVID_INSTALL_DIR/apache2/david-event.conf /etc/apache2/conf.d/
 fi

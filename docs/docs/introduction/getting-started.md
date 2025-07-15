@@ -43,7 +43,7 @@ Interactive installer that will install the default David software configuration
 Download the installation script for the latest release:
 
 ```bash
-wget https://raw.githubusercontent.com/davidcp/davidcp/release/install/dvp-install.sh
+wget https://raw.githubusercontent.com/david0154/davidcp/release/install/dvp-install.sh
 ```
 
 If the download fails due to an SSL validation error, please be sure you've installed the ca-certificate package on your system - you can do this with the following command:

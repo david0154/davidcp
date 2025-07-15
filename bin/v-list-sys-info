@@ -22,8 +22,8 @@ source $DAVID/func/main.sh
 source_conf "$DAVID/conf/david.conf"
 
 # Retrieve David Control Panel version number
-HESTIA_VERSION=$(grep VERSION $DAVID/conf/david.conf | cut -d '=' -f2 | sed "s|'||g")
-HESTIA_RELEASE=$(grep RELEASE_BRANCH $DAVID/conf/david.conf | cut -d '=' -f2 | sed "s|'||g")
+DAVID_VERSION=$(grep VERSION $DAVID/conf/david.conf | cut -d '=' -f2 | sed "s|'||g")
+DAVID_RELEASE=$(grep RELEASE_BRANCH $DAVID/conf/david.conf | cut -d '=' -f2 | sed "s|'||g")
 
 # JSON list function
 json_list() {
@@ -33,8 +33,8 @@ json_list() {
         "OS": "'$OS'",
         "VERSION": "'$VERSION'",
         "ARCH": "'$ARCH'",
-        "DAVID": "'$HESTIA_VERSION'",
-        "RELEASE": "'$HESTIA_RELEASE'",
+        "DAVID": "'$DAVID_VERSION'",
+        "RELEASE": "'$DAVID_RELEASE'",
         "UPTIME": "'$UPTIME'",
         "LOADAVERAGE": "'$LOADAVERAGE'"
         }'
@@ -45,18 +45,18 @@ json_list() {
 shell_list() {
 	echo "HOSTNAME   OS   VER   ARCH  DAVID  RELEASE  UPTIME   LA"
 	echo "--------   --   ---   ----  ------  -------  ------   --"
-	echo "$HOSTNAME $OS $VERSION $ARCH $HESTIA_VERSION $HESTIA_RELEASE $UPTIME $LOADAVERAGE"
+	echo "$HOSTNAME $OS $VERSION $ARCH $DAVID_VERSION $DAVID_RELEASE $UPTIME $LOADAVERAGE"
 }
 
 # PLAIN list function
 plain_list() {
-	echo -e "$HOSTNAME\t$OS\t$VERSION\t$ARCH\t$HESTIA_VERSION\t$HESTIA_RELEASE\t$UPTIME\t$LOADAVERAGE"
+	echo -e "$HOSTNAME\t$OS\t$VERSION\t$ARCH\t$DAVID_VERSION\t$DAVID_RELEASE\t$UPTIME\t$LOADAVERAGE"
 }
 
 # CSV list function
 csv_list() {
 	echo "HOSTNAME,OS,VERSION,ARCH,DAVID,RELEASE,UPTIME,LOADAVERAGE"
-	echo "$HOSTNAME,$OS,$VERSION,$ARCH,$HESTIA_VERSION,$HESTIA_RELEASE,$UPTIME,$LOADAVERAGE"
+	echo "$HOSTNAME,$OS,$VERSION,$ARCH,$DAVID_VERSION,$DAVID_RELEASE,$UPTIME,$LOADAVERAGE"
 }
 
 #----------------------------------------------------------#

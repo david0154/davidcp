@@ -74,7 +74,7 @@ download_file() {
 	fi
 
 	if [ ! -f "$ARCHIVE_DIR/$filename" ]; then
-		[ "$HESTIA_DEBUG" ] && echo >&2 DEBUG: wget $url -q $dstopt --show-progress --progress=bar:force --limit-rate=3m
+		[ "$DAVID_DEBUG" ] && echo >&2 DEBUG: wget $url -q $dstopt --show-progress --progress=bar:force --limit-rate=3m
 		wget $url -q $dstopt --show-progress --progress=bar:force --limit-rate=3m
 		if [ $? -ne 0 ]; then
 			echo >&2 "[!] Archive $ARCHIVE_DIR/$filename is corrupted and exit script"
@@ -95,13 +95,13 @@ download_file() {
 get_branch_file() {
 	local filename=$1
 	local destination=$2
-	[ "$HESTIA_DEBUG" ] && echo >&2 DEBUG: Get branch file "$filename" to "$destination"
+	[ "$DAVID_DEBUG" ] && echo >&2 DEBUG: Get branch file "$filename" to "$destination"
 	if [ "$use_src_folder" == 'true' ]; then
 		if [ -z "$destination" ]; then
-			[ "$HESTIA_DEBUG" ] && echo >&2 DEBUG: cp -f "$SRC_DIR/$filename" ./
+			[ "$DAVID_DEBUG" ] && echo >&2 DEBUG: cp -f "$SRC_DIR/$filename" ./
 			cp -f "$SRC_DIR/$filename" ./
 		else
-			[ "$HESTIA_DEBUG" ] && echo >&2 DEBUG: cp -f "$SRC_DIR/$filename" "$destination"
+			[ "$DAVID_DEBUG" ] && echo >&2 DEBUG: cp -f "$SRC_DIR/$filename" "$destination"
 			cp -f "$SRC_DIR/$filename" "$destination"
 		fi
 	else
@@ -136,7 +136,7 @@ fi
 
 # Set Version for compiling
 BUILD_VER=$(curl -s https://raw.githubusercontent.com/$fork/davidcp/$branch/src/deb/david/control | grep "Version:" | cut -d' ' -f2)
-HESTIA_V="${BUILD_VER}_${BUILD_ARCH}"
+DAVID_V="${BUILD_VER}_${BUILD_ARCH}"
 
 # Create build directories
 rm -rf $BUILD_DIR
@@ -242,37 +242,37 @@ fi
 GIT_REP='https://raw.githubusercontent.com/'$REPO'/'$branch'/src/deb'
 
 # Generate Links for sourcecode
-HESTIA_ARCHIVE_LINK='https://github.com/'$REPO'/archive/'$branch'.tar.gz'
-echo $HESTIA_ARCHIVE_LINK
+DAVID_ARCHIVE_LINK='https://github.com/'$REPO'/archive/'$branch'.tar.gz'
+echo $DAVID_ARCHIVE_LINK
 
 echo "Building David Control Panel package..."
 
-BUILD_DIR_HESTIA=$BUILD_DIR/david_$HESTIA_V
+BUILD_DIR_DAVID=$BUILD_DIR/david_$DAVID_V
 
 # Change to build directory
 cd $BUILD_DIR
 
-if [ "$KEEPBUILD" != 'true' ] || [ ! -d "$BUILD_DIR_HESTIA" ]; then
+if [ "$KEEPBUILD" != 'true' ] || [ ! -d "$BUILD_DIR_DAVID" ]; then
 	# Check if target directory exist
-	if [ -d $BUILD_DIR_HESTIA ]; then
-		rm -r $BUILD_DIR_HESTIA
+	if [ -d $BUILD_DIR_DAVID ]; then
+		rm -r $BUILD_DIR_DAVID
 	fi
 
 	# Create directory
-	mkdir -p $BUILD_DIR_HESTIA
+	mkdir -p $BUILD_DIR_DAVID
 fi
 
 cd $BUILD_DIR
 rm -rf $BUILD_DIR/davidcp-$branch_dash
 # Download and unpack source files
 if [ "$use_src_folder" == 'true' ]; then
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: cp -rf "$SRC_DIR/" $BUILD_DIR/davidcp-$branch_dash
+	[ "$DAVID_DEBUG" ] && echo DEBUG: cp -rf "$SRC_DIR/" $BUILD_DIR/davidcp-$branch_dash
 	cp -rf "$SRC_DIR/" $BUILD_DIR/davidcp-$branch_dash
 elif [ -d $SRC_DIR ]; then
-	download_file $HESTIA_ARCHIVE_LINK '-' 'fresh' | tar xz
+	download_file $DAVID_ARCHIVE_LINK '-' 'fresh' | tar xz
 fi
 
-mkdir -p $BUILD_DIR_HESTIA/usr/local/david
+mkdir -p $BUILD_DIR_DAVID/usr/local/david
 
 # Move needed directories
 cd $BUILD_DIR/davidcp-$branch_dash
@@ -280,37 +280,37 @@ cd $BUILD_DIR/davidcp-$branch_dash
 npm ci
 npm run build
 
-cp -rf bin func install web $BUILD_DIR_HESTIA/usr/local/david/
+cp -rf bin func install web $BUILD_DIR_DAVID/usr/local/david/
 
 # Set permissions
-find $BUILD_DIR_HESTIA/usr/local/david/ -type f -exec chmod -x {} \;
+find $BUILD_DIR_DAVID/usr/local/david/ -type f -exec chmod -x {} \;
 
 # Allow send email via /usr/local/david/web/inc/mail-wrapper.php via cli
-chmod +x $BUILD_DIR_HESTIA/usr/local/david/web/inc/mail-wrapper.php
+chmod +x $BUILD_DIR_DAVID/usr/local/david/web/inc/mail-wrapper.php
 # Allow the executable to be executed
-chmod +x $BUILD_DIR_HESTIA/usr/local/david/bin/*
-find $BUILD_DIR_HESTIA/usr/local/david/install/ \( -name '*.sh' \) -exec chmod +x {} \;
-chmod -x $BUILD_DIR_HESTIA/usr/local/david/install/*.sh
-chown -R root:root $BUILD_DIR_HESTIA
+chmod +x $BUILD_DIR_DAVID/usr/local/david/bin/*
+find $BUILD_DIR_DAVID/usr/local/david/install/ \( -name '*.sh' \) -exec chmod +x {} \;
+chmod -x $BUILD_DIR_DAVID/usr/local/david/install/*.sh
+chown -R root:root $BUILD_DIR_DAVID
 
 # Get Debian package files
-mkdir -p $BUILD_DIR_HESTIA/DEBIAN
-get_branch_file 'src/deb/david/control' "$BUILD_DIR_HESTIA/DEBIAN/control"
+mkdir -p $BUILD_DIR_DAVID/DEBIAN
+get_branch_file 'src/deb/david/control' "$BUILD_DIR_DAVID/DEBIAN/control"
 if [ "$BUILD_ARCH" != "amd64" ]; then
-	sed -i "s/amd64/${BUILD_ARCH}/g" "$BUILD_DIR_HESTIA/DEBIAN/control"
+	sed -i "s/amd64/${BUILD_ARCH}/g" "$BUILD_DIR_DAVID/DEBIAN/control"
 fi
-get_branch_file 'src/deb/david/copyright' "$BUILD_DIR_HESTIA/DEBIAN/copyright"
-get_branch_file 'src/deb/david/preinst' "$BUILD_DIR_HESTIA/DEBIAN/preinst"
-get_branch_file 'src/deb/david/postinst' "$BUILD_DIR_HESTIA/DEBIAN/postinst"
-chmod +x $BUILD_DIR_HESTIA/DEBIAN/postinst
-chmod +x $BUILD_DIR_HESTIA/DEBIAN/preinst
+get_branch_file 'src/deb/david/copyright' "$BUILD_DIR_DAVID/DEBIAN/copyright"
+get_branch_file 'src/deb/david/preinst' "$BUILD_DIR_DAVID/DEBIAN/preinst"
+get_branch_file 'src/deb/david/postinst' "$BUILD_DIR_DAVID/DEBIAN/postinst"
+chmod +x $BUILD_DIR_DAVID/DEBIAN/postinst
+chmod +x $BUILD_DIR_DAVID/DEBIAN/preinst
 
 echo Building David DEB
-dpkg-deb -Zxz --build $BUILD_DIR_HESTIA $DEB_DIR
+dpkg-deb -Zxz --build $BUILD_DIR_DAVID $DEB_DIR
 
 # clear up the source folder
 if [ "$KEEPBUILD" != 'true' ]; then
-	rm -r $BUILD_DIR_HESTIA
+	rm -r $BUILD_DIR_DAVID
 	rm -rf davidcp-$branch_dash
 fi
 cd $BUILD_DIR/davidcp-$branch_dash

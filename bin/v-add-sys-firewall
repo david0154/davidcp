@@ -35,7 +35,7 @@ check_david_demo_mode
 
 # Adding default ruleset
 if [ -z "$(ls -A $DAVID/data/firewall 2> /dev/null)" ]; then
-	cp -rf $HESTIA_COMMON_DIR/firewall $DAVID/data/
+	cp -rf $DAVID_COMMON_DIR/firewall $DAVID/data/
 	rm -f $DAVID/data/firewall/ipset/blacklist.sh $DAVID/data/firewall/ipset/blacklist.ipv6.sh
 fi
 

@@ -144,7 +144,7 @@ function dvp_add_history_log($message, $category = "System", $level = "Info", $u
 		quoteshellarg($category) .
 		" " .
 		quoteshellarg($message);
-	exec(HESTIA_CMD . "v-log-action " . $command_args, $output, $return_var);
+	exec(DAVID_CMD . "v-log-action " . $command_args, $output, $return_var);
 	unset($output);
 
 	return $return_var;

@@ -17,7 +17,7 @@ download_file() {
 	local destination=$2
 	local force=$3
 
-	[ "$HESTIA_DEBUG" ] && echo >&2 DEBUG: Downloading file "$url" to "$destination"
+	[ "$DAVID_DEBUG" ] && echo >&2 DEBUG: Downloading file "$url" to "$destination"
 
 	# Default destination is the current working directory
 	local dstopt=""
@@ -48,7 +48,7 @@ download_file() {
 	fi
 
 	if [ ! -f "$ARCHIVE_DIR/$filename" ]; then
-		[ "$HESTIA_DEBUG" ] && echo >&2 DEBUG: wget $url -q $dstopt --show-progress --progress=bar:force --limit-rate=3m
+		[ "$DAVID_DEBUG" ] && echo >&2 DEBUG: wget $url -q $dstopt --show-progress --progress=bar:force --limit-rate=3m
 		wget $url -q $dstopt --show-progress --progress=bar:force --limit-rate=3m
 		if [ $? -ne 0 ]; then
 			echo >&2 "[!] Archive $ARCHIVE_DIR/$filename is corrupted and exit script"
@@ -69,13 +69,13 @@ download_file() {
 get_branch_file() {
 	local filename=$1
 	local destination=$2
-	[ "$HESTIA_DEBUG" ] && echo >&2 DEBUG: Get branch file "$filename" to "$destination"
+	[ "$DAVID_DEBUG" ] && echo >&2 DEBUG: Get branch file "$filename" to "$destination"
 	if [ "$use_src_folder" == 'true' ]; then
 		if [ -z "$destination" ]; then
-			[ "$HESTIA_DEBUG" ] && echo >&2 DEBUG: cp -f "$SRC_DIR/$filename" ./
+			[ "$DAVID_DEBUG" ] && echo >&2 DEBUG: cp -f "$SRC_DIR/$filename" ./
 			cp -f "$SRC_DIR/$filename" ./
 		else
-			[ "$HESTIA_DEBUG" ] && echo >&2 DEBUG: cp -f "$SRC_DIR/$filename" "$destination"
+			[ "$DAVID_DEBUG" ] && echo >&2 DEBUG: cp -f "$SRC_DIR/$filename" "$destination"
 			cp -f "$SRC_DIR/$filename" "$destination"
 		fi
 	else
@@ -128,7 +128,7 @@ for i in $*; do
 			NGINX_B='true'
 			PHP_B='true'
 			WEB_TERMINAL_B='true'
-			HESTIA_B='true'
+			DAVID_B='true'
 			;;
 		--nginx)
 			NGINX_B='true'
@@ -140,10 +140,10 @@ for i in $*; do
 			WEB_TERMINAL_B='true'
 			;;
 		--david)
-			HESTIA_B='true'
+			DAVID_B='true'
 			;;
 		--debug)
-			HESTIA_DEBUG='true'
+			DAVID_DEBUG='true'
 			;;
 		--install | Y)
 			install='true'
@@ -216,7 +216,7 @@ fi
 
 echo "Build version $BUILD_VER, with Nginx version $NGINX_V, PHP version $PHP_V and Web Terminal version $WEB_TERMINAL_V"
 
-HESTIA_V="${BUILD_VER}_${BUILD_ARCH}"
+DAVID_V="${BUILD_VER}_${BUILD_ARCH}"
 OPENSSL_V='3.4.0'
 PCRE_V='10.44'
 ZLIB_V='1.3.1'
@@ -274,7 +274,7 @@ fi
 # Get system cpu cores
 NUM_CPUS=$(grep "^cpu cores" /proc/cpuinfo | uniq | awk '{print $4}')
 
-if [ "$HESTIA_DEBUG" ]; then
+if [ "$DAVID_DEBUG" ]; then
 	echo "OS type          : Debian / Ubuntu"
 	echo "Branch           : $branch"
 	echo "Install          : $install"
@@ -283,12 +283,12 @@ if [ "$HESTIA_DEBUG" ]; then
 	echo "PHP version      : $PHP_V"
 	echo "Web Term version : $WEB_TERMINAL_V"
 	echo "Architecture     : $BUILD_ARCH"
-	echo "Debug mode       : $HESTIA_DEBUG"
+	echo "Debug mode       : $DAVID_DEBUG"
 	echo "Source directory : $SRC_DIR"
 fi
 
 # Generate Links for sourcecode
-HESTIA_ARCHIVE_LINK='https://github.com/davidcp/davidcp/archive/'$branch'.tar.gz'
+DAVID_ARCHIVE_LINK='https://github.com/davidcp/davidcp/archive/'$branch'.tar.gz'
 if [[ $NGINX_V =~ - ]]; then
 	NGINX='https://nginx.org/download/nginx-'$(echo $NGINX_V | cut -d"-" -f1)'.tar.gz'
 else
@@ -324,22 +324,22 @@ if [ "$NGINX_B" = true ]; then
 	# Change to build directory
 	cd $BUILD_DIR
 
-	BUILD_DIR_HESTIANGINX=$BUILD_DIR/david-nginx_$NGINX_V
+	BUILD_DIR_DAVIDNGINX=$BUILD_DIR/david-nginx_$NGINX_V
 	if [[ $NGINX_V =~ - ]]; then
 		BUILD_DIR_NGINX=$BUILD_DIR/nginx-$(echo $NGINX_V | cut -d"-" -f1)
 	else
 		BUILD_DIR_NGINX=$BUILD_DIR/nginx-$(echo $NGINX_V | cut -d"~" -f1)
 	fi
 
-	if [ "$KEEPBUILD" != 'true' ] || [ ! -d "$BUILD_DIR_HESTIANGINX" ]; then
+	if [ "$KEEPBUILD" != 'true' ] || [ ! -d "$BUILD_DIR_DAVIDNGINX" ]; then
 		# Check if target directory exist
-		if [ -d "$BUILD_DIR_HESTIANGINX" ]; then
+		if [ -d "$BUILD_DIR_DAVIDNGINX" ]; then
 			#mv $BUILD_DIR/david-nginx_$NGINX_V $BUILD_DIR/david-nginx_$NGINX_V-$(timestamp)
-			rm -r "$BUILD_DIR_HESTIANGINX"
+			rm -r "$BUILD_DIR_DAVIDNGINX"
 		fi
 
 		# Create directory
-		mkdir -p $BUILD_DIR_HESTIANGINX
+		mkdir -p $BUILD_DIR_DAVIDNGINX
 
 		# Download and unpack source files
 		download_file $NGINX '-' | tar xz
@@ -384,45 +384,45 @@ if [ "$NGINX_B" = true ]; then
 	if [ "$KEEPBUILD" != 'true' ]; then
 		rm -r $BUILD_DIR_NGINX $BUILD_DIR/openssl-$OPENSSL_V $BUILD_DIR/pcre2-$PCRE_V $BUILD_DIR/zlib-$ZLIB_V
 	fi
-	cd $BUILD_DIR_HESTIANGINX
+	cd $BUILD_DIR_DAVIDNGINX
 
 	# Move nginx directory
-	mkdir -p $BUILD_DIR_HESTIANGINX/usr/local/david
-	rm -rf $BUILD_DIR_HESTIANGINX/usr/local/david/nginx
-	mv $BUILD_DIR/usr/local/david/nginx $BUILD_DIR_HESTIANGINX/usr/local/david/
+	mkdir -p $BUILD_DIR_DAVIDNGINX/usr/local/david
+	rm -rf $BUILD_DIR_DAVIDNGINX/usr/local/david/nginx
+	mv $BUILD_DIR/usr/local/david/nginx $BUILD_DIR_DAVIDNGINX/usr/local/david/
 
 	# Remove original nginx.conf (will use custom)
-	rm -f $BUILD_DIR_HESTIANGINX/usr/local/david/nginx/conf/nginx.conf
+	rm -f $BUILD_DIR_DAVIDNGINX/usr/local/david/nginx/conf/nginx.conf
 
 	# copy binary
-	mv $BUILD_DIR_HESTIANGINX/usr/local/david/nginx/sbin/nginx $BUILD_DIR_HESTIANGINX/usr/local/david/nginx/sbin/david-nginx
+	mv $BUILD_DIR_DAVIDNGINX/usr/local/david/nginx/sbin/nginx $BUILD_DIR_DAVIDNGINX/usr/local/david/nginx/sbin/david-nginx
 
 	# change permission and build the package
 	cd $BUILD_DIR
-	chown -R root:root $BUILD_DIR_HESTIANGINX
+	chown -R root:root $BUILD_DIR_DAVIDNGINX
 	# Get Debian package files
-	mkdir -p $BUILD_DIR_HESTIANGINX/DEBIAN
-	get_branch_file 'src/deb/nginx/control' "$BUILD_DIR_HESTIANGINX/DEBIAN/control"
+	mkdir -p $BUILD_DIR_DAVIDNGINX/DEBIAN
+	get_branch_file 'src/deb/nginx/control' "$BUILD_DIR_DAVIDNGINX/DEBIAN/control"
 	if [ "$BUILD_ARCH" != "amd64" ]; then
-		sed -i "s/amd64/${BUILD_ARCH}/g" "$BUILD_DIR_HESTIANGINX/DEBIAN/control"
+		sed -i "s/amd64/${BUILD_ARCH}/g" "$BUILD_DIR_DAVIDNGINX/DEBIAN/control"
 	fi
-	get_branch_file 'src/deb/nginx/copyright' "$BUILD_DIR_HESTIANGINX/DEBIAN/copyright"
-	get_branch_file 'src/deb/nginx/postinst' "$BUILD_DIR_HESTIANGINX/DEBIAN/postinst"
-	get_branch_file 'src/deb/nginx/postrm' "$BUILD_DIR_HESTIANGINX/DEBIAN/portrm"
-	chmod +x "$BUILD_DIR_HESTIANGINX/DEBIAN/postinst"
-	chmod +x "$BUILD_DIR_HESTIANGINX/DEBIAN/portrm"
+	get_branch_file 'src/deb/nginx/copyright' "$BUILD_DIR_DAVIDNGINX/DEBIAN/copyright"
+	get_branch_file 'src/deb/nginx/postinst' "$BUILD_DIR_DAVIDNGINX/DEBIAN/postinst"
+	get_branch_file 'src/deb/nginx/postrm' "$BUILD_DIR_DAVIDNGINX/DEBIAN/portrm"
+	chmod +x "$BUILD_DIR_DAVIDNGINX/DEBIAN/postinst"
+	chmod +x "$BUILD_DIR_DAVIDNGINX/DEBIAN/portrm"
 
 	# Init file
-	mkdir -p $BUILD_DIR_HESTIANGINX/etc/init.d
-	get_branch_file 'src/deb/nginx/david' "$BUILD_DIR_HESTIANGINX/etc/init.d/david"
-	chmod +x "$BUILD_DIR_HESTIANGINX/etc/init.d/david"
+	mkdir -p $BUILD_DIR_DAVIDNGINX/etc/init.d
+	get_branch_file 'src/deb/nginx/david' "$BUILD_DIR_DAVIDNGINX/etc/init.d/david"
+	chmod +x "$BUILD_DIR_DAVIDNGINX/etc/init.d/david"
 
 	# Custom config
-	get_branch_file 'src/deb/nginx/nginx.conf' "${BUILD_DIR_HESTIANGINX}/usr/local/david/nginx/conf/nginx.conf"
+	get_branch_file 'src/deb/nginx/nginx.conf' "${BUILD_DIR_DAVIDNGINX}/usr/local/david/nginx/conf/nginx.conf"
 
 	# Build the package
 	echo Building Nginx DEB
-	dpkg-deb -Zxz --build $BUILD_DIR_HESTIANGINX $DEB_DIR
+	dpkg-deb -Zxz --build $BUILD_DIR_DAVIDNGINX $DEB_DIR
 
 	rm -r $BUILD_DIR/usr
 
@@ -450,7 +450,7 @@ if [ "$PHP_B" = true ]; then
 
 	echo "Building david-php package..."
 
-	BUILD_DIR_HESTIAPHP=$BUILD_DIR/david-php_$PHP_V
+	BUILD_DIR_DAVIDPHP=$BUILD_DIR/david-php_$PHP_V
 
 	BUILD_DIR_PHP=$BUILD_DIR/php-$(echo $PHP_V | cut -d"~" -f1)
 
@@ -460,14 +460,14 @@ if [ "$PHP_B" = true ]; then
 		BUILD_DIR_PHP=$BUILD_DIR/php-$(echo $PHP_V | cut -d"~" -f1)
 	fi
 
-	if [ "$KEEPBUILD" != 'true' ] || [ ! -d "$BUILD_DIR_HESTIAPHP" ]; then
+	if [ "$KEEPBUILD" != 'true' ] || [ ! -d "$BUILD_DIR_DAVIDPHP" ]; then
 		# Check if target directory exist
-		if [ -d $BUILD_DIR_HESTIAPHP ]; then
-			rm -r $BUILD_DIR_HESTIAPHP
+		if [ -d $BUILD_DIR_DAVIDPHP ]; then
+			rm -r $BUILD_DIR_DAVIDPHP
 		fi
 
 		# Create directory
-		mkdir -p $BUILD_DIR_HESTIAPHP
+		mkdir -p $BUILD_DIR_DAVIDPHP
 
 		# Download and unpack source files
 		cd $BUILD_DIR
@@ -496,64 +496,64 @@ if [ "$PHP_B" = true ]; then
 
 	# Copy local david source files
 	if [ "$use_src_folder" == 'true' ] && [ -d $SRC_DIR ]; then
-		[ "$HESTIA_DEBUG" ] && echo DEBUG: cp -rf "$SRC_DIR/" $BUILD_DIR/davidcp-$branch_dash
+		[ "$DAVID_DEBUG" ] && echo DEBUG: cp -rf "$SRC_DIR/" $BUILD_DIR/davidcp-$branch_dash
 		cp -rf "$SRC_DIR/" $BUILD_DIR/davidcp-$branch_dash
 	fi
 	# Move php directory
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: mkdir -p $BUILD_DIR_HESTIAPHP/usr/local/david
-	mkdir -p $BUILD_DIR_HESTIAPHP/usr/local/david
+	[ "$DAVID_DEBUG" ] && echo DEBUG: mkdir -p $BUILD_DIR_DAVIDPHP/usr/local/david
+	mkdir -p $BUILD_DIR_DAVIDPHP/usr/local/david
 
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: rm -r $BUILD_DIR_HESTIAPHP/usr/local/david/php
-	if [ -d $BUILD_DIR_HESTIAPHP/usr/local/david/php ]; then
-		rm -r $BUILD_DIR_HESTIAPHP/usr/local/david/php
+	[ "$DAVID_DEBUG" ] && echo DEBUG: rm -r $BUILD_DIR_DAVIDPHP/usr/local/david/php
+	if [ -d $BUILD_DIR_DAVIDPHP/usr/local/david/php ]; then
+		rm -r $BUILD_DIR_DAVIDPHP/usr/local/david/php
 	fi
 
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: mv ${BUILD_DIR}/usr/local/david/php ${BUILD_DIR_HESTIAPHP}/usr/local/david/
-	mv ${BUILD_DIR}/usr/local/david/php ${BUILD_DIR_HESTIAPHP}/usr/local/david/
+	[ "$DAVID_DEBUG" ] && echo DEBUG: mv ${BUILD_DIR}/usr/local/david/php ${BUILD_DIR_DAVIDPHP}/usr/local/david/
+	mv ${BUILD_DIR}/usr/local/david/php ${BUILD_DIR_DAVIDPHP}/usr/local/david/
 
 	# copy binary
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: cp $BUILD_DIR_HESTIAPHP/usr/local/david/php/sbin/php-fpm $BUILD_DIR_HESTIAPHP/usr/local/david/php/sbin/david-php
-	cp $BUILD_DIR_HESTIAPHP/usr/local/david/php/sbin/php-fpm $BUILD_DIR_HESTIAPHP/usr/local/david/php/sbin/david-php
+	[ "$DAVID_DEBUG" ] && echo DEBUG: cp $BUILD_DIR_DAVIDPHP/usr/local/david/php/sbin/php-fpm $BUILD_DIR_DAVIDPHP/usr/local/david/php/sbin/david-php
+	cp $BUILD_DIR_DAVIDPHP/usr/local/david/php/sbin/php-fpm $BUILD_DIR_DAVIDPHP/usr/local/david/php/sbin/david-php
 
 	# Change permissions and build the package
-	chown -R root:root $BUILD_DIR_HESTIAPHP
+	chown -R root:root $BUILD_DIR_DAVIDPHP
 	# Get Debian package files
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: mkdir -p $BUILD_DIR_HESTIAPHP/DEBIAN
-	mkdir -p $BUILD_DIR_HESTIAPHP/DEBIAN
-	get_branch_file 'src/deb/php/control' "$BUILD_DIR_HESTIAPHP/DEBIAN/control"
+	[ "$DAVID_DEBUG" ] && echo DEBUG: mkdir -p $BUILD_DIR_DAVIDPHP/DEBIAN
+	mkdir -p $BUILD_DIR_DAVIDPHP/DEBIAN
+	get_branch_file 'src/deb/php/control' "$BUILD_DIR_DAVIDPHP/DEBIAN/control"
 	if [ "$BUILD_ARCH" != "amd64" ]; then
-		sed -i "s/amd64/${BUILD_ARCH}/g" "$BUILD_DIR_HESTIAPHP/DEBIAN/control"
+		sed -i "s/amd64/${BUILD_ARCH}/g" "$BUILD_DIR_DAVIDPHP/DEBIAN/control"
 	fi
 
 	os=$(lsb_release -is)
 	release=$(lsb_release -rs)
 	if [[ "$os" = "Ubuntu" ]] && [[ "$release" = "20.04" ]]; then
-		sed -i "/Conflicts: libzip5/d" "$BUILD_DIR_HESTIAPHP/DEBIAN/control"
-		sed -i "s/libzip4/libzip5/g" "$BUILD_DIR_HESTIAPHP/DEBIAN/control"
+		sed -i "/Conflicts: libzip5/d" "$BUILD_DIR_DAVIDPHP/DEBIAN/control"
+		sed -i "s/libzip4/libzip5/g" "$BUILD_DIR_DAVIDPHP/DEBIAN/control"
 	fi
 	if [[ "$os" = "Ubuntu" ]] && [[ "$release" = "24.04" ]]; then
-		sed -i "/Conflicts: libzip5/d" "$BUILD_DIR_HESTIAPHP/DEBIAN/control"
-		sed -i "s/libzip4/libzip4t64/g" "$BUILD_DIR_HESTIAPHP/DEBIAN/control"
+		sed -i "/Conflicts: libzip5/d" "$BUILD_DIR_DAVIDPHP/DEBIAN/control"
+		sed -i "s/libzip4/libzip4t64/g" "$BUILD_DIR_DAVIDPHP/DEBIAN/control"
 	fi
 
-	get_branch_file 'src/deb/php/copyright' "$BUILD_DIR_HESTIAPHP/DEBIAN/copyright"
-	get_branch_file 'src/deb/php/postinst' "$BUILD_DIR_HESTIAPHP/DEBIAN/postinst"
-	chmod +x $BUILD_DIR_HESTIAPHP/DEBIAN/postinst
+	get_branch_file 'src/deb/php/copyright' "$BUILD_DIR_DAVIDPHP/DEBIAN/copyright"
+	get_branch_file 'src/deb/php/postinst' "$BUILD_DIR_DAVIDPHP/DEBIAN/postinst"
+	chmod +x $BUILD_DIR_DAVIDPHP/DEBIAN/postinst
 	# Get custom config
-	get_branch_file 'src/deb/php/php-fpm.conf' "${BUILD_DIR_HESTIAPHP}/usr/local/david/php/etc/php-fpm.conf"
-	get_branch_file 'src/deb/php/php.ini' "${BUILD_DIR_HESTIAPHP}/usr/local/david/php/lib/php.ini"
+	get_branch_file 'src/deb/php/php-fpm.conf' "${BUILD_DIR_DAVIDPHP}/usr/local/david/php/etc/php-fpm.conf"
+	get_branch_file 'src/deb/php/php.ini' "${BUILD_DIR_DAVIDPHP}/usr/local/david/php/lib/php.ini"
 
 	# Build the package
 	echo Building PHP DEB
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: dpkg-deb -Zxz --build $BUILD_DIR_HESTIAPHP $DEB_DIR
-	dpkg-deb -Zxz --build $BUILD_DIR_HESTIAPHP $DEB_DIR
+	[ "$DAVID_DEBUG" ] && echo DEBUG: dpkg-deb -Zxz --build $BUILD_DIR_DAVIDPHP $DEB_DIR
+	dpkg-deb -Zxz --build $BUILD_DIR_DAVIDPHP $DEB_DIR
 
 	rm -r $BUILD_DIR/usr
 
 	# clear up the source folder
 	if [ "$KEEPBUILD" != 'true' ]; then
 		rm -r $BUILD_DIR/php-$(echo $PHP_V | cut -d"~" -f1)
-		rm -r $BUILD_DIR_HESTIAPHP
+		rm -r $BUILD_DIR_DAVIDPHP
 		if [ "$use_src_folder" == 'true' ] && [ -d $BUILD_DIR/davidcp-$branch_dash ]; then
 			rm -r $BUILD_DIR/davidcp-$branch_dash
 		fi
@@ -574,53 +574,53 @@ if [ "$WEB_TERMINAL_B" = true ]; then
 
 	echo "Building david-web-terminal package..."
 
-	BUILD_DIR_HESTIA_TERMINAL=$BUILD_DIR/david-web-terminal_$WEB_TERMINAL_V
+	BUILD_DIR_DAVID_TERMINAL=$BUILD_DIR/david-web-terminal_$WEB_TERMINAL_V
 
 	# Check if target directory exist
-	if [ -d $BUILD_DIR_HESTIA_TERMINAL ]; then
-		rm -r $BUILD_DIR_HESTIA_TERMINAL
+	if [ -d $BUILD_DIR_DAVID_TERMINAL ]; then
+		rm -r $BUILD_DIR_DAVID_TERMINAL
 	fi
 
 	# Create directory
-	mkdir -p $BUILD_DIR_HESTIA_TERMINAL
-	chown -R root:root $BUILD_DIR_HESTIA_TERMINAL
+	mkdir -p $BUILD_DIR_DAVID_TERMINAL
+	chown -R root:root $BUILD_DIR_DAVID_TERMINAL
 
 	# Get Debian package files
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: mkdir -p $BUILD_DIR_HESTIA_TERMINAL/DEBIAN
-	mkdir -p $BUILD_DIR_HESTIA_TERMINAL/DEBIAN
-	get_branch_file 'src/deb/web-terminal/control' "$BUILD_DIR_HESTIA_TERMINAL/DEBIAN/control"
+	[ "$DAVID_DEBUG" ] && echo DEBUG: mkdir -p $BUILD_DIR_DAVID_TERMINAL/DEBIAN
+	mkdir -p $BUILD_DIR_DAVID_TERMINAL/DEBIAN
+	get_branch_file 'src/deb/web-terminal/control' "$BUILD_DIR_DAVID_TERMINAL/DEBIAN/control"
 	if [ "$BUILD_ARCH" != "amd64" ]; then
-		sed -i "s/amd64/${BUILD_ARCH}/g" "$BUILD_DIR_HESTIA_TERMINAL/DEBIAN/control"
+		sed -i "s/amd64/${BUILD_ARCH}/g" "$BUILD_DIR_DAVID_TERMINAL/DEBIAN/control"
 	fi
 
-	get_branch_file 'src/deb/web-terminal/copyright' "$BUILD_DIR_HESTIA_TERMINAL/DEBIAN/copyright"
-	get_branch_file 'src/deb/web-terminal/postinst' "$BUILD_DIR_HESTIA_TERMINAL/DEBIAN/postinst"
-	chmod +x $BUILD_DIR_HESTIA_TERMINAL/DEBIAN/postinst
+	get_branch_file 'src/deb/web-terminal/copyright' "$BUILD_DIR_DAVID_TERMINAL/DEBIAN/copyright"
+	get_branch_file 'src/deb/web-terminal/postinst' "$BUILD_DIR_DAVID_TERMINAL/DEBIAN/postinst"
+	chmod +x $BUILD_DIR_DAVID_TERMINAL/DEBIAN/postinst
 
 	# Get server files
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: mkdir -p "${BUILD_DIR_HESTIA_TERMINAL}/usr/local/david/web-terminal"
-	mkdir -p "${BUILD_DIR_HESTIA_TERMINAL}/usr/local/david/web-terminal"
-	get_branch_file 'src/deb/web-terminal/package.json' "${BUILD_DIR_HESTIA_TERMINAL}/usr/local/david/web-terminal/package.json"
-	get_branch_file 'src/deb/web-terminal/package-lock.json' "${BUILD_DIR_HESTIA_TERMINAL}/usr/local/david/web-terminal/package-lock.json"
-	get_branch_file 'src/deb/web-terminal/server.js' "${BUILD_DIR_HESTIA_TERMINAL}/usr/local/david/web-terminal/server.js"
-	chmod +x "${BUILD_DIR_HESTIA_TERMINAL}/usr/local/david/web-terminal/server.js"
+	[ "$DAVID_DEBUG" ] && echo DEBUG: mkdir -p "${BUILD_DIR_DAVID_TERMINAL}/usr/local/david/web-terminal"
+	mkdir -p "${BUILD_DIR_DAVID_TERMINAL}/usr/local/david/web-terminal"
+	get_branch_file 'src/deb/web-terminal/package.json' "${BUILD_DIR_DAVID_TERMINAL}/usr/local/david/web-terminal/package.json"
+	get_branch_file 'src/deb/web-terminal/package-lock.json' "${BUILD_DIR_DAVID_TERMINAL}/usr/local/david/web-terminal/package-lock.json"
+	get_branch_file 'src/deb/web-terminal/server.js' "${BUILD_DIR_DAVID_TERMINAL}/usr/local/david/web-terminal/server.js"
+	chmod +x "${BUILD_DIR_DAVID_TERMINAL}/usr/local/david/web-terminal/server.js"
 
-	cd $BUILD_DIR_HESTIA_TERMINAL/usr/local/david/web-terminal
+	cd $BUILD_DIR_DAVID_TERMINAL/usr/local/david/web-terminal
 	npm ci --omit=dev
 
 	# Systemd service
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: mkdir -p $BUILD_DIR_HESTIA_TERMINAL/etc/systemd/system
-	mkdir -p $BUILD_DIR_HESTIA_TERMINAL/etc/systemd/system
-	get_branch_file 'src/deb/web-terminal/david-web-terminal.service' "$BUILD_DIR_HESTIA_TERMINAL/etc/systemd/system/david-web-terminal.service"
+	[ "$DAVID_DEBUG" ] && echo DEBUG: mkdir -p $BUILD_DIR_DAVID_TERMINAL/etc/systemd/system
+	mkdir -p $BUILD_DIR_DAVID_TERMINAL/etc/systemd/system
+	get_branch_file 'src/deb/web-terminal/david-web-terminal.service' "$BUILD_DIR_DAVID_TERMINAL/etc/systemd/system/david-web-terminal.service"
 
 	# Build the package
 	echo Building Web Terminal DEB
-	[ "$HESTIA_DEBUG" ] && echo DEBUG: dpkg-deb -Zxz --build $BUILD_DIR_HESTIA_TERMINAL $DEB_DIR
-	dpkg-deb -Zxz --build $BUILD_DIR_HESTIA_TERMINAL $DEB_DIR
+	[ "$DAVID_DEBUG" ] && echo DEBUG: dpkg-deb -Zxz --build $BUILD_DIR_DAVID_TERMINAL $DEB_DIR
+	dpkg-deb -Zxz --build $BUILD_DIR_DAVID_TERMINAL $DEB_DIR
 
 	# clear up the source folder
 	if [ "$KEEPBUILD" != 'true' ]; then
-		rm -r $BUILD_DIR_HESTIA_TERMINAL
+		rm -r $BUILD_DIR_DAVID_TERMINAL
 		if [ "$use_src_folder" == 'true' ] && [ -d $BUILD_DIR/davidcp-$branch_dash ]; then
 			rm -r $BUILD_DIR/davidcp-$branch_dash
 		fi
@@ -635,74 +635,74 @@ fi
 
 arch="$BUILD_ARCH"
 
-if [ "$HESTIA_B" = true ]; then
+if [ "$DAVID_B" = true ]; then
 	if [ "$CROSS" = "true" ]; then
 		arch="amd64 arm64"
 	fi
 	for BUILD_ARCH in $arch; do
 		echo "Building David Control Panel package..."
 
-		BUILD_DIR_HESTIA=$BUILD_DIR/david_$HESTIA_V
+		BUILD_DIR_DAVID=$BUILD_DIR/david_$DAVID_V
 
 		# Change to build directory
 		cd $BUILD_DIR
 
-		if [ "$KEEPBUILD" != 'true' ] || [ ! -d "$BUILD_DIR_HESTIA" ]; then
+		if [ "$KEEPBUILD" != 'true' ] || [ ! -d "$BUILD_DIR_DAVID" ]; then
 			# Check if target directory exist
-			if [ -d $BUILD_DIR_HESTIA ]; then
-				rm -r $BUILD_DIR_HESTIA
+			if [ -d $BUILD_DIR_DAVID ]; then
+				rm -r $BUILD_DIR_DAVID
 			fi
 
 			# Create directory
-			mkdir -p $BUILD_DIR_HESTIA
+			mkdir -p $BUILD_DIR_DAVID
 		fi
 
 		cd $BUILD_DIR
 		rm -rf $BUILD_DIR/davidcp-$branch_dash
 		# Download and unpack source files
 		if [ "$use_src_folder" == 'true' ]; then
-			[ "$HESTIA_DEBUG" ] && echo DEBUG: cp -rf "$SRC_DIR/" $BUILD_DIR/davidcp-$branch_dash
+			[ "$DAVID_DEBUG" ] && echo DEBUG: cp -rf "$SRC_DIR/" $BUILD_DIR/davidcp-$branch_dash
 			cp -rf "$SRC_DIR/" $BUILD_DIR/davidcp-$branch_dash
 		elif [ -d $SRC_DIR ]; then
-			download_file $HESTIA_ARCHIVE_LINK '-' 'fresh' | tar xz
+			download_file $DAVID_ARCHIVE_LINK '-' 'fresh' | tar xz
 		fi
 
-		mkdir -p $BUILD_DIR_HESTIA/usr/local/david
+		mkdir -p $BUILD_DIR_DAVID/usr/local/david
 
 		# Build web and move needed directories
 		cd $BUILD_DIR/davidcp-$branch_dash
 		npm ci --ignore-scripts
 		npm run build
-		cp -rf bin func install web $BUILD_DIR_HESTIA/usr/local/david/
+		cp -rf bin func install web $BUILD_DIR_DAVID/usr/local/david/
 
 		# Set permissions
-		find $BUILD_DIR_HESTIA/usr/local/david/ -type f -exec chmod -x {} \;
+		find $BUILD_DIR_DAVID/usr/local/david/ -type f -exec chmod -x {} \;
 
 		# Allow send email via /usr/local/david/web/inc/mail-wrapper.php via cli
-		chmod +x $BUILD_DIR_HESTIA/usr/local/david/web/inc/mail-wrapper.php
+		chmod +x $BUILD_DIR_DAVID/usr/local/david/web/inc/mail-wrapper.php
 		# Allow the executable to be executed
-		chmod +x $BUILD_DIR_HESTIA/usr/local/david/bin/*
-		find $BUILD_DIR_HESTIA/usr/local/david/install/ \( -name '*.sh' \) -exec chmod +x {} \;
-		chmod -x $BUILD_DIR_HESTIA/usr/local/david/install/*.sh
-		chown -R root:root $BUILD_DIR_HESTIA
+		chmod +x $BUILD_DIR_DAVID/usr/local/david/bin/*
+		find $BUILD_DIR_DAVID/usr/local/david/install/ \( -name '*.sh' \) -exec chmod +x {} \;
+		chmod -x $BUILD_DIR_DAVID/usr/local/david/install/*.sh
+		chown -R root:root $BUILD_DIR_DAVID
 		# Get Debian package files
-		mkdir -p $BUILD_DIR_HESTIA/DEBIAN
-		get_branch_file 'src/deb/david/control' "$BUILD_DIR_HESTIA/DEBIAN/control"
+		mkdir -p $BUILD_DIR_DAVID/DEBIAN
+		get_branch_file 'src/deb/david/control' "$BUILD_DIR_DAVID/DEBIAN/control"
 		if [ "$BUILD_ARCH" != "amd64" ]; then
-			sed -i "s/amd64/${BUILD_ARCH}/g" "$BUILD_DIR_HESTIA/DEBIAN/control"
+			sed -i "s/amd64/${BUILD_ARCH}/g" "$BUILD_DIR_DAVID/DEBIAN/control"
 		fi
-		get_branch_file 'src/deb/david/copyright' "$BUILD_DIR_HESTIA/DEBIAN/copyright"
-		get_branch_file 'src/deb/david/preinst' "$BUILD_DIR_HESTIA/DEBIAN/preinst"
-		get_branch_file 'src/deb/david/postinst' "$BUILD_DIR_HESTIA/DEBIAN/postinst"
-		chmod +x $BUILD_DIR_HESTIA/DEBIAN/postinst
-		chmod +x $BUILD_DIR_HESTIA/DEBIAN/preinst
+		get_branch_file 'src/deb/david/copyright' "$BUILD_DIR_DAVID/DEBIAN/copyright"
+		get_branch_file 'src/deb/david/preinst' "$BUILD_DIR_DAVID/DEBIAN/preinst"
+		get_branch_file 'src/deb/david/postinst' "$BUILD_DIR_DAVID/DEBIAN/postinst"
+		chmod +x $BUILD_DIR_DAVID/DEBIAN/postinst
+		chmod +x $BUILD_DIR_DAVID/DEBIAN/preinst
 
 		echo Building David DEB
-		dpkg-deb -Zxz --build $BUILD_DIR_HESTIA $DEB_DIR
+		dpkg-deb -Zxz --build $BUILD_DIR_DAVID $DEB_DIR
 
 		# clear up the source folder
 		if [ "$KEEPBUILD" != 'true' ]; then
-			rm -r $BUILD_DIR_HESTIA
+			rm -r $BUILD_DIR_DAVID
 			rm -rf davidcp-$branch_dash
 		fi
 		cd $BUILD_DIR/davidcp-$branch_dash

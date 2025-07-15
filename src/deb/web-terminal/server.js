@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 import { spawn } from 'node-pty';
 import { WebSocketServer } from 'ws';
 
-const sessionName = 'HESTIASID';
+const sessionName = 'DAVIDSID';
 const hostname = execSync('hostname', { silent: true }).toString().trim();
 const systemIPs = JSON.parse(
 	execSync(`${process.env.DAVID}/bin/v-list-sys-ips json`, { silent: true }).toString(),

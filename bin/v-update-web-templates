@@ -37,7 +37,7 @@ if [ "$POLICY_SYNC_SKELETON" != "no" ]; then
 	rm -rf "${WEBTPL}/suspend" 2> /dev/null
 	rm -rf "${WEBTPL}/unassigned" 2> /dev/null
 
-	for webtpl_folder in $(ls $HESTIA_COMMON_DIR/templates/web/* -d 2> /dev/null); do
+	for webtpl_folder in $(ls $DAVID_COMMON_DIR/templates/web/* -d 2> /dev/null); do
 		cp -rf "${webtpl_folder}" "${WEBTPL}/"
 	done
 fi
@@ -45,10 +45,10 @@ fi
 [ -d "${WEBTPL}/nginx" ] || mkdir -p "${WEBTPL}/nginx"
 
 if [ "$PROXY_SYSTEM" = 'nginx' ] || [ "$WEB_BACKEND" = "php-fpm" ]; then
-	cp -rf "${HESTIA_INSTALL_DIR}/templates/web/nginx" "${WEBTPL}/"
+	cp -rf "${DAVID_INSTALL_DIR}/templates/web/nginx" "${WEBTPL}/"
 fi
 
-for webtpl_folder in $(ls $HESTIA_INSTALL_DIR/templates/web/* -d 2> /dev/null | egrep -v '/(nginx)$'); do
+for webtpl_folder in $(ls $DAVID_INSTALL_DIR/templates/web/* -d 2> /dev/null | egrep -v '/(nginx)$'); do
 	cp -rf "${webtpl_folder}" "${WEBTPL}/"
 done
 
@@ -56,7 +56,7 @@ versions_list=$(ls -d /etc/php/*)
 for php_ver in $versions_list; do
 	version=$(echo $php_ver | sed 's/.*\///')
 	[ ! -d "/etc/php/$version/fpm/pool.d/" ] && continue
-	cp -f $HESTIA_INSTALL_DIR/php-fpm/multiphp.tpl ${WEBTPL}/php-fpm/PHP-${version/\./_}.tpl
+	cp -f $DAVID_INSTALL_DIR/php-fpm/multiphp.tpl ${WEBTPL}/php-fpm/PHP-${version/\./_}.tpl
 done
 
 if [ -n "$awstats_patch" ]; then

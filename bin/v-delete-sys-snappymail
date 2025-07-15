@@ -38,7 +38,7 @@ if [ -z "$DAVID" ]; then
 	DAVID="/usr/local/david"
 fi
 
-if [ -z "$HOMEDIR" ] || [ -z "$HESTIA_INSTALL_DIR" ]; then
+if [ -z "$HOMEDIR" ] || [ -z "$DAVID_INSTALL_DIR" ]; then
 	echo "ERROR: Environment variables not present, uninstallation aborted."
 	exit 2
 fi

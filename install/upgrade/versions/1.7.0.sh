@@ -103,7 +103,7 @@ fi
 if [ -f /etc/logrotate.d/httpd-prerotate/awstats ]; then
 	echo "[ * ] Update Awstats prerotate to David update method..."
 	# Replace awstatst function
-	cp -f $HESTIA_INSTALL_DIR/logrotate/httpd-prerotate/awstats /etc/logrotate.d/httpd-prerotate/
+	cp -f $DAVID_INSTALL_DIR/logrotate/httpd-prerotate/awstats /etc/logrotate.d/httpd-prerotate/
 fi
 
 if [ "$PHPMYADMIN_KEY" != "" ]; then

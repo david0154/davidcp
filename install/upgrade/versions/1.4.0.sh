@@ -183,7 +183,7 @@ fi
 
 # Update ClamAV configuration file
 if [ -f "/etc/clamav/clamd.conf" ]; then
-	cp -f $HESTIA_INSTALL_DIR/clamav/clamd.conf /etc/clamav/
+	cp -f $DAVID_INSTALL_DIR/clamav/clamd.conf /etc/clamav/
 	$DAVID/bin/v-add-user-notification admin 'ClamAV config has been overwritten' 'Warning: If you have manualy changed /etc/clamav/clamd.conf and any changes you made will be lost an backup has been created in the /root/dvp_backups folder with the original config. If you have not changed the config file you can ignore this message'
 fi
 
@@ -194,5 +194,5 @@ if [ -d $DAVID/data/packages/ ]; then
 	echo "[ * ] Migrating legacy default package for all users..."
 	$DAVID/bin/v-rename-user-package default custom > /dev/null 2>&1
 	echo "[ * ] Replacing default package..."
-	cp -f $HESTIA_INSTALL_DIR/packages/default.pkg $DAVID/data/packages/
+	cp -f $DAVID_INSTALL_DIR/packages/default.pkg $DAVID/data/packages/
 fi

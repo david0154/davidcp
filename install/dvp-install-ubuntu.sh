@@ -26,12 +26,12 @@ os='ubuntu'
 release="$(lsb_release -s -r)"
 codename="$(lsb_release -s -c)"
 architecture="$(arch)"
-HESTIA_INSTALL_DIR="$DAVID/install/deb"
-HESTIA_COMMON_DIR="$DAVID/install/common"
+DAVID_INSTALL_DIR="$DAVID/install/deb"
+DAVID_COMMON_DIR="$DAVID/install/common"
 VERBOSE='no'
 
 # Define software versions
-HESTIA_INSTALL_VER='1.10.0~alpha'
+DAVID_INSTALL_VER='1.10.0~alpha'
 # Supported PHP versions
 multiphp_v=("5.6" "7.0" "7.1" "7.2" "7.3" "7.4" "8.0" "8.1" "8.2" "8.3" "8.4")
 # One of the following PHP versions is required for Roundcube / phpmyadmin
@@ -46,7 +46,7 @@ node_v="20"
 # Defining software pack for all distros
 software="acl apache2 apache2.2-common apache2-suexec-custom apache2-utils apparmor-utils at awstats bc bind9 bsdmainutils bsdutils
   clamav-daemon cron curl dnsutils dovecot-imapd dovecot-managesieved dovecot-pop3d dovecot-sieve e2fslibs e2fsprogs
-  exim4 exim4-daemon-heavy expect fail2ban flex ftp git david=${HESTIA_INSTALL_VER} david-nginx david-php david-web-terminal
+  exim4 exim4-daemon-heavy expect fail2ban flex ftp git david=${DAVID_INSTALL_VER} david-nginx david-php david-web-terminal
   idn2 imagemagick ipset jq libapache2-mod-fcgid libapache2-mod-php$fpm_v libapache2-mod-rpaf libonig5 libzip4 lsb-release
   lsof mariadb-client mariadb-common mariadb-server mc mysql-client mysql-common mysql-server nginx nodejs openssh-server
   php$fpm_v php$fpm_v-apcu php$fpm_v-bz2 php$fpm_v-cgi php$fpm_v-cli php$fpm_v-common php$fpm_v-curl php$fpm_v-gd
@@ -523,15 +523,15 @@ fi
 
 # Validate whether installation script matches release version before continuing with install
 if [ -z "$withdebs" ] || [ ! -d "$withdebs" ]; then
-	release_branch_ver=$(curl -s https://raw.githubusercontent.com/davidcp/davidcp/release/src/deb/david/control | grep "Version:" | awk '{print $2}')
-	if [ "$HESTIA_INSTALL_VER" != "$release_branch_ver" ]; then
+	release_branch_ver=$(curl -s https://raw.githubusercontent.com/david0154/davidcp/release/src/deb/david/control | grep "Version:" | awk '{print $2}')
+	if [ "$DAVID_INSTALL_VER" != "$release_branch_ver" ]; then
 		echo
 		echo -e "\e[91mInstallation aborted\e[0m"
 		echo "===================================================================="
 		echo -e "\e[33mERROR: Install script version does not match package version!\e[0m"
 		echo -e "\e[33mPlease download the installer from the release branch in order to continue:\e[0m"
 		echo ""
-		echo -e "\e[33mhttps://raw.githubusercontent.com/davidcp/davidcp/release/install/dvp-install.sh\e[0m"
+		echo -e "\e[33mhttps://raw.githubusercontent.com/david0154/davidcp/release/install/dvp-install.sh\e[0m"
 		echo ""
 		echo -e "\e[33mTo test pre-release versions, build the .deb packages and re-run the installer:\e[0m"
 		echo -e "  \e[33m./dvp_autocompile.sh \e[1m--david branchname no\e[21m\e[0m"
@@ -555,7 +555,7 @@ case $architecture in
 		echo -e "\e[33mERROR: $architecture is currently not supported!\e[0m"
 		echo -e "\e[33mPlease verify the achitecture used is currenlty supported\e[0m"
 		echo ""
-		echo -e "\e[33mhttps://github.com/davidcp/davidcp/blob/main/README.md\e[0m"
+		echo -e "\e[33mhttps://github.com/david0154/davidcp/blob/main/README.md\e[0m"
 		echo ""
 		check_result 1 "Installation aborted"
 		;;
@@ -566,19 +566,15 @@ esac
 #----------------------------------------------------------#
 
 install_welcome_message() {
-	DISPLAY_VER=$(echo $HESTIA_INSTALL_VER | sed "s|~alpha||g" | sed "s|~beta||g")
+	DISPLAY_VER=$(echo $DAVID_INSTALL_VER | sed "s|~alpha||g" | sed "s|~beta||g")
 	echo
-	echo '                _   _           _   _        ____ ____                  '
-	echo '               | | | | ___  ___| |_(_) __ _ / ___|  _ \                 '
-	echo '               | |_| |/ _ \/ __| __| |/ _` | |   | |_) |                '
-	echo '               |  _  |  __/\__ \ |_| | (_| | |___|  __/                 '
-	echo '               |_| |_|\___||___/\__|_|\__,_|\____|_|                    '
+	echo '                     '
 	echo "                                                                        "
 	echo "                          David Control Panel                          "
-	if [[ "$HESTIA_INSTALL_VER" =~ "beta" ]]; then
+	if [[ "$DAVID_INSTALL_VER" =~ "beta" ]]; then
 		echo "                              BETA RELEASE                          "
 	fi
-	if [[ "$HESTIA_INSTALL_VER" =~ "alpha" ]]; then
+	if [[ "$DAVID_INSTALL_VER" =~ "alpha" ]]; then
 		echo "                          DEVELOPMENT SNAPSHOT                      "
 		echo "                    NOT INTENDED FOR PRODUCTION USE                 "
 		echo "                          USE AT YOUR OWN RISK                      "
@@ -1058,7 +1054,7 @@ if [ -d "$withdebs" ]; then
 	software=$(echo "$software" | sed -e "s/david-nginx//")
 	software=$(echo "$software" | sed -e "s/david-php//")
 	software=$(echo "$software" | sed -e "s/david-web-terminal//")
-	software=$(echo "$software" | sed -e "s/david=${HESTIA_INSTALL_VER}//")
+	software=$(echo "$software" | sed -e "s/david=${DAVID_INSTALL_VER}//")
 fi
 if [ "$release" = '20.04' ]; then
 	software=$(echo "$software" | sed -e "s/libzip4/libzip5/")
@@ -1204,7 +1200,7 @@ systemctl restart ssh
 # Disable AWStats cron
 rm -f /etc/cron.d/awstats
 # Replace AWStats function
-cp -f $HESTIA_INSTALL_DIR/logrotate/httpd-prerotate/* /etc/logrotate.d/httpd-prerotate/
+cp -f $DAVID_INSTALL_DIR/logrotate/httpd-prerotate/* /etc/logrotate.d/httpd-prerotate/
 
 # Set directory color
 if [ -z "$(grep 'LS_COLORS="$LS_COLORS:di=00;33"' /etc/profile)" ]; then
@@ -1277,7 +1273,7 @@ fi
 echo "[ * ] Configuring David Control Panel..."
 # Installing sudo configuration
 mkdir -p /etc/sudoers.d
-cp -f $HESTIA_COMMON_DIR/sudo/davidweb /etc/sudoers.d/
+cp -f $DAVID_COMMON_DIR/sudo/davidweb /etc/sudoers.d/
 chmod 440 /etc/sudoers.d/davidweb
 
 # Add David global config
@@ -1294,7 +1290,7 @@ chmod 755 /etc/profile.d/david.sh
 source /etc/profile.d/david.sh
 
 # Configuring logrotate for David logs
-cp -f $HESTIA_INSTALL_DIR/logrotate/david /etc/logrotate.d/david
+cp -f $DAVID_INSTALL_DIR/logrotate/david /etc/logrotate.d/david
 
 # Create log path and symbolic link
 rm -f /var/log/david
@@ -1437,7 +1433,7 @@ write_config_value "THEME" "dark"
 write_config_value "INACTIVE_SESSION_TIMEOUT" "60"
 
 # Version & Release Branch
-write_config_value "VERSION" "${HESTIA_INSTALL_VER}"
+write_config_value "VERSION" "${DAVID_INSTALL_VER}"
 write_config_value "RELEASE_BRANCH" "release"
 
 # Email notifications after upgrade
@@ -1448,7 +1444,7 @@ write_config_value "UPGRADE_SEND_EMAIL_LOG" "false"
 write_config_value "ROOT_USER" "$username"
 
 # Installing hosting packages
-cp -rf $HESTIA_COMMON_DIR/packages $DAVID/data/
+cp -rf $DAVID_COMMON_DIR/packages $DAVID/data/
 
 # Update nameservers in hosting package
 IFS='.' read -r -a domain_elements <<< "$servername"
@@ -1458,19 +1454,19 @@ if [ -n "${domain_elements[-2]}" ] && [ -n "${domain_elements[-1]}" ]; then
 fi
 
 # Installing templates
-cp -rf $HESTIA_INSTALL_DIR/templates $DAVID/data/
-cp -rf $HESTIA_COMMON_DIR/templates/web/ $DAVID/data/templates
-cp -rf $HESTIA_COMMON_DIR/templates/dns/ $DAVID/data/templates
+cp -rf $DAVID_INSTALL_DIR/templates $DAVID/data/
+cp -rf $DAVID_COMMON_DIR/templates/web/ $DAVID/data/templates
+cp -rf $DAVID_COMMON_DIR/templates/dns/ $DAVID/data/templates
 
 mkdir -p /var/www/html
 mkdir -p /var/www/document_errors
 
 # Install default success page
-cp -rf $HESTIA_COMMON_DIR/templates/web/unassigned/index.html /var/www/html/
-cp -rf $HESTIA_COMMON_DIR/templates/web/skel/document_errors/* /var/www/document_errors/
+cp -rf $DAVID_COMMON_DIR/templates/web/unassigned/index.html /var/www/html/
+cp -rf $DAVID_COMMON_DIR/templates/web/skel/document_errors/* /var/www/document_errors/
 
 # Installing firewall rules
-cp -rf $HESTIA_COMMON_DIR/firewall $DAVID/data/
+cp -rf $DAVID_COMMON_DIR/firewall $DAVID/data/
 rm -f $DAVID/data/firewall/ipset/blacklist.sh $DAVID/data/firewall/ipset/blacklist.ipv6.sh
 
 # Delete rules for services that are not installed
@@ -1493,7 +1489,7 @@ if [ "$named" = "no" ]; then
 fi
 
 # Installing API
-cp -rf $HESTIA_COMMON_DIR/api $DAVID/data/
+cp -rf $DAVID_COMMON_DIR/api $DAVID/data/
 
 # Configuring server hostname
 $DAVID/bin/v-change-sys-hostname $servername > /dev/null 2>&1
@@ -1548,7 +1544,7 @@ chmod 660 $DAVID/ssl/*
 rm /tmp/dvp.pem
 
 # Install dhparam.pem
-cp -f $HESTIA_INSTALL_DIR/ssl/dhparam.pem /etc/ssl
+cp -f $DAVID_INSTALL_DIR/ssl/dhparam.pem /etc/ssl
 
 # Enable SFTP jail
 echo "[ * ] Enabling SFTP jail..."
@@ -1575,15 +1571,15 @@ $DAVID/bin/v-change-sys-config-value 'POLICY_SYSTEM_PROTECTED_ADMIN' 'yes'
 
 echo "[ * ] Configuring NGINX..."
 rm -f /etc/nginx/conf.d/*.conf
-cp -f $HESTIA_INSTALL_DIR/nginx/nginx.conf /etc/nginx/
-cp -f $HESTIA_INSTALL_DIR/nginx/status.conf /etc/nginx/conf.d/
-cp -f $HESTIA_INSTALL_DIR/nginx/0rtt-anti-replay.conf /etc/nginx/conf.d/
-cp -f $HESTIA_INSTALL_DIR/nginx/agents.conf /etc/nginx/conf.d/
+cp -f $DAVID_INSTALL_DIR/nginx/nginx.conf /etc/nginx/
+cp -f $DAVID_INSTALL_DIR/nginx/status.conf /etc/nginx/conf.d/
+cp -f $DAVID_INSTALL_DIR/nginx/0rtt-anti-replay.conf /etc/nginx/conf.d/
+cp -f $DAVID_INSTALL_DIR/nginx/agents.conf /etc/nginx/conf.d/
 # Copy over cloudflare.inc incase in the next step there are connection issues with CF
-cp -f $HESTIA_INSTALL_DIR/nginx/cloudflare.inc /etc/nginx/conf.d/
-cp -f $HESTIA_INSTALL_DIR/nginx/phpmyadmin.inc /etc/nginx/conf.d/
-cp -f $HESTIA_INSTALL_DIR/nginx/phppgadmin.inc /etc/nginx/conf.d/
-cp -f $HESTIA_INSTALL_DIR/logrotate/nginx /etc/logrotate.d/
+cp -f $DAVID_INSTALL_DIR/nginx/cloudflare.inc /etc/nginx/conf.d/
+cp -f $DAVID_INSTALL_DIR/nginx/phpmyadmin.inc /etc/nginx/conf.d/
+cp -f $DAVID_INSTALL_DIR/nginx/phppgadmin.inc /etc/nginx/conf.d/
+cp -f $DAVID_INSTALL_DIR/logrotate/nginx /etc/logrotate.d/
 mkdir -p /etc/nginx/conf.d/domains
 mkdir -p /etc/nginx/conf.d/main
 mkdir -p /etc/nginx/modules-enabled
@@ -1640,10 +1636,10 @@ if [ "$apache" = 'yes' ]; then
 	mkdir -p /etc/apache2/conf.d/domains
 
 	# Copy configuration files
-	cp -f $HESTIA_INSTALL_DIR/apache2/apache2.conf /etc/apache2/
-	cp -f $HESTIA_INSTALL_DIR/apache2/status.conf /etc/apache2/mods-available/david-status.conf
+	cp -f $DAVID_INSTALL_DIR/apache2/apache2.conf /etc/apache2/
+	cp -f $DAVID_INSTALL_DIR/apache2/status.conf /etc/apache2/mods-available/david-status.conf
 	cp -f /etc/apache2/mods-available/status.load /etc/apache2/mods-available/david-status.load
-	cp -f $HESTIA_INSTALL_DIR/logrotate/apache2 /etc/logrotate.d/
+	cp -f $DAVID_INSTALL_DIR/logrotate/apache2 /etc/logrotate.d/
 
 	# Enable needed modules
 	a2enmod rewrite > /dev/null 2>&1
@@ -1660,7 +1656,7 @@ if [ "$apache" = 'yes' ]; then
 		a2dismod php$fpm_v > /dev/null 2>&1
 		a2dismod mpm_prefork > /dev/null 2>&1
 		a2enmod mpm_event > /dev/null 2>&1
-		cp -f $HESTIA_INSTALL_DIR/apache2/david-event.conf /etc/apache2/conf.d/
+		cp -f $DAVID_INSTALL_DIR/apache2/david-event.conf /etc/apache2/conf.d/
 	else
 		a2enmod ruid2 > /dev/null 2>&1
 	fi
@@ -1703,7 +1699,7 @@ if [ "$phpfpm" = "yes" ]; then
 
 	echo "[ * ] Configuring PHP-FPM $fpm_v..."
 	# Create www.conf for webmail and php(*)admin
-	cp -f $HESTIA_INSTALL_DIR/php-fpm/www.conf /etc/php/$fpm_v/fpm/pool.d/www.conf
+	cp -f $DAVID_INSTALL_DIR/php-fpm/www.conf /etc/php/$fpm_v/fpm/pool.d/www.conf
 	update-rc.d php$fpm_v-fpm defaults > /dev/null 2>&1
 	systemctl start php$fpm_v-fpm >> $LOG
 	check_result $? "php-fpm start failed"
@@ -1737,7 +1733,7 @@ chmod 755 /etc/cron.daily/php-session-cleanup
 
 if [ "$vsftpd" = 'yes' ]; then
 	echo "[ * ] Configuring Vsftpd server..."
-	cp -f $HESTIA_INSTALL_DIR/vsftpd/vsftpd.conf /etc/
+	cp -f $DAVID_INSTALL_DIR/vsftpd/vsftpd.conf /etc/
 	touch /var/log/vsftpd.log
 	chown root:adm /var/log/vsftpd.log
 	chmod 640 /var/log/vsftpd.log
@@ -1759,8 +1755,8 @@ fi
 if [ "$proftpd" = 'yes' ]; then
 	echo "[ * ] Configuring ProFTPD server..."
 	echo "127.0.0.1 $servername" >> /etc/hosts
-	cp -f $HESTIA_INSTALL_DIR/proftpd/proftpd.conf /etc/proftpd/
-	cp -f $HESTIA_INSTALL_DIR/proftpd/tls.conf /etc/proftpd/
+	cp -f $DAVID_INSTALL_DIR/proftpd/proftpd.conf /etc/proftpd/
+	cp -f $DAVID_INSTALL_DIR/proftpd/tls.conf /etc/proftpd/
 
 	# Disable TLS 1.3 support for ProFTPD versions older than v1.3.7a
 	if [ "$release" = '20.04' ]; then
@@ -1802,7 +1798,7 @@ if [ "$mysql" = 'yes' ] || [ "$mysql8" = 'yes' ]; then
 	# Remove symbolic link
 	rm -f /etc/mysql/my.cnf
 	# Configuring MariaDB
-	cp -f $HESTIA_INSTALL_DIR/mysql/$mycnf /etc/mysql/my.cnf
+	cp -f $DAVID_INSTALL_DIR/mysql/$mycnf /etc/mysql/my.cnf
 
 	# Switch MariaDB inclusions to the MySQL
 	if [ "$mysql_type" = 'MySQL' ]; then
@@ -1887,7 +1883,7 @@ if [ "$mysql" = 'yes' ] || [ "$mysql8" = 'yes' ]; then
 	cp -rf phpMyAdmin-$pma_v-all-languages/* /usr/share/phpmyadmin
 
 	# Create copy of config file
-	cp -f $HESTIA_INSTALL_DIR/phpmyadmin/config.inc.php /etc/phpmyadmin/
+	cp -f $DAVID_INSTALL_DIR/phpmyadmin/config.inc.php /etc/phpmyadmin/
 
 	# Set config and log directory
 	sed -i "s|'configFile' => ROOT_PATH . 'config.inc.php',|'configFile' => '/etc/phpmyadmin/config.inc.php',|g" /usr/share/phpmyadmin/libraries/vendor_config.php
@@ -1911,7 +1907,7 @@ if [ "$mysql" = 'yes' ] || [ "$mysql8" = 'yes' ]; then
 	# Special thanks to Pavel Galkin (https://skurudo.ru)
 	# https://github.com/skurudo/phpmyadmin-fixer
 	# shellcheck source=/usr/local/david/install/deb/phpmyadmin/pma.sh
-	source $HESTIA_INSTALL_DIR/phpmyadmin/pma.sh > /dev/null 2>&1
+	source $DAVID_INSTALL_DIR/phpmyadmin/pma.sh > /dev/null 2>&1
 
 	# Limit access to /etc/phpmyadmin/
 	chown -R root:davidmail /etc/phpmyadmin/
@@ -1926,7 +1922,7 @@ fi
 if [ "$postgresql" = 'yes' ]; then
 	echo "[ * ] Configuring PostgreSQL database server..."
 	ppass=$(gen_pass)
-	cp -f $HESTIA_INSTALL_DIR/postgresql/pg_hba.conf /etc/postgresql/*/main/
+	cp -f $DAVID_INSTALL_DIR/postgresql/pg_hba.conf /etc/postgresql/*/main/
 	systemctl restart postgresql
 	sudo -iu postgres psql -c "ALTER USER postgres WITH PASSWORD '$ppass'" > /dev/null 2>&1
 
@@ -1936,13 +1932,13 @@ if [ "$postgresql" = 'yes' ]; then
 	wget --retry-connrefused --quiet https://github.com/davidcp/phppgadmin/releases/download/v$pga_v/phppgadmin-v$pga_v.tar.gz
 	tar xzf phppgadmin-v$pga_v.tar.gz -C /usr/share/phppgadmin/
 
-	cp -f $HESTIA_INSTALL_DIR/pga/config.inc.php /etc/phppgadmin/
+	cp -f $DAVID_INSTALL_DIR/pga/config.inc.php /etc/phppgadmin/
 
 	ln -s /etc/phppgadmin/config.inc.php /usr/share/phppgadmin/conf/
 
 	# Configuring phpPgAdmin
 	if [ "$apache" = 'yes' ]; then
-		cp -f $HESTIA_INSTALL_DIR/pga/phppgadmin.conf /etc/apache2/conf.d/phppgadmin.inc
+		cp -f $DAVID_INSTALL_DIR/pga/phppgadmin.conf /etc/apache2/conf.d/phppgadmin.inc
 	fi
 
 	rm phppgadmin-v$pga_v.tar.gz
@@ -1960,8 +1956,8 @@ fi
 
 if [ "$named" = 'yes' ]; then
 	echo "[ * ] Configuring Bind DNS server..."
-	cp -f $HESTIA_INSTALL_DIR/bind/named.conf /etc/bind/
-	cp -f $HESTIA_INSTALL_DIR/bind/named.conf.options /etc/bind/
+	cp -f $DAVID_INSTALL_DIR/bind/named.conf /etc/bind/
+	cp -f $DAVID_INSTALL_DIR/bind/named.conf.options /etc/bind/
 	chown root:bind /etc/bind/named.conf
 	chown root:bind /etc/bind/named.conf.options
 	chown bind:bind /var/cache/bind
@@ -1996,14 +1992,14 @@ if [ "$exim" = 'yes' ]; then
 	# if Exim version > 4.9.4 or greater!
 	if ! version_ge "4.94" "$exim_version"; then
 		# Ubuntu 22.04 (Jammy) uses Exim 4.95 instead but config works with Exim4.94
-		cp -f $HESTIA_INSTALL_DIR/exim/exim4.conf.4.95.template /etc/exim4/exim4.conf.template
+		cp -f $DAVID_INSTALL_DIR/exim/exim4.conf.4.95.template /etc/exim4/exim4.conf.template
 	else
-		cp -f $HESTIA_INSTALL_DIR/exim/exim4.conf.template /etc/exim4/
+		cp -f $DAVID_INSTALL_DIR/exim/exim4.conf.template /etc/exim4/
 	fi
-	cp -f $HESTIA_INSTALL_DIR/exim/dnsbl.conf /etc/exim4/
-	cp -f $HESTIA_INSTALL_DIR/exim/spam-blocks.conf /etc/exim4/
-	cp -f $HESTIA_INSTALL_DIR/exim/limit.conf /etc/exim4/
-	cp -f $HESTIA_INSTALL_DIR/exim/system.filter /etc/exim4/
+	cp -f $DAVID_INSTALL_DIR/exim/dnsbl.conf /etc/exim4/
+	cp -f $DAVID_INSTALL_DIR/exim/spam-blocks.conf /etc/exim4/
+	cp -f $DAVID_INSTALL_DIR/exim/limit.conf /etc/exim4/
+	cp -f $DAVID_INSTALL_DIR/exim/system.filter /etc/exim4/
 	touch /etc/exim4/white-blocks.conf
 
 	if [ "$spamd" = 'yes' ]; then
@@ -2041,8 +2037,8 @@ fi
 if [ "$dovecot" = 'yes' ]; then
 	echo "[ * ] Configuring Dovecot POP/IMAP mail server..."
 	gpasswd -a dovecot mail > /dev/null 2>&1
-	cp -rf $HESTIA_COMMON_DIR/dovecot /etc/
-	cp -f $HESTIA_INSTALL_DIR/logrotate/dovecot /etc/logrotate.d/
+	cp -rf $DAVID_COMMON_DIR/dovecot /etc/
+	cp -f $DAVID_INSTALL_DIR/logrotate/dovecot /etc/logrotate.d/
 	rm -f /etc/dovecot/conf.d/15-mailboxes.conf
 	chown -R root:root /etc/dovecot*
 	touch /var/log/dovecot.log
@@ -2070,7 +2066,7 @@ fi
 if [ "$clamd" = 'yes' ]; then
 	gpasswd -a clamav mail > /dev/null 2>&1
 	gpasswd -a clamav Debian-exim > /dev/null 2>&1
-	cp -f $HESTIA_INSTALL_DIR/clamav/clamd.conf /etc/clamav/
+	cp -f $DAVID_INSTALL_DIR/clamav/clamd.conf /etc/clamav/
 	update-rc.d clamav-daemon defaults
 	echo -ne "[ * ] Installing ClamAV anti-virus definitions... "
 	/usr/bin/freshclam >> $LOG > /dev/null 2>&1
@@ -2114,7 +2110,7 @@ fi
 
 if [ "$fail2ban" = 'yes' ]; then
 	echo "[ * ] Configuring fail2ban access monitor..."
-	cp -rf $HESTIA_INSTALL_DIR/fail2ban /etc/
+	cp -rf $DAVID_INSTALL_DIR/fail2ban /etc/
 	if [ "$dovecot" = 'no' ]; then
 		fline=$(cat /etc/fail2ban/jail.local | grep -n dovecot-iptables -A 2)
 		fline=$(echo "$fline" | grep enabled | tail -n1 | cut -f 1 -d -)
@@ -2193,7 +2189,7 @@ if [ "$sieve" = 'yes' ]; then
 	sed -i "s/mail_plugins = quota imap_quota/mail_plugins = quota imap_quota imap_sieve/g" /etc/dovecot/conf.d/20-imap.conf
 
 	# Replace dovecot-sieve config files
-	cp -f $HESTIA_COMMON_DIR/dovecot/sieve/* /etc/dovecot/conf.d
+	cp -f $DAVID_COMMON_DIR/dovecot/sieve/* /etc/dovecot/conf.d
 
 	# Dovecot default file install
 	echo -e "require [\"fileinto\"];\n# rule:[SPAM]\nif header :contains \"X-Spam-Flag\" \"YES\" {\n    fileinto \"INBOX.Spam\";\n}\n" > /etc/dovecot/sieve/default
@@ -2210,7 +2206,7 @@ if [ "$sieve" = 'yes' ]; then
 	if [ -d "/var/lib/roundcube" ]; then
 		# Modify Roundcube config
 		mkdir -p $RC_CONFIG_DIR/plugins/managesieve
-		cp -f $HESTIA_COMMON_DIR/roundcube/plugins/config_managesieve.inc.php $RC_CONFIG_DIR/plugins/managesieve/config.inc.php
+		cp -f $DAVID_COMMON_DIR/roundcube/plugins/config_managesieve.inc.php $RC_CONFIG_DIR/plugins/managesieve/config.inc.php
 		ln -s $RC_CONFIG_DIR/plugins/managesieve/config.inc.php $RC_INSTALL_DIR/plugins/managesieve/config.inc.php
 		chown -R davidmail:www-data $RC_CONFIG_DIR/
 		chmod 751 -R $RC_CONFIG_DIR

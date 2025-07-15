@@ -42,7 +42,7 @@ if [ -z "$DAVID" ]; then
 	DAVID="/usr/local/david"
 fi
 
-if [ -z "$HOMEDIR" ] || [ -z "$HESTIA_INSTALL_DIR" ]; then
+if [ -z "$HOMEDIR" ] || [ -z "$DAVID_INSTALL_DIR" ]; then
 	echo "ERROR: Environment variables not present, installation aborted."
 	exit 2
 fi
@@ -76,7 +76,7 @@ mv --force ${FM_INSTALL_DIR}/filegator/* "${FM_INSTALL_DIR}"
 rm --recursive --force ${FM_INSTALL_DIR}/${FM_FILE}
 [[ -f "${FM_INSTALL_DIR}/${FM_FILE}" ]] && rm "${FM_INSTALL_DIR}/${FM_FILE}"
 
-cp --recursive --force ${HESTIA_INSTALL_DIR}/filemanager/filegator/* "${FM_INSTALL_DIR}"
+cp --recursive --force ${DAVID_INSTALL_DIR}/filemanager/filegator/* "${FM_INSTALL_DIR}"
 
 chown $user: -R "${FM_INSTALL_DIR}"
 
@@ -100,7 +100,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Add configuration file
-cp -f $HESTIA_INSTALL_DIR/filemanager/filegator/configuration.php $DAVID/web/fm/configuration.php
+cp -f $DAVID_INSTALL_DIR/filemanager/filegator/configuration.php $DAVID/web/fm/configuration.php
 
 # Path to the file manager configuration file where the change will be made.
 config_file="$DAVID/web/fm/configuration.php"

@@ -23,7 +23,7 @@ if (!empty($_POST["save"])) {
 		}
 		fwrite($fp, $config);
 		exec(
-			HESTIA_CMD .
+			DAVID_CMD .
 				"v-change-sys-service-config " .
 				quoteshellarg($new_conf) .
 				" davidweb yes",
@@ -40,7 +40,7 @@ $v_config_path = "/var/spool/cron/crontabs/davidweb";
 $v_service_name = _("Panel Cronjobs");
 
 // Read config
-$v_config = shell_exec(HESTIA_CMD . "v-open-fs-config " . $v_config_path);
+$v_config = shell_exec(DAVID_CMD . "v-open-fs-config " . $v_config_path);
 
 // Render page
 render_page($user, $TAB, "edit_server_service");

@@ -38,9 +38,9 @@ check_david_demo_mode
 
 if [ "$status" = "enable" ]; then
 	if [ ! -f "$DAVID/web/api/index.php" ]; then
-		wget -q https://raw.githubusercontent.com/davidcp/davidcp/$RELEASE_BRANCH/web/api/index.php -O $DAVID/web/api/index.php
+		wget -q https://raw.githubusercontent.com/david0154/davidcp/$RELEASE_BRANCH/web/api/index.php -O $DAVID/web/api/index.php
 		if [ ! -s "$DAVID/web/api/index.php" ]; then
-			wget -q https://raw.githubusercontent.com/davidcp/davidcp/release/web/api/index.php -O $DAVID/web/api/index.php
+			wget -q https://raw.githubusercontent.com/david0154/davidcp/release/web/api/index.php -O $DAVID/web/api/index.php
 			if [ ! -s "$DAVID/web/api/index.php" ]; then
 				# Throw error message to user
 				echo "ERROR: API installation failed."

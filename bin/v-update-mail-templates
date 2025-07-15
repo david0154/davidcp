@@ -30,7 +30,7 @@ check_args '1' "$#" '[RESTART]' '[SKIP]'
 is_format_valid 'restart'
 
 # Update templates
-cp -rf $HESTIA_INSTALL_DIR/templates/mail $DAVID/data/templates/
+cp -rf $DAVID_INSTALL_DIR/templates/mail $DAVID/data/templates/
 
 # Rebuild mail domains if mail services are enabled
 if [ -z "$skip" ]; then

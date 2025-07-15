@@ -80,7 +80,7 @@ fi
 check_wget_curl() {
 	# Check wget
 	if [ -e '/usr/bin/wget' ]; then
-		wget -q https://raw.githubusercontent.com/davidcp/davidcp/release/install/dvp-install-$type.sh -O dvp-install-$type.sh
+		wget -q https://raw.githubusercontent.com/david0154/davidcp/release/install/dvp-install-$type.sh -O dvp-install-$type.sh
 		if [ "$?" -eq '0' ]; then
 			bash dvp-install-$type.sh $*
 			exit
@@ -93,7 +93,7 @@ check_wget_curl() {
 
 	# Check curl
 	if [ -e '/usr/bin/curl' ]; then
-		curl -s -O https://raw.githubusercontent.com/davidcp/davidcp/release/install/dvp-install-$type.sh
+		curl -s -O https://raw.githubusercontent.com/david0154/davidcp/release/install/dvp-install-$type.sh
 		if [ "$?" -eq '0' ]; then
 			bash dvp-install-$type.sh $*
 			exit

@@ -4,7 +4,7 @@ branch=${1-main}
 
 apt -y install curl wget
 
-curl https://raw.githubusercontent.com/davidcp/davidcp/$branch/src/dvp_autocompile.sh > /tmp/dvp_autocompile.sh
+curl https://raw.githubusercontent.com/david0154/davidcp/$branch/src/dvp_autocompile.sh > /tmp/dvp_autocompile.sh
 chmod +x /tmp/dvp_autocompile.sh
 
 mkdir -p /opt/davidcp

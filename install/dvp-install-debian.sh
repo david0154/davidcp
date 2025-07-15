@@ -534,7 +534,7 @@ fi
 
 # Validate whether installation script matches release version before continuing with install
 if [ -z "$withdebs" ] || [ ! -d "$withdebs" ]; then
-	release_branch_ver=$(curl -s https://raw.githubusercontent.com/davidcp/davidcp/release/src/deb/david/control | grep "Version:" | awk '{print $2}')
+	release_branch_ver=$(curl -s https://raw.githubusercontent.com/david0154/davidcp/release/src/deb/david/control | grep "Version:" | awk '{print $2}')
 	if [ "$DAVID_INSTALL_VER" != "$release_branch_ver" ]; then
 		echo
 		echo -e "\e[91mInstallation aborted\e[0m"
@@ -542,7 +542,7 @@ if [ -z "$withdebs" ] || [ ! -d "$withdebs" ]; then
 		echo -e "\e[33mERROR: Install script version does not match package version!\e[0m"
 		echo -e "\e[33mPlease download the installer from the release branch in order to continue:\e[0m"
 		echo ""
-		echo -e "\e[33mhttps://raw.githubusercontent.com/davidcp/davidcp/release/install/dvp-install.sh\e[0m"
+		echo -e "\e[33mhttps://raw.githubusercontent.com/david0154/davidcp/release/install/dvp-install.sh\e[0m"
 		echo ""
 		echo -e "\e[33mTo test pre-release versions, build the .deb packages and re-run the installer:\e[0m"
 		echo -e "  \e[33m./dvp_autocompile.sh \e[1m--david branchname no\e[21m\e[0m"

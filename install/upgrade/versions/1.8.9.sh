@@ -44,7 +44,7 @@ if [ -z "$(grep ^davidmail: /etc/passwd)" ]; then
 	php_versions=$($BIN/v-list-sys-php plain)
 	# Substitute php-fpm service name formats
 	for version in $php_versions; do
-		cp -f $HESTIA_INSTALL_DIR/php-fpm/dummy.conf /etc/php/$version/fpm/pool.d/
+		cp -f $DAVID_INSTALL_DIR/php-fpm/dummy.conf /etc/php/$version/fpm/pool.d/
 		sed -i "s/%backend_version%/$version/g" /etc/php/$version/fpm/pool.d/dummy.conf
 	done
 fi

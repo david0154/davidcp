@@ -6,10 +6,10 @@ if [ ! -e "/usr/local/david/data/users/admin" ]; then
 fi
 
 # Create a new Backup folder
-HESTIA_BACKUP="/root/dvp_nginx_backups/$(date +%d%m%Y%H%M)"
-mkdir -p HESTIA_BACKUP
+DAVID_BACKUP="/root/dvp_nginx_backups/$(date +%d%m%Y%H%M)"
+mkdir -p DAVID_BACKUP
 
 # Create a backup of the current configuration
-cp -r /usr/local/david/nginx/conf/nginx.conf $HESTIA_BACKUP/nginx.conf
+cp -r /usr/local/david/nginx/conf/nginx.conf $DAVID_BACKUP/nginx.conf
 
 exit

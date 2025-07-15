@@ -259,7 +259,7 @@ function getHestiaVersion($branch) {
 		$control_file = file_get_contents(SHARED_HOST_FOLDER . "/davidcp/src/deb/david/control");
 	} else {
 		$control_file = file_get_contents(
-			"https://raw.githubusercontent.com/davidcp/davidcp/${branch}/src/deb/david/control",
+			"https://raw.githubusercontent.com/david0154/davidcp/${branch}/src/deb/david/control",
 		);
 	}
 

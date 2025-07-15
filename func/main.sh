@@ -38,19 +38,19 @@ BACKUP_DISK_LIMIT=95
 BACKUP_LA_LIMIT=$(grep -c '^processor' /proc/cpuinfo)
 RRD_STEP=300
 BIN=$DAVID/bin
-HESTIA_INSTALL_DIR="$DAVID/install/deb"
-HESTIA_COMMON_DIR="$DAVID/install/common"
-HESTIA_BACKUP="/root/dvp_backups/$(date +%d%m%Y%H%M)"
-HESTIA_PHP="$DAVID/php/bin/php"
+DAVID_INSTALL_DIR="$DAVID/install/deb"
+DAVID_COMMON_DIR="$DAVID/install/common"
+DAVID_BACKUP="/root/dvp_backups/$(date +%d%m%Y%H%M)"
+DAVID_PHP="$DAVID/php/bin/php"
 USER_DATA=$DAVID/data/users/$user
 WEBTPL=$DAVID/data/templates/web
 MAILTPL=$DAVID/data/templates/mail
 DNSTPL=$DAVID/data/templates/dns
 RRD=$DAVID/web/rrd
 SENDMAIL="$DAVID/web/inc/mail-wrapper.php"
-HESTIA_GIT_REPO="https://raw.githubusercontent.com/davidcp/davidcp"
-HESTIA_THEMES="$DAVID/web/css/themes"
-HESTIA_THEMES_CUSTOM="$DAVID/web/css/themes/custom"
+DAVID_GIT_REPO="https://raw.githubusercontent.com/davidcp/davidcp"
+DAVID_THEMES="$DAVID/web/css/themes"
+DAVID_THEMES_CUSTOM="$DAVID/web/css/themes/custom"
 SCRIPT="$(basename $0)"
 CHECK_RESULT_CALLBACK=""
 
@@ -792,7 +792,7 @@ is_alias_format_valid() {
 # IP format validator
 is_ip_format_valid() {
 	object_name=${2-ip}
-	valid=$($HESTIA_PHP -r '$ip="$argv[1]"; echo (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) ? 0 : 1);' $1)
+	valid=$($DAVID_PHP -r '$ip="$argv[1]"; echo (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) ? 0 : 1);' $1)
 	if [ "$valid" -ne 0 ]; then
 		check_result "$E_INVALID" "invalid $object_name :: $1"
 	fi
@@ -801,14 +801,14 @@ is_ip_format_valid() {
 # IPv6 format validator
 is_ipv6_format_valid() {
 	object_name=${2-ipv6}
-	valid=$($HESTIA_PHP -r '$ip="$argv[1]"; echo (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ? 0 : 1);' $1)
+	valid=$($DAVID_PHP -r '$ip="$argv[1]"; echo (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) ? 0 : 1);' $1)
 	if [ "$valid" -ne 0 ]; then
 		check_result "$E_INVALID" "invalid $object_name :: $1"
 	fi
 }
 
 is_ip46_format_valid() {
-	valid=$($HESTIA_PHP -r '$ip="$argv[1]"; echo (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6) ? 0 : 1);' $1)
+	valid=$($DAVID_PHP -r '$ip="$argv[1]"; echo (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6) ? 0 : 1);' $1)
 	if [ "$valid" -ne 0 ]; then
 		check_result "$E_INVALID" "invalid IP format :: $1"
 	fi
@@ -816,7 +816,7 @@ is_ip46_format_valid() {
 
 is_ipv4_cidr_format_valid() {
 	object_name=${2-ip}
-	valid=$($HESTIA_PHP -r '[$ip, $net] = [...explode("/", $argv[1]), "32"]; echo (preg_match("/^(\d{1,3}\.){3}\d{1,3}$/", $ip) && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) && is_numeric($net) && $net >= 0 && $net <= 32) ? 0 : 1;' "$1")
+	valid=$($DAVID_PHP -r '[$ip, $net] = [...explode("/", $argv[1]), "32"]; echo (preg_match("/^(\d{1,3}\.){3}\d{1,3}$/", $ip) && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) && is_numeric($net) && $net >= 0 && $net <= 32) ? 0 : 1;' "$1")
 	if [ "$valid" -ne 0 ]; then
 		check_result "$E_INVALID" "invalid $object_name :: $1"
 	fi
@@ -824,7 +824,7 @@ is_ipv4_cidr_format_valid() {
 
 is_ipv6_cidr_format_valid() {
 	object_name=${2-ipv6}
-	valid=$($HESTIA_PHP -r '$cidr="$argv[1]"; list($ip, $netmask) = [...explode("/", $cidr), 128]; echo ((filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && $netmask <= 128) ? 0 : 1);' $1)
+	valid=$($DAVID_PHP -r '$cidr="$argv[1]"; list($ip, $netmask) = [...explode("/", $cidr), 128]; echo ((filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) && $netmask <= 128) ? 0 : 1);' $1)
 	if [ "$valid" -ne 0 ]; then
 		check_result "$E_INVALID" "invalid $object_name :: $1"
 	fi
@@ -832,7 +832,7 @@ is_ipv6_cidr_format_valid() {
 
 is_netmask_format_valid() {
 	object_name=${2-netmask}
-	valid=$($HESTIA_PHP -r '$netmask="$argv[1]"; echo (preg_match("/^(128|192|224|240|248|252|254|255)\.(0|128|192|224|240|248|252|254|255)\.(0|128|192|224|240|248|252|254|255)\.(0|128|192|224|240|248|252|254|255)/", $netmask) ? 0 : 1);' $1)
+	valid=$($DAVID_PHP -r '$netmask="$argv[1]"; echo (preg_match("/^(128|192|224|240|248|252|254|255)\.(0|128|192|224|240|248|252|254|255)\.(0|128|192|224|240|248|252|254|255)\.(0|128|192|224|240|248|252|254|255)/", $netmask) ? 0 : 1);' $1)
 	if [ "$valid" -ne 0 ]; then
 		check_result "$E_INVALID" "invalid $object_name :: $1"
 	fi

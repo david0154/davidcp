@@ -35,7 +35,7 @@ is_format_valid 'restart'
 #----------------------------------------------------------#
 
 # Update templates
-cp -rf $HESTIA_COMMON_DIR/templates/dns $DAVID/data/templates/
+cp -rf $DAVID_COMMON_DIR/templates/dns $DAVID/data/templates/
 
 #----------------------------------------------------------#
 #                       David                             #

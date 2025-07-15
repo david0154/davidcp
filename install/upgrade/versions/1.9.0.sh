@@ -35,7 +35,7 @@ if [ -z "$(grep ^davidweb: /etc/passwd)" ]; then
 	/usr/sbin/useradd "davidweb" -c "$email" --no-create-home
 	# do not allow login into davidweb user
 	echo davidweb:$random_password | sudo chpasswd -e
-	cp $HESTIA_COMMON_DIR/sudo/davidweb /etc/sudoers.d/
+	cp $DAVID_COMMON_DIR/sudo/davidweb /etc/sudoers.d/
 	# Keep enabled for now
 	# Remove sudo permissions admin user
 	# rm /etc/sudoers.d/admin/
@@ -97,7 +97,7 @@ php_versions=$($BIN/v-list-sys-php plain)
 # Substitute php-fpm service name formats
 for version in $php_versions; do
 	if [ -f "/etc/php/$version/fpm/pool.d/www.conf" ]; then
-		cp -f $HESTIA_INSTALL_DIR/php-fpm/www.conf "/etc/php/$version/fpm/pool.d/www.conf"
+		cp -f $DAVID_INSTALL_DIR/php-fpm/www.conf "/etc/php/$version/fpm/pool.d/www.conf"
 	fi
 done
 
